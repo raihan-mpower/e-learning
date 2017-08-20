@@ -1,0 +1,44 @@
+{
+  "curriculum": {
+    "modules": [
+      {
+        "title": "module1",
+        "id": "1",
+        "icon_image": "",
+        "courses": [
+          {
+            "title": "",
+            "id": "",
+            "icon_image": "",
+            "questions": [
+              {
+                "title_text": "",
+                "id": "",
+                "type": "",
+                "image": "",
+                "audio": "",
+                "description_text": "",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+              },
+              {
+                "title_text": "",
+                "id": "",
+                "type": "",
+                "image": "",
+                "audio": "",
+                "description_text": "",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
