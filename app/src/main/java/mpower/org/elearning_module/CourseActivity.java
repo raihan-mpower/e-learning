@@ -16,25 +16,33 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 
+import mpower.org.elearning_module.adapter.courseGridviewAdapter;
 import mpower.org.elearning_module.adapter.moduleGridviewAdapter;
-import mpower.org.elearning_module.model.Module;
+import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.parser.curriculumParser;
 import mpower.org.elearning_module.utils.Utils;
-import mpower.org.elearning_module.view.squareGridView;
 
-public class MainActivity extends AppCompatActivity
+public class CourseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private GridView gridView;
+    public static ArrayList<Course> courses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_course);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -44,10 +52,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         gridView = (GridView) findViewById(R.id.gridView1);
 
-        gridView.setAdapter(new moduleGridviewAdapter(this,(ArrayList) curriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json",this)).getModules()));
+        gridView.setAdapter(new courseGridviewAdapter(this,courses));
 
     }
 
@@ -64,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.course, menu);
         return true;
     }
 

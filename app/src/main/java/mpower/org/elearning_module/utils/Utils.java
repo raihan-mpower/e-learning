@@ -1,6 +1,7 @@
 package mpower.org.elearning_module.utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,5 +25,25 @@ public class Utils {
         }
 
         return fileContents;
+    }
+    public static Drawable loadDrawableFromAssets(Context context, String path)
+    {
+        InputStream stream = null;
+        try
+        {
+            stream = context.getAssets().open(path);
+            return Drawable.createFromStream(stream, null);
+        }
+        catch (Exception ignored) {} finally
+        {
+            try
+            {
+                if(stream != null)
+                {
+                    stream.close();
+                }
+            } catch (Exception ignored) {}
+        }
+        return null;
     }
 }

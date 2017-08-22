@@ -18,6 +18,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CourseActivity"
+            android:label="@string/title_activity_course"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mpower.org.elearning_module.MainActivity" />
+        </activity>
+        <activity
+            android:name=".CourseContentActivity"
+            android:label="@string/title_activity_course_content"
+            android:parentActivityName=".CourseActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mpower.org.elearning_module.CourseActivity" />
+        </activity>
     </application>
 
 </manifest>

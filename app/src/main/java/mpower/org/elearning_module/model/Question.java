@@ -4,7 +4,9 @@ package mpower.org.elearning_module.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Question {
+import java.io.Serializable;
+
+public class Question implements Serializable {
 
     @SerializedName("title_text")
     @Expose
