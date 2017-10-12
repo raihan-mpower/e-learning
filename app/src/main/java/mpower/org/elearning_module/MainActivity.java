@@ -1,9 +1,6 @@
 package mpower.org.elearning_module;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,16 +13,21 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.adapter.moduleGridviewAdapter;
+import mpower.org.elearning_module.adapter.ModuleGridViewAdapter;
 import mpower.org.elearning_module.model.Module;
-import mpower.org.elearning_module.parser.curriculumParser;
+import mpower.org.elearning_module.parser.CurriculumParser;
+import mpower.org.elearning_module.utils.AppConstants;
+import mpower.org.elearning_module.utils.UserType;
 import mpower.org.elearning_module.utils.Utils;
-import mpower.org.elearning_module.view.squareGridView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private GridView gridView;
+    private UserType userType;
+    ModuleGridViewAdapter moduleGridViewAdapter;
+
+    private ArrayList<Module> moduleArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,20 @@ public class MainActivity extends AppCompatActivity
 
         gridView = (GridView) findViewById(R.id.gridView1);
 
-        gridView.setAdapter(new moduleGridviewAdapter(this,(ArrayList) curriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json",this)).getModules()));
+        userType= (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
+
+        moduleArrayList= (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json",this)).getModules();
+
+
+        ArrayList<Module> sortedForUserType=new ArrayList<>();
+        for (Module module:moduleArrayList){
+            if (module.getUserTypeEnum()==userType){
+                sortedForUserType.add(module);
+            }
+        }
+
+        ModuleGridViewAdapter moduleGridViewAdapter=new ModuleGridViewAdapter(this,sortedForUserType);
+        gridView.setAdapter(moduleGridViewAdapter);
 
     }
 

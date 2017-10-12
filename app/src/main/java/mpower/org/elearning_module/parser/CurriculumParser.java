@@ -18,7 +18,7 @@ import mpower.org.elearning_module.model.Question;
  * Created by raihan on 8/20/17.
  */
 
-public class curriculumParser {
+public class CurriculumParser {
 
     public static Curriculum returnCurriculum (String toParse){
         Gson gson = new Gson();

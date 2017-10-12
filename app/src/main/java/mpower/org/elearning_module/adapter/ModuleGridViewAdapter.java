@@ -16,20 +16,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.CourseContentActivity;
+import mpower.org.elearning_module.CourseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
-import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.Utils;
 
-public class courseGridviewAdapter extends BaseAdapter {
+public class ModuleGridViewAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<Course> courses;
+    private ArrayList<Module> modules;
 
-    public courseGridviewAdapter(Context context, ArrayList<Course> courses) {
+    public ModuleGridViewAdapter(Context context, ArrayList<Module> modules) {
         this.context = context;
-        this.courses = courses;
+        this.modules = modules;
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -46,17 +45,16 @@ public class courseGridviewAdapter extends BaseAdapter {
         // get layout from mobile.xml
         gridView = inflater.inflate(R.layout.module, null);
         TextView title = (TextView)gridView.findViewById(R.id.title);
-        title.setText(courses.get(position).getTitle());
+        title.setText(modules.get(position).getTitle());
         ImageView icon = (ImageView) gridView.findViewById(R.id.icon);
-        icon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+courses.get(position).getIconImage()));
-
+        icon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+modules.get(position).getIconImage()));
 
         gridView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                modules.get(position)
-                CourseContentActivity.questions = (ArrayList<Question>) courses.get(position).getQuestions();
-                Intent intent = new Intent(context,CourseContentActivity.class);
+                Intent intent = new Intent(context,CourseActivity.class);
+                CourseActivity.courses = (ArrayList<Course>) modules.get(position).getCourses();
                 context.startActivity(intent);
             }
         });
@@ -68,7 +66,7 @@ public class courseGridviewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return courses.size();
+        return modules.size();
     }
 
     @Override

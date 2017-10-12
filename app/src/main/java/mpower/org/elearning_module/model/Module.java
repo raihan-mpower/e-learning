@@ -7,7 +7,20 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import mpower.org.elearning_module.utils.UserType;
+
 public class Module implements Serializable {
+
+    @SerializedName("user_type")
+    private String userType;
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
     @SerializedName("title")
     @Expose
@@ -23,6 +36,23 @@ public class Module implements Serializable {
     private List<Course> courses = new ArrayList<Course>();
 
 
+    public UserType getUserTypeEnum() {
+        switch (getUserType()){
+            case "":
+                return UserType.OTHER;
+            case "DOT":
+                return UserType.DOT;
+            default:
+                return UserType.PUBLIC;
+        }
+
+    }
+
+    public void setUserTypeEnum(UserType userTypeEnum) {
+        this.userTypeEnum = userTypeEnum;
+    }
+
+    UserType userTypeEnum;
 
     Status status;
 

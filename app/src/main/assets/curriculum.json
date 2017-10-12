@@ -2,6 +2,7 @@
   "curriculum": {
     "modules": [
       {
+        "user_type":"DOT",
         "title": "module1",
         "id": "1",
         "icon_image": "icon1.png",
@@ -26,13 +27,13 @@
               {
                 "title_text": "Mauris lectus",
                 "id": "2",
-                "type": "",
+                "type": "true-false",
                 "image": "tuberculosis.jpg",
                 "audio": "",
-                "description_text": "Mauris lectus urna, mattis vitae purus in, efficitur viverra ex. Phasellus varius dolor eget ex volutpat, eget tempor eros vehicula. Praesent ac mauris est. Morbi in sagittis tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Nullam convallis augue at eros ornare euismod vitae nec est. Pellentesque dignissim lectus at orci bibendum, nec dictum leo interdum. Suspendisse efficitur tincidunt sem et rutrum. Fusce eu sapien feugiat, porttitor ligula at, lacinia sapien.",
+                "description_text": "সু প্ত যক্ষ্মো সংক্রস্ম ত বেস্মি মেলে অেে বেস্মিলত যক্ষ্মোর িীবোুু ছড়োয় েো",
                 "answer": "",
-                "right_answer": "",
-                "wrong_answer": "",
+                "right_answer": "true",
+                "wrong_answer": "false",
                 "true_false": ""
               }
             ]
@@ -40,6 +41,7 @@
         ]
       },
       {
+        "user_type":"",
         "title": "module2",
         "id": "1",
         "icon_image": "icon2.png",
@@ -50,24 +52,24 @@
             "icon_image": "",
             "questions": [
               {
-                "title_text": "",
-                "id": "",
-                "type": "",
+                "title_text": "Some Title",
+                "id": "1",
+                "type": "true-false",
                 "image": "",
                 "audio": "",
-                "description_text": "",
-                "answer": "",
-                "right_answer": "",
-                "wrong_answer": "",
+                "description_text": "Come aboard to Hogwarts!!",
+                "answer": "Hell,yeahh",
+                "right_answer": "true",
+                "wrong_answer": "false",
                 "true_false": ""
               },
               {
-                "title_text": "",
-                "id": "",
-                "type": "",
+                "title_text": "Some random Trivia",
+                "id": "2",
+                "type": "trivia",
                 "image": "",
                 "audio": "",
-                "description_text": "",
+                "description_text": "The cold war didn't happen on winter !!",
                 "answer": "",
                 "right_answer": "",
                 "wrong_answer": "",

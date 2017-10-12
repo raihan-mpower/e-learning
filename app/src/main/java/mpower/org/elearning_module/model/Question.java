@@ -43,6 +43,17 @@ public class Question implements Serializable {
      * No args constructor for use in serialization
      * 
      */
+
+    private QuestionType questionType;
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public enum QuestionType{
+        TRUE_FALSE,SELECT_ONE, NOT_DEFINED, MULTIPLE_SELECT,TRIVIA
+    }
+
     public Question() {
     }
 
@@ -152,5 +163,18 @@ public class Question implements Serializable {
     public void setTrueFalse(String trueFalse) {
         this.trueFalse = trueFalse;
     }
+
+   public QuestionType getQuestionType(){
+       switch (getType()){
+           case "true-false":
+               return QuestionType.TRUE_FALSE;
+           case "":
+               return QuestionType.SELECT_ONE;
+           case "trivia":
+               return QuestionType.TRIVIA;
+           default:
+               return QuestionType.NOT_DEFINED;
+       }
+   }
 
 }

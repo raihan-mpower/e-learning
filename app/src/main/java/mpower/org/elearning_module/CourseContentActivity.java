@@ -11,15 +11,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.model.Question;
 
 public class CourseContentActivity extends AppCompatActivity {
     private ViewPager mPager;
     public static ArrayList<Question> questions;
-
+    private TextView tvCounter;
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
@@ -28,22 +30,47 @@ public class CourseContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_content);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mPager = (ViewPager) findViewById(R.id.pager);
+        tvCounter=toolbar.findViewById(R.id.toolbar_title);
+        mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
     }
+
+
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+
+        ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return CourseContentActivityFragment.newInstance(questions.get(position));
+            tvCounter.setText(""+position+" of "+questions.size());
+
+            Fragment fragment = null;
+            switch (questions.get(position).getQuestionType()){
+
+                case TRUE_FALSE:
+                    fragment= TrueFalseFragment.newInstance(questions.get(position));
+                    break;
+                case SELECT_ONE:
+                    fragment= CourseContentActivityFragment.newInstance(questions.get(position));
+                    break;
+                case TRIVIA:
+                    fragment= TriviaFragment.newInstance(questions.get(position));
+                case NOT_DEFINED:
+                    break;
+                case MULTIPLE_SELECT:
+                    break;
+                default:
+                   return CourseContentActivityFragment.newInstance(questions.get(position));
+            }
+            return fragment;
         }
 
         @Override

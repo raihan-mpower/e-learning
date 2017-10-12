@@ -16,11 +16,8 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.adapter.courseGridviewAdapter;
-import mpower.org.elearning_module.adapter.moduleGridviewAdapter;
+import mpower.org.elearning_module.adapter.CourseGridViewAdapter;
 import mpower.org.elearning_module.model.Course;
-import mpower.org.elearning_module.parser.curriculumParser;
-import mpower.org.elearning_module.utils.Utils;
 
 public class CourseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,7 +51,7 @@ public class CourseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         gridView = (GridView) findViewById(R.id.gridView1);
 
-        gridView.setAdapter(new courseGridviewAdapter(this,courses));
+        gridView.setAdapter(new CourseGridViewAdapter(this,courses));
 
     }
 
