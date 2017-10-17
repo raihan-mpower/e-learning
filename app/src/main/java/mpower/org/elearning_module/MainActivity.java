@@ -14,6 +14,7 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 import mpower.org.elearning_module.adapter.ModuleGridViewAdapter;
+import mpower.org.elearning_module.fragments.DashBoardFragment;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
 import mpower.org.elearning_module.utils.AppConstants;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        gridView = (GridView) findViewById(R.id.gridView1);
+       // gridView = (GridView) findViewById(R.id.gridView1);
 
         userType= (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
 
@@ -61,8 +62,10 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        ModuleGridViewAdapter moduleGridViewAdapter=new ModuleGridViewAdapter(this,sortedForUserType);
-        gridView.setAdapter(moduleGridViewAdapter);
+      //  ModuleGridViewAdapter moduleGridViewAdapter=new ModuleGridViewAdapter(this,sortedForUserType);
+     //   gridView.setAdapter(moduleGridViewAdapter);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashBoardFragment()).commit();
 
     }
 
