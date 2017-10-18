@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
-    tools:context="mpower.org.elearning_module.TrueFalseFragment">
+    tools:context="mpower.org.elearning_module.fragments.TrueFalseFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

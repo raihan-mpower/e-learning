@@ -110,7 +110,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_margin="20dp"
                             android:background="@drawable/icon1"
-                            android:id="@+id/buttonAnimalDetail"
+                            android:id="@+id/e_learn_btn"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             />

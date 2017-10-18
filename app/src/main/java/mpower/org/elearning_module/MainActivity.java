@@ -1,6 +1,8 @@
 package mpower.org.elearning_module;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -51,7 +53,12 @@ public class MainActivity extends AppCompatActivity
        // gridView = (GridView) findViewById(R.id.gridView1);
 
         userType= (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
-
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        if (userType!=null){
+            editor.putInt(AppConstants.USER_TYPE, userType.ordinal());
+            editor.apply();
+        }
         moduleArrayList= (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json",this)).getModules();
 
 

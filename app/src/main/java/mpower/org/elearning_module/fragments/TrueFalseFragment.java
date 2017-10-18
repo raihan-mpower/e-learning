@@ -1,4 +1,4 @@
-package mpower.org.elearning_module;
+package mpower.org.elearning_module.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.model.Question;
 
 

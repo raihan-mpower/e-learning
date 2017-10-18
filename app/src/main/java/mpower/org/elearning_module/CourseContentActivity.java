@@ -1,8 +1,6 @@
 package mpower.org.elearning_module;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -10,12 +8,12 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import mpower.org.elearning_module.fragments.TriviaFragment;
+import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.model.Question;
 
 public class CourseContentActivity extends AppCompatActivity {

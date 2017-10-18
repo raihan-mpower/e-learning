@@ -49,7 +49,7 @@ public class DashBoardFragment extends Fragment {
         tabLayout = (TabLayout)view.findViewById(R.id.tabs);
         viewPager = (ViewPager)view.findViewById(R.id.view_pager);
 
-        viewPager.setAdapter(new CustomFragmentPageAdapter(getChildFragmentManager()));
+        viewPager.setAdapter(new CustomFragmentPageAdapter(getFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         return view;

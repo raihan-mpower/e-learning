@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.Helper;
+import mpower.org.elearning_module.utils.UserType;
 
 /**
  * Created by sabbir on 4/10/17.
@@ -30,6 +36,8 @@ import mpower.org.elearning_module.utils.Helper;
 public class HomeFragment extends Fragment implements View.OnClickListener{
     private ImageView mProfileImage;
     private static final int PICK_PHOTO_FOR_AVATAR =99 ;
+    @BindView(R.id.e_learn_btn)
+    Button btnELearn;
 
     @Override
     public void onResume() {
@@ -48,10 +56,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.activity_settings,container,false);
-
+        ButterKnife.bind(this,view);
 
         //  optionSpinner = (Spinner) view.findViewById(R.id.spinner);
         mProfileImage=(ImageView) view.findViewById(R.id.profile_image);
+
+        btnELearn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment=ModuleFragment.newInstance(getUserType());
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+            }
+        });
 
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,10 +109,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         switch (v.getId()){
-            case R.id.buttonAnimalDetail:
+            case R.id.e_learn_btn:
 
                 break;
         }
+    }
+
+    private UserType getUserType() {
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getContext());
+        int user=prefs.getInt(AppConstants.USER_TYPE,UserType.PUBLIC.ordinal());
+        return UserType.values()[user];
     }
 
     private void setProfileInfo() {
