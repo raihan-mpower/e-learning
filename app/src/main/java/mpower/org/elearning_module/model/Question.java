@@ -177,4 +177,20 @@ public class Question implements Serializable {
        }
    }
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "titleText='" + titleText + '\'' +
+                ", id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", image='" + image + '\'' +
+                ", audio='" + audio + '\'' +
+                ", descriptionText='" + descriptionText + '\'' +
+                ", answer='" + answer + '\'' +
+                ", rightAnswer='" + rightAnswer + '\'' +
+                ", wrongAnswer='" + wrongAnswer + '\'' +
+                ", trueFalse='" + trueFalse + '\'' +
+                ", questionType=" + questionType +
+                '}';
+    }
 }

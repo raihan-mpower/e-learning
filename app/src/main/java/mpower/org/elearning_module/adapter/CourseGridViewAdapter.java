@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import mpower.org.elearning_module.CourseContentActivity;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.model.Question;
@@ -26,10 +27,11 @@ import mpower.org.elearning_module.utils.Utils;
 public class CourseGridViewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Course> courses;
-
+    DatabaseHelper databaseHelper;
     public CourseGridViewAdapter(Context context, ArrayList<Course> courses) {
         this.context = context;
         this.courses = courses;
+        databaseHelper=new DatabaseHelper(context);
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -48,6 +50,9 @@ public class CourseGridViewAdapter extends BaseAdapter {
         TextView title = (TextView)gridView.findViewById(R.id.title);
         title.setText(courses.get(position).getTitle());
         ImageView icon = (ImageView) gridView.findViewById(R.id.icon);
+        TextView textView=new TextView(context);
+
+
         icon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+courses.get(position).getIconImage()));
 
 

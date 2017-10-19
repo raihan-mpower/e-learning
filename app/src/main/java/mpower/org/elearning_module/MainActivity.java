@@ -1,6 +1,8 @@
 package mpower.org.elearning_module;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -16,30 +18,34 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 import mpower.org.elearning_module.adapter.ModuleGridViewAdapter;
+import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.fragments.DashBoardFragment;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
 import mpower.org.elearning_module.utils.AppConstants;
+import mpower.org.elearning_module.utils.UserCollection;
+import mpower.org.elearning_module.utils.UserDataCollection;
 import mpower.org.elearning_module.utils.UserType;
 import mpower.org.elearning_module.utils.Utils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private GridView gridView;
     private UserType userType;
-    ModuleGridViewAdapter moduleGridViewAdapter;
-
+    private DatabaseHelper databaseHelper;
     private ArrayList<Module> moduleArrayList;
-
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Loading..Please Wait");
+        progressDialog.setCancelable(false);
+        databaseHelper=new DatabaseHelper(this);
+        databaseHelper.getWritableDatabase();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,7 +56,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-       // gridView = (GridView) findViewById(R.id.gridView1);
 
         userType= (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -59,21 +64,8 @@ public class MainActivity extends AppCompatActivity
             editor.putInt(AppConstants.USER_TYPE, userType.ordinal());
             editor.apply();
         }
-        moduleArrayList= (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json",this)).getModules();
-
-
-        ArrayList<Module> sortedForUserType=new ArrayList<>();
-        for (Module module:moduleArrayList){
-            if (module.getUserTypeEnum()==userType){
-                sortedForUserType.add(module);
-            }
-        }
-
-      //  ModuleGridViewAdapter moduleGridViewAdapter=new ModuleGridViewAdapter(this,sortedForUserType);
-     //   gridView.setAdapter(moduleGridViewAdapter);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashBoardFragment()).commit();
-
+        databaseHelper.saveInProgressTable(UserCollection.getInstance().getUserData().getUsername(),"1","1","1",userType);
+        new JsonParserTask().execute();
     }
 
     @Override
@@ -114,8 +106,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashBoardFragment()).commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -131,5 +124,37 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+   private class JsonParserTask extends AsyncTask<Void,Void,Void>{
+
+       @Override
+       protected void onPreExecute() {
+           super.onPreExecute();
+           progressDialog.show();
+       }
+
+       @Override
+       protected Void doInBackground(Void... voids) {
+           moduleArrayList= (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json",MainActivity.this)).getModules();
+           if (moduleArrayList!=null && moduleArrayList.size()>0){
+               for (Module module:moduleArrayList){
+                   databaseHelper.insertModule(module);
+               }
+           }
+           return null;
+       }
+
+       @Override
+       protected void onPostExecute(Void aVoid) {
+           super.onPostExecute(aVoid);
+           progressDialog.dismiss();
+
+           callModuleFragment();
+       }
+   }
+
+    private void callModuleFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashBoardFragment()).commit();
     }
 }

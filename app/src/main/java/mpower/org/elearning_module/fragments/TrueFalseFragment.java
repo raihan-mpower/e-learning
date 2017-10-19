@@ -4,26 +4,37 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.interfaces.LastPageListener;
 import mpower.org.elearning_module.model.Question;
 
 
-public class TrueFalseFragment extends Fragment {
+public class TrueFalseFragment extends Fragment implements LastPageListener {
     private Button trueButton,falseButton;
     private TextView tvQuestionText,tvRightAnswer;
     private OnFragmentInteractionListener mListener;
     private Question question;
+    boolean isLast;
     public TrueFalseFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments()!=null){
+            isLast=getArguments().getBoolean("isLast");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +47,9 @@ public class TrueFalseFragment extends Fragment {
         falseButton= (Button) view.findViewById(R.id.btn_false);
         question = (Question) getArguments().getSerializable("question");
 
-        tvQuestionText.setText(question.getDescriptionText());
+        if (question != null) {
+            tvQuestionText.setText(question.getDescriptionText());
+        }
 
         trueButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -61,6 +74,10 @@ public class TrueFalseFragment extends Fragment {
                 }
             }
         });
+
+        if (isLast){
+            Toast.makeText(getContext(), "IS on the last page", Toast.LENGTH_LONG).show();
+        }
 
         return view;
     }
@@ -89,6 +106,12 @@ public class TrueFalseFragment extends Fragment {
         bundle.putSerializable("question", question);
         trueFalseFragment.setArguments(bundle);
         return trueFalseFragment;
+
+    }
+
+    @Override
+    public void isLastPage(boolean isLastPage) {
+
 
     }
 

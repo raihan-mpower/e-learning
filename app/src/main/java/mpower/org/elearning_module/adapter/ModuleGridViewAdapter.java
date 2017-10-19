@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import mpower.org.elearning_module.CourseActivity;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.utils.Utils;
@@ -25,10 +26,12 @@ import mpower.org.elearning_module.utils.Utils;
 public class ModuleGridViewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Module> modules;
+    DatabaseHelper databaseHelper;
 
     public ModuleGridViewAdapter(Context context, ArrayList<Module> modules) {
         this.context = context;
         this.modules = modules;
+        databaseHelper=new DatabaseHelper(context);
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -37,6 +40,8 @@ public class ModuleGridViewAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View gridView;
+
+        boolean isLocked=modules.get(position).isLocked();
 
 
 
@@ -48,6 +53,7 @@ public class ModuleGridViewAdapter extends BaseAdapter {
         title.setText(modules.get(position).getTitle());
         ImageView icon = (ImageView) gridView.findViewById(R.id.icon);
         icon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+modules.get(position).getIconImage()));
+
 
         gridView.setOnClickListener(new View.OnClickListener() {
             @Override

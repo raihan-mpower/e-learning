@@ -23,9 +23,9 @@ public class Course implements Serializable {
     private List<Question> questions = new ArrayList<Question>();
 
 
-    Status status;
+    private Status status=Status.Locked;
 
-    enum Status {
+    public enum Status {
         Locked,Unlocked
     } ;
     /**
@@ -90,4 +90,18 @@ public class Course implements Serializable {
         this.status = status;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "title='" + title + '\'' +
+                ", id='" + id + '\'' +
+                ", iconImage='" + iconImage + '\'' +
+                ", questions=" + questions +
+                ", status=" + status +
+                '}';
+    }
 }

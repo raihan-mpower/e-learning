@@ -190,6 +190,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void processValidLogin() {
+        user.getUserData().setUsername("himel");
         startNextActivity();
     }
 
