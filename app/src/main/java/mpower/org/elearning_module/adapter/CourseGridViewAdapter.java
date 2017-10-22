@@ -16,11 +16,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.CourseContentActivity;
+import mpower.org.elearning_module.activities.CourseContentActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
-import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.Utils;
 
@@ -56,7 +55,7 @@ public class CourseGridViewAdapter extends BaseAdapter {
         icon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+courses.get(position).getIconImage()));
 
 
-        gridView.setOnClickListener(new View.OnClickListener() {
+       /* gridView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                modules.get(position)
@@ -64,7 +63,7 @@ public class CourseGridViewAdapter extends BaseAdapter {
                 Intent intent = new Intent(context,CourseContentActivity.class);
                 context.startActivity(intent);
             }
-        });
+        });*/
 
 
 

@@ -168,8 +168,8 @@ public class Question implements Serializable {
        switch (getType()){
            case "true-false":
                return QuestionType.TRUE_FALSE;
-           case "":
-               return QuestionType.SELECT_ONE;
+           case "multiple-choice":
+               return QuestionType.MULTIPLE_SELECT;
            case "trivia":
                return QuestionType.TRIVIA;
            default:

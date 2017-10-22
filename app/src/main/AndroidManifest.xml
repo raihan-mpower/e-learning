@@ -16,19 +16,19 @@
 
         </activity>
         <activity
-            android:name=".CourseActivity"
+            android:name=".activities.CourseActivity"
             android:label="@string/title_activity_course"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".CourseContentActivity"
+            android:name=".activities.CourseContentActivity"
             android:label="@string/title_activity_course_content"
-            android:parentActivityName=".CourseActivity"
+            android:parentActivityName=".activities.CourseActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="mpower.org.elearning_module.CourseActivity" />
+                android:value="mpower.org.elearning_module.activities.CourseActivity" />
         </activity>
         <activity android:name=".activities.LogInActivity">
             <intent-filter>

@@ -2,11 +2,13 @@ package mpower.org.elearning_module.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -14,8 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.activities.CourseActivity;
 import mpower.org.elearning_module.adapter.ModuleGridViewAdapter;
 import mpower.org.elearning_module.databases.DatabaseHelper;
+import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
 import mpower.org.elearning_module.utils.AppConstants;
@@ -61,7 +65,7 @@ public class ModuleFragment extends Fragment {
         progressDialog=new ProgressDialog(getContext());
         progressDialog.setMessage("Loading..Please Wait");
         progressDialog.show();
-        gridView = (GridView) view.findViewById(R.id.gridView1);
+        gridView = view.findViewById(R.id.gridView1);
 
         HashMap<String,String> progressMap=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),userType);
 
@@ -69,7 +73,9 @@ public class ModuleFragment extends Fragment {
 
         //moduleArrayList=databaseHelper.getAllModules(null,null);
 
-        moduleArrayList=databaseHelper.getModules(progressMap.get("moduleId"));
+       // moduleArrayList=databaseHelper.getModules(progressMap.get("moduleId"));
+      //  moduleArrayList=databaseHelper.getModules("2");
+        moduleArrayList=databaseHelper.getAllModules(null,null);
 
         /*ArrayList<Module> modules=new ArrayList<>();
         modules.add(moduleArrayList.get(0));
@@ -83,11 +89,23 @@ public class ModuleFragment extends Fragment {
 
         progressDialog.dismiss();
         if (moduleArrayList==null){
-            throw new RuntimeException("No Module for you!!");
+
         }
         moduleGridViewAdapter=new ModuleGridViewAdapter(getContext(),moduleArrayList);
         gridView.setAdapter(moduleGridViewAdapter);
+        setUpAdapter();
         return view;
+    }
+
+    private void setUpAdapter() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(),CourseActivity.class);
+                CourseActivity.courses = (ArrayList<Course>) moduleArrayList.get(i).getCourses();
+                startActivity(intent);
+            }
+        });
     }
 
     private void insertIntoDb(ArrayList<Module> moduleArrayList) {

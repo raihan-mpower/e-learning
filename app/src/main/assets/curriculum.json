@@ -41,7 +41,7 @@
         ]
       },
       {
-        "user_type":"",
+        "user_type":"DOT",
         "title": "module2",
         "id": "2",
         "icon_image": "icon2.png",
@@ -72,6 +72,18 @@
                 "description_text": "The cold war didn't happen on winter !!",
                 "answer": "",
                 "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+              },
+              {
+                "title_text": "Some random Multiple choice",
+                "id": "3",
+                "type": "multiple-choice",
+                "image": "",
+                "audio": "",
+                "description_text": "Attack ships on fire at the belt of Orion?",
+                "answer": "yes,maybe,no,idk",
+                "right_answer": "yes",
                 "wrong_answer": "",
                 "true_false": ""
               }

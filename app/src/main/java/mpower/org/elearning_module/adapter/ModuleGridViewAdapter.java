@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.CourseActivity;
+import mpower.org.elearning_module.activities.CourseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
@@ -44,7 +44,6 @@ public class ModuleGridViewAdapter extends BaseAdapter {
         boolean isLocked=modules.get(position).isLocked();
 
 
-
         gridView = new View(context);
 
         // get layout from mobile.xml
@@ -55,15 +54,15 @@ public class ModuleGridViewAdapter extends BaseAdapter {
         icon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+modules.get(position).getIconImage()));
 
 
-        gridView.setOnClickListener(new View.OnClickListener() {
+       /* gridView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                modules.get(position)
-                Intent intent = new Intent(context,CourseActivity.class);
+               *//* Intent intent = new Intent(context,CourseActivity.class);
                 CourseActivity.courses = (ArrayList<Course>) modules.get(position).getCourses();
-                context.startActivity(intent);
+                context.startActivity(intent);*//*
             }
-        });
+        });*/
 
 
 

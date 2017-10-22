@@ -1,5 +1,6 @@
-package mpower.org.elearning_module;
+package mpower.org.elearning_module.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,12 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
 
+import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.adapter.CourseGridViewAdapter;
 import mpower.org.elearning_module.model.Course;
+import mpower.org.elearning_module.model.Question;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -31,10 +35,22 @@ public class CourseActivity extends AppCompatActivity {
         Toolbar toolbar=findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-        gridView = (GridView) findViewById(R.id.gridView1);
+        gridView = findViewById(R.id.gridView1);
 
         gridView.setAdapter(new CourseGridViewAdapter(this,courses));
+        setUpAdapter();
 
+    }
+
+    private void setUpAdapter() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                CourseContentActivity.questions = (ArrayList<Question>) courses.get(position).getQuestions();
+                Intent intent = new Intent(CourseActivity.this,CourseContentActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
