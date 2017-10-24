@@ -26,21 +26,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RadioGroup>
-<EditText
-    android:id="@+id/login_username"
-    android:text="UserName"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
         <EditText
+        android:id="@+id/login_username"
+        android:hint="UserName"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+        <EditText
+            android:inputType="textPassword"
             android:id="@+id/login_password"
-            android:text="Password"
-            android:layout_width="match_parent"
+            android:hint="Password"
+            android:layout_width="300dp"
             android:layout_height="wrap_content" />
         <Button
+            android:textColor="@color/white_background"
+            android:background="@color/colorPrimary"
             android:id="@+id/login_button"
             android:onClick="checkLogIn"
             android:text="LogIn"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </RelativeLayout>

@@ -5,11 +5,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +26,9 @@ import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
 import mpower.org.elearning_module.utils.AppConstants;
+import mpower.org.elearning_module.utils.CurrentUserProgress;
+import mpower.org.elearning_module.utils.Helper;
+import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
 import mpower.org.elearning_module.utils.Utils;
@@ -34,6 +40,7 @@ public class ModuleFragment extends Fragment {
     ProgressDialog progressDialog;
     private ArrayList<Module> moduleArrayList;
     private DatabaseHelper databaseHelper;
+    public static String sCURRENT_MODULE_ID="";
     public ModuleFragment() {
         // Required empty public constructor
     }
@@ -54,6 +61,9 @@ public class ModuleFragment extends Fragment {
         if (getArguments() != null) {
             int u=  getArguments().getInt(AppConstants.USER_TYPE);
             userType=UserType.values()[u];
+            if (userType!=null){
+                CurrentUserProgress.getInstance().setUserType(userType);
+            }
         }
     }
 
@@ -68,6 +78,9 @@ public class ModuleFragment extends Fragment {
         gridView = view.findViewById(R.id.gridView1);
 
         HashMap<String,String> progressMap=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),userType);
+        Log.d("TAG",progressMap.toString());
+
+        String progressMId = progressMap.get(AppConstants.KEY_MODULE_ID);
 
 
 
@@ -76,6 +89,17 @@ public class ModuleFragment extends Fragment {
        // moduleArrayList=databaseHelper.getModules(progressMap.get("moduleId"));
       //  moduleArrayList=databaseHelper.getModules("2");
         moduleArrayList=databaseHelper.getAllModules(null,null);
+
+
+        for (Module module:moduleArrayList){
+            if (module.getId().equalsIgnoreCase(progressMId)){
+                module.setStatus(Status.UNLOCKED);
+            }else if (Integer.valueOf(module.getId())<Integer.valueOf(progressMId)){
+                module.setStatus(Status.UNLOCKED);
+            }else {
+                module.setStatus(Status.LOCKED);
+            }
+        }
 
         /*ArrayList<Module> modules=new ArrayList<>();
         modules.add(moduleArrayList.get(0));
@@ -102,10 +126,22 @@ public class ModuleFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(),CourseActivity.class);
+                sCURRENT_MODULE_ID=moduleArrayList.get(i).getId();
+                if (moduleArrayList.get(i).isLocked()){
+                    Helper.showToast(getContext(),"Complete other modules first", Toast.LENGTH_LONG);
+                    return;
+
+                }
+                CourseActivity.CURRENT_MODULE_ID=moduleArrayList.get(i).getId();
+                CurrentUserProgress.getInstance().setProgressModule(moduleArrayList.get(i).getId());
                 CourseActivity.courses = (ArrayList<Course>) moduleArrayList.get(i).getCourses();
                 startActivity(intent);
             }
         });
+    }
+
+    private void showToast() {
+
     }
 
     private void insertIntoDb(ArrayList<Module> moduleArrayList) {

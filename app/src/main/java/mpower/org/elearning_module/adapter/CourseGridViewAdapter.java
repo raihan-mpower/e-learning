@@ -26,48 +26,44 @@ import mpower.org.elearning_module.utils.Utils;
 public class CourseGridViewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Course> courses;
-    DatabaseHelper databaseHelper;
     public CourseGridViewAdapter(Context context, ArrayList<Course> courses) {
         this.context = context;
         this.courses = courses;
-        databaseHelper=new DatabaseHelper(context);
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Course course=courses.get(position);
 
-        View gridView;
+        ViewHolder viewHolder;
+        if (convertView==null){
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            convertView=inflater.inflate(R.layout.module,null);
+            viewHolder=new ViewHolder();
+            viewHolder.tvTitle=convertView.findViewById(R.id.title);
+            viewHolder.imageViewIcon=convertView.findViewById(R.id.icon);
+            viewHolder.imageViewStatus=convertView.findViewById(R.id.image_view_status_2);
+
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder= (ViewHolder) convertView.getTag();
+        }
 
 
+        viewHolder.tvTitle.setText(course.getTitle());
+        viewHolder.imageViewIcon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+course.getIconImage()));
 
-        gridView = new View(context);
-
-        // get layout from mobile.xml
-        gridView = inflater.inflate(R.layout.module, null);
-        TextView title = (TextView)gridView.findViewById(R.id.title);
-        title.setText(courses.get(position).getTitle());
-        ImageView icon = (ImageView) gridView.findViewById(R.id.icon);
-        TextView textView=new TextView(context);
-
-
-        icon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+courses.get(position).getIconImage()));
-
-
-       /* gridView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                modules.get(position)
-                CourseContentActivity.questions = (ArrayList<Question>) courses.get(position).getQuestions();
-                Intent intent = new Intent(context,CourseContentActivity.class);
-                context.startActivity(intent);
-            }
-        });*/
+        if (course.isLocked()){
+            viewHolder.imageViewStatus.setImageResource(R.drawable.lock);
+        }else {
+            viewHolder.imageViewStatus.setImageResource(R.drawable.unlocked);
+        }
 
 
 
-        return gridView;
+        return convertView;
     }
 
     @Override
@@ -83,6 +79,12 @@ public class CourseGridViewAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return 0;
+    }
+
+    private class ViewHolder{
+        TextView tvTitle;
+        ImageView imageViewIcon;
+        ImageView imageViewStatus;
     }
 
 }

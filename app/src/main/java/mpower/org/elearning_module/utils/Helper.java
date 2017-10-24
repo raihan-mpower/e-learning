@@ -1,6 +1,7 @@
 package mpower.org.elearning_module.utils;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -9,20 +10,66 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Locale;
+
+import mpower.org.elearning_module.application.ELearningApp;
 
 /**
  * Created by sabbir on 7/11/17.
  */
 
 public class Helper {
+    private static final String TAG="Helper";
+
+    public static void CopyAssets(Context context,String folderName) {
+        AssetManager assetManager = context.getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list("");
+        } catch (IOException e) {
+            Log.e("tag", e.getMessage());
+        }
+
+        if (files != null) {
+            for(String filename : files) {
+                Log.d(TAG,"File name => "+filename);
+                InputStream in;
+                OutputStream out;
+                try {
+                    in = assetManager.open(filename);   // if files resides inside the "Files" directory itself
+                    out = new FileOutputStream(folderName +"/" + filename);
+                    Log.d(TAG,"CopyAssets "+ Environment.getExternalStorageDirectory().toString()+folderName +"/" + filename);
+                    copyFile(in, out);
+                    in.close();
+                    out.flush();
+                    out.close();
+                } catch(Exception e) {
+                    Log.e("tag", e.getMessage());
+                }
+            }
+        }
+    }
+
+    private static void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
+
     public static void copyFileOrDirectory(String srcDir, String dstDir) {
 
         try {
@@ -69,6 +116,10 @@ public class Helper {
                 destination.close();
             }
         }
+    }
+
+    public static void showToast(Context context,String message,int duration) {
+        Toast.makeText(context, message, duration).show();
     }
 
     private class CityName{

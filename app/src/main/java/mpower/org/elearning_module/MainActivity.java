@@ -5,72 +5,88 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.GridView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import mpower.org.elearning_module.adapter.ModuleGridViewAdapter;
+import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.fragments.DashBoardFragment;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
 import mpower.org.elearning_module.utils.AppConstants;
+import mpower.org.elearning_module.utils.Helper;
 import mpower.org.elearning_module.utils.UserCollection;
-import mpower.org.elearning_module.utils.UserDataCollection;
 import mpower.org.elearning_module.utils.UserType;
 import mpower.org.elearning_module.utils.Utils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private UserType userType;
     private DatabaseHelper databaseHelper;
-    private ArrayList<Module> moduleArrayList;
     private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Loading..Please Wait");
         progressDialog.setCancelable(false);
+
         databaseHelper=new DatabaseHelper(this);
         databaseHelper.getWritableDatabase();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Helper.CopyAssets(this, ELearningApp.ROOT_FOLDER_NAME);
 
-        userType= (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
+        UserType userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor=sharedPreferences.edit();
-        if (userType!=null){
+        if (userType !=null){
             editor.putInt(AppConstants.USER_TYPE, userType.ordinal());
             editor.apply();
         }
-        databaseHelper.saveInProgressTable(UserCollection.getInstance().getUserData().getUsername(),"1","1","1",userType);
+
+        HashMap<String,String> progressMap= databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(), userType);
+        Log.d("TAG",progressMap.toString());
+        if (progressMap.size() > 0){
+
+            String module=progressMap.get(AppConstants.KEY_MODULE_ID);
+            String course=progressMap.get(AppConstants.KEY_COURSE_ID);
+            String question=progressMap.get(AppConstants.KEY_QUESTION_ID);
+
+            AppConstants.USER_PROGRESS_MODULE_ID=module;
+            AppConstants.USER_PROGRESS_COURSE_ID=course;
+            AppConstants.USER_PROGRESS_QUESTION_ID=question;
+
+        }
+
         new JsonParserTask().execute();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -102,26 +118,26 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashBoardFragment()).commit();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_contact) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_videos) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_doc) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_about_us) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_images) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -136,9 +152,9 @@ public class MainActivity extends AppCompatActivity
 
        @Override
        protected Void doInBackground(Void... voids) {
-           moduleArrayList= (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json",MainActivity.this)).getModules();
-           if (moduleArrayList!=null && moduleArrayList.size()>0){
-               for (Module module:moduleArrayList){
+           ArrayList<Module> moduleArrayList = (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json", MainActivity.this)).getModules();
+           if (moduleArrayList !=null && moduleArrayList.size()>0){
+               for (Module module: moduleArrayList){
                    databaseHelper.insertModule(module);
                }
            }

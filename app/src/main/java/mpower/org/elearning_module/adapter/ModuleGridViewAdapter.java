@@ -26,47 +26,49 @@ import mpower.org.elearning_module.utils.Utils;
 public class ModuleGridViewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Module> modules;
-    DatabaseHelper databaseHelper;
 
     public ModuleGridViewAdapter(Context context, ArrayList<Module> modules) {
         this.context = context;
         this.modules = modules;
-        databaseHelper=new DatabaseHelper(context);
+
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View gridView;
-
-        boolean isLocked=modules.get(position).isLocked();
+        Module module=modules.get(position);
 
 
-        gridView = new View(context);
+        ViewHolder viewHolder;
+        if (convertView==null){
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // get layout from mobile.xml
-        gridView = inflater.inflate(R.layout.module, null);
-        TextView title = (TextView)gridView.findViewById(R.id.title);
-        title.setText(modules.get(position).getTitle());
-        ImageView icon = (ImageView) gridView.findViewById(R.id.icon);
-        icon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+modules.get(position).getIconImage()));
+            convertView=inflater.inflate(R.layout.module,null);
+            viewHolder=new ViewHolder();
+            viewHolder.tvTitle=convertView.findViewById(R.id.title);
+            viewHolder.imageViewIcon=convertView.findViewById(R.id.icon);
+            viewHolder.imageViewStatus=convertView.findViewById(R.id.image_view_status_2);
 
-
-       /* gridView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                modules.get(position)
-               *//* Intent intent = new Intent(context,CourseActivity.class);
-                CourseActivity.courses = (ArrayList<Course>) modules.get(position).getCourses();
-                context.startActivity(intent);*//*
-            }
-        });*/
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder= (ViewHolder) convertView.getTag();
+        }
 
 
+        viewHolder.tvTitle.setText(module.getTitle());
+        viewHolder.imageViewIcon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+module.getIconImage()));
 
-        return gridView;
+        if (module.isLocked()){
+            viewHolder.imageViewStatus.setImageResource(R.drawable.lock);
+        }else {
+            viewHolder.imageViewStatus.setImageResource(R.drawable.unlocked);
+        }
+
+
+
+
+        return convertView;
     }
 
     @Override
@@ -82,6 +84,12 @@ public class ModuleGridViewAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return 0;
+    }
+
+    private class ViewHolder{
+        TextView tvTitle;
+        ImageView imageViewIcon;
+        ImageView imageViewStatus;
     }
 
 }

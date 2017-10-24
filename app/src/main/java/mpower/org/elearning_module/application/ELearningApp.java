@@ -16,6 +16,7 @@ public class ELearningApp extends Application {
     public static ELearningApp instance=null;
     public static final String ROOT_FOLDER_NAME= Environment.getExternalStorageDirectory()+File.separator+"TB_ELEARNING";
     public static final String DATABASE_FOLDER_NAME=ROOT_FOLDER_NAME+ File.separator+"databases";
+    public static final String IMAGES_FOLDER_NAME=ROOT_FOLDER_NAME+ File.separator+"images";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,7 +38,7 @@ public class ELearningApp extends Application {
        }
 
        String[] dirs = {
-               ROOT_FOLDER_NAME,DATABASE_FOLDER_NAME
+               ROOT_FOLDER_NAME,DATABASE_FOLDER_NAME,IMAGES_FOLDER_NAME
        };
 
        for (String dirName : dirs) {

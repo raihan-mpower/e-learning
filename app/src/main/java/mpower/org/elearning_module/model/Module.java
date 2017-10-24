@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserType;
 
 public class Module implements Serializable {
@@ -53,13 +54,7 @@ public class Module implements Serializable {
     }
 
     UserType userTypeEnum;
-
     Status status;
-
-    enum Status {
-        Locked,Unlocked
-    }
-
     /**
      * No args constructor for use in serialization
      * 
@@ -115,7 +110,7 @@ public class Module implements Serializable {
     }
 
     public boolean isLocked(){
-        return (status == Status.Locked);
+        return (status == Status.LOCKED);
     }
 
     public void setStatus(Status status) {

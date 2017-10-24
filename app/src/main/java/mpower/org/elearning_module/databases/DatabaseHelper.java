@@ -15,6 +15,7 @@ import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.model.Question;
+import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.UserType;
 
 /**
@@ -109,7 +110,9 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         onCreate(db);
     }
 
-    public void saveInProgressTable(String userName,String moduleId,String courseId,String questionId,UserType userType){
+    private void saveInProgressTable(String userName, String moduleId, String courseId, String questionId, UserType userType){
+        Log.d(TAG,userName+""+moduleId+courseId+questionId+userType);
+
         ContentValues cv=new ContentValues();
         cv.put(USER_NAME,userName);
         cv.put(MODULE_ID,moduleId);
@@ -129,16 +132,17 @@ public class DatabaseHelper extends CustomDbOpenHelper {
             cursor.moveToFirst();
 
             do {
-                dataMap.put("moduleId",cursor.getString(cursor.getColumnIndex(MODULE_ID)));
-                dataMap.put("courseId",cursor.getString(cursor.getColumnIndex(COURSE_ID)));
-                dataMap.put("questionId",cursor.getString(cursor.getColumnIndex(QUESTION_ID)));
+                dataMap.put(AppConstants.KEY_MODULE_ID,cursor.getString(cursor.getColumnIndex(MODULE_ID)));
+                dataMap.put(AppConstants.KEY_COURSE_ID,cursor.getString(cursor.getColumnIndex(COURSE_ID)));
+                dataMap.put(AppConstants.KEY_QUESTION_ID,cursor.getString(cursor.getColumnIndex(QUESTION_ID)));
             }while (cursor.moveToNext());
             cursor.close();
             return dataMap;
         }
-        dataMap.put("moduleId","1");
-        dataMap.put("courseId","1");
-        dataMap.put("questionId","1");
+        saveInProgressTable(userName,"1","1","1",userType);
+        dataMap.put(AppConstants.KEY_MODULE_ID,"1");
+        dataMap.put(AppConstants.KEY_COURSE_ID,"1");
+        dataMap.put(AppConstants.KEY_QUESTION_ID,"1");
         return dataMap;
     }
 
@@ -192,8 +196,8 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         db.insert(QUESTION_TABLE,null,cv);
     }
 
-    public boolean checkIsDataAlreadyInDBorNot(String TableName,
-                                               String dbfield, String fieldValue) {
+    private boolean checkIsDataAlreadyInDBorNot(String TableName,
+                                                String dbfield, String fieldValue) {
         SQLiteDatabase sqldb = this.getWritableDatabase();
         String Query = "Select * from " + TableName + " where " + dbfield + " = " + fieldValue;
         Cursor cursor = sqldb.rawQuery(Query, null);
@@ -301,4 +305,18 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
         return null;
     }
+
+   public void updateProgressTable(String userName,String moduleId,String courseId,@Nullable String questionId,UserType userType){
+       Log.d(TAG,userName+" "+moduleId+" "+courseId+" "+questionId+" "+userType);
+
+       String where=USER_NAME+" = ?";
+       ContentValues values=new ContentValues();
+       values.put(MODULE_ID,moduleId);
+       values.put(COURSE_ID,courseId);
+
+       SQLiteDatabase db=this.getWritableDatabase();
+
+       int i=db.update(PROGRESS_TABLE,values,where,new String[]{userName});
+       Log.d(TAG,""+i);
+   }
 }

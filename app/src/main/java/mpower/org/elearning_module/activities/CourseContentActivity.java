@@ -21,6 +21,7 @@ import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.interfaces.LastPageListener;
 import mpower.org.elearning_module.model.Question;
+import mpower.org.elearning_module.utils.CurrentUserProgress;
 
 public class CourseContentActivity extends BaseActivity {
     private ViewPager mPager;
@@ -138,6 +139,8 @@ public class CourseContentActivity extends BaseActivity {
             if (fragment!=null && fragment instanceof LastPageListener){
                 lastPageListener= (LastPageListener) fragment;
             }
+
+            CurrentUserProgress.getInstance().setProgressQuestion(questions.get(position).getId());
 
             return fragment;
         }

@@ -37,6 +37,37 @@
                 "true_false": ""
               }
             ]
+          },
+          {
+            "title": "course1",
+            "id": "2",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "loren ipsum",
+                "id": "1",
+                "type": "",
+                "image": "tuberculosis.jpg",
+                "audio": "",
+                "description_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac lacus id nulla pretium vehicula quis at quam. Sed id faucibus ante. Praesent venenatis bibendum nisl at faucibus. Donec dictum nisi id sapien vestibulum, eu consequat metus iaculis. Nullam porttitor leo quis ornare lobortis. Aliquam tristique nulla non ullamcorper bibendum. Proin dui dui, dignissim vitae elementum id, dapibus et ante. Sed fringilla dui leo, ac bibendum mi pulvinar condimentum. Aenean bibendum, neque vitae consectetur iaculis, augue nisi ornare erat, sed euismod nunc lacus in orci.",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+              },
+              {
+                "title_text": "Mauris lectus",
+                "id": "2",
+                "type": "true-false",
+                "image": "tuberculosis.jpg",
+                "audio": "",
+                "description_text": "সু প্ত যক্ষ্মো সংক্রস্ম ত বেস্মি মেলে অেে বেস্মিলত যক্ষ্মোর িীবোুু ছড়োয় েো",
+                "answer": "",
+                "right_answer": "true",
+                "wrong_answer": "false",
+                "true_false": ""
+              }
+            ]
           }
         ]
       },

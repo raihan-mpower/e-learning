@@ -86,7 +86,17 @@
 
             </LinearLayout>
         </LinearLayout>
+        <FrameLayout
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_below="@+id/linear_header"
+            android:id="@+id/module_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
         <RelativeLayout
+            android:visibility="gone"
             android:layout_below="@id/linear_header"
             android:layout_width="match_parent"
             android:background="#e6e6e6"

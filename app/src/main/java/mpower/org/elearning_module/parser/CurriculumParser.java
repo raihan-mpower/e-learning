@@ -38,7 +38,7 @@ public class CurriculumParser {
     }
 
     private static ArrayList<Module> getModules(Gson gson, JSONArray moduleArray) {
-        ArrayList<Module> modules = new ArrayList<Module>();
+        ArrayList<Module> modules = new ArrayList<>();
         for(int i = 0;i<moduleArray.length();i++){
             try {
                 Module module = gson.fromJson(moduleArray.getJSONObject(i).toString(), Module.class);
@@ -52,7 +52,7 @@ public class CurriculumParser {
     }
 
     private static ArrayList<Course> getCourses(Gson gson, JSONArray courses) {
-        ArrayList<Course> courseslist = new ArrayList<Course>();
+        ArrayList<Course> courseslist = new ArrayList<>();
         for(int i = 0;i<courses.length();i++){
             try {
                 Course course = gson.fromJson(courses.getJSONObject(i).toString(), Course.class);
@@ -67,7 +67,7 @@ public class CurriculumParser {
     }
 
     private static ArrayList<Question> getQuestions(Gson gson, JSONArray questions) {
-        ArrayList<Question> questionslist = new ArrayList<Question>();
+        ArrayList<Question> questionslist = new ArrayList<>();
         for(int i = 0;i<questions.length();i++){
             try {
                 Question question = gson.fromJson(questions.getJSONObject(i).toString(), Question.class);

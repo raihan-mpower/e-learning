@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,35 +18,92 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.adapter.CourseGridViewAdapter;
+import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Question;
+import mpower.org.elearning_module.utils.AppConstants;
+import mpower.org.elearning_module.utils.CurrentUserProgress;
+import mpower.org.elearning_module.utils.Status;
+import mpower.org.elearning_module.utils.UserCollection;
 
 public class CourseActivity extends AppCompatActivity {
 
     private GridView gridView;
     public static ArrayList<Course> courses;
+    public static String CURRENT_MODULE_ID="";
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
-        Toolbar toolbar=findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
+
+
+       /* Toolbar toolbar=findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);*/
 
         gridView = findViewById(R.id.gridView1);
 
-        gridView.setAdapter(new CourseGridViewAdapter(this,courses));
+
+        for (Course course:courses){
+            if (course.getId().equalsIgnoreCase(AppConstants.USER_PROGRESS_COURSE_ID)){
+                course.setStatus(Status.UNLOCKED);
+            }else if (Integer.valueOf(course.getId())<Integer.valueOf(AppConstants.USER_PROGRESS_COURSE_ID)){
+                course.setStatus(Status.UNLOCKED);
+            }else {
+                course.setStatus(Status.LOCKED);
+            }
+        }
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setUpAdapter();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("TAG","Restarted");
+        if (databaseHelper==null){
+            databaseHelper=new DatabaseHelper(this);
+        }
+
+        HashMap<String,String> progress=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),
+                CurrentUserProgress.getInstance().getUserType());
+        Log.d("TAG",progress.toString());
+
+        String courseId=progress.get(AppConstants.KEY_COURSE_ID);
+
+        for (Course course:courses){
+            if (course.getId().equalsIgnoreCase(courseId)){
+                course.setStatus(Status.UNLOCKED);
+            }else if (Integer.valueOf(course.getId())<Integer.valueOf(courseId)){
+                course.setStatus(Status.UNLOCKED);
+            }else {
+                course.setStatus(Status.LOCKED);
+            }
+        }
 
     }
 
     private void setUpAdapter() {
+
+        gridView.setAdapter(new CourseGridViewAdapter(this,courses));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                if (courses.get(position).isLocked()){
+                    return;
+                }
+                CurrentUserProgress.getInstance().setProgressCourse(courses.get(position).getId());
                 CourseContentActivity.questions = (ArrayList<Question>) courses.get(position).getQuestions();
                 Intent intent = new Intent(CourseActivity.this,CourseContentActivity.class);
                 startActivity(intent);

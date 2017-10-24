@@ -7,6 +7,8 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import mpower.org.elearning_module.utils.Status;
+
 public class Course implements Serializable {
 
     @SerializedName("title")
@@ -23,11 +25,9 @@ public class Course implements Serializable {
     private List<Question> questions = new ArrayList<Question>();
 
 
-    private Status status=Status.Locked;
+    private Status status= Status.LOCKED;
 
-    public enum Status {
-        Locked,Unlocked
-    } ;
+     ;
     /**
      * No args constructor for use in serialization
      * 
@@ -84,7 +84,7 @@ public class Course implements Serializable {
     }
 
     public boolean isLocked(){
-        return (status == Status.Locked);
+        return (status == Status.LOCKED);
     }
     public void setStatus(Status status) {
         this.status = status;

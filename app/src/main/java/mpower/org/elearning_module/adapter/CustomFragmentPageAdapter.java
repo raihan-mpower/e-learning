@@ -3,6 +3,7 @@ package mpower.org.elearning_module.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import mpower.org.elearning_module.fragments.CategoriesFragment;
 import mpower.org.elearning_module.fragments.FavoritesFragment;
@@ -15,7 +16,7 @@ import mpower.org.elearning_module.fragments.SavedFragment;
  * @author Sabbir ,sabbir@mpower-social.com
  */
 
-public class CustomFragmentPageAdapter extends FragmentPagerAdapter {
+public class CustomFragmentPageAdapter extends FragmentStatePagerAdapter {
     private static final int FRAGMENT_COUNT = 4;
 
     public CustomFragmentPageAdapter(FragmentManager fm) {

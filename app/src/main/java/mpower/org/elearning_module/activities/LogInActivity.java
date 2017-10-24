@@ -57,7 +57,6 @@ import mpower.org.elearning_module.utils.UserDataCollection;
 import mpower.org.elearning_module.utils.UserType;
 
 public class LogInActivity extends AppCompatActivity {
-    protected Dialog mSplashDialog;
 
     private EditText usernameEditText, passwordEditText;
     private Button loginButton;
@@ -90,12 +89,12 @@ public class LogInActivity extends AppCompatActivity {
 
         user = UserCollection.getInstance();
 
-        usernameEditText = (EditText) findViewById(R.id.login_username);
-        passwordEditText = (EditText) findViewById(R.id.login_password);
+        usernameEditText = findViewById(R.id.login_username);
+        passwordEditText = findViewById(R.id.login_password);
         usernameEditText.setFilters(new InputFilter[] { getReturnFilter(), getWhitespaceFilter() });
         passwordEditText.setFilters(new InputFilter[] { getReturnFilter(), getWhitespaceFilter() });
         userTypeGroup=findViewById(R.id.user_group);
-        loginButton = (Button) findViewById(R.id.login_button);
+        loginButton = findViewById(R.id.login_button);
     }
 
     public void checkLogIn(View view) {
@@ -161,7 +160,7 @@ public class LogInActivity extends AppCompatActivity {
 
         int selectedRadioId=userTypeGroup.getCheckedRadioButtonId();
         if (selectedRadioId!=-1){
-            RadioButton radioButton=(RadioButton) findViewById(selectedRadioId);
+            RadioButton radioButton= findViewById(selectedRadioId);
             if (radioButton!=null){
                 userType=radioButton.getText().toString();
                 //Toast.makeText(this,"UserType "+userType,Toast.LENGTH_SHORT).show();
@@ -173,6 +172,7 @@ public class LogInActivity extends AppCompatActivity {
 
         try {
           //  user.checkLogin(username, password, this);
+            user.getUserData().setUsername(username);
             processValidLogin();
         } catch (Exception e) {
             showAlertDialog("Login failed!", e.getMessage());
@@ -190,7 +190,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void processValidLogin() {
-        user.getUserData().setUsername("himel");
         startNextActivity();
     }
 
@@ -257,13 +256,6 @@ public class LogInActivity extends AppCompatActivity {
 
     public void checkLoginOnline() {
         new LoginTask().execute();
-    }
-
-    protected void removeSplashScreen() {
-        if (mSplashDialog != null) {
-            mSplashDialog.dismiss();
-            mSplashDialog = null;
-        }
     }
 
     /**

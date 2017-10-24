@@ -1,6 +1,8 @@
 package mpower.org.elearning_module.view;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -9,22 +11,23 @@ import android.widget.LinearLayout;
  * Created by raihan on 8/22/17.
  */
 
-public class squareGrid extends LinearLayout {
+public class SquareGrid extends LinearLayout {
 
 
-    public squareGrid(Context context) {
+    public SquareGrid(Context context) {
         super(context);
     }
 
-    public squareGrid(Context context, AttributeSet attrs) {
+    public SquareGrid(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public squareGrid(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SquareGrid(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public squareGrid(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+
+    public SquareGrid(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

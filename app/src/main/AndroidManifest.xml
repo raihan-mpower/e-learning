@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mpower.org.elearning_module">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".application.ELearningApp"
         android:allowBackup="true"
@@ -17,8 +18,7 @@
         </activity>
         <activity
             android:name=".activities.CourseActivity"
-            android:label="@string/title_activity_course"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_course">
         </activity>
         <activity
             android:name=".activities.CourseContentActivity"
@@ -30,7 +30,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mpower.org.elearning_module.activities.CourseActivity" />
         </activity>
-        <activity android:name=".activities.LogInActivity">
+        <activity android:name=".activities.LogInActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

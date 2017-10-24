@@ -59,6 +59,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         ButterKnife.bind(this,view);
 
         //  optionSpinner = (Spinner) view.findViewById(R.id.spinner);
+        Fragment fragment=ModuleFragment.newInstance(getUserType());
+        getChildFragmentManager().beginTransaction().replace(R.id.module_fragment_container,fragment).commit();
+
         mProfileImage=(ImageView) view.findViewById(R.id.profile_image);
 
         btnELearn.setOnClickListener(new View.OnClickListener() {

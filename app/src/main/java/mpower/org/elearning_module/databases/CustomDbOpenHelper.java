@@ -24,7 +24,7 @@ public abstract class CustomDbOpenHelper {
     private SQLiteDatabase database = null;
     private boolean isInitializing = false;
 
-   public CustomDbOpenHelper(String path, String name, SQLiteDatabase.CursorFactory factory, int version){
+   CustomDbOpenHelper(String path, String name, SQLiteDatabase.CursorFactory factory, int version){
         if (version < 1) {
             throw new IllegalArgumentException("Version must be >= 1, was " + version);
         }
