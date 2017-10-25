@@ -170,4 +170,8 @@ public class Helper {
         //return _bmp;
         return output;
     }
+
+    public static void MakeLog(Class c,String message){
+        Log.d(c.getSimpleName(),message);
+    }
 }

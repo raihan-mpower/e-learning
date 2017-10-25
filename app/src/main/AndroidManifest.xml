@@ -17,6 +17,8 @@
 
         </activity>
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity"
             android:name=".activities.CourseActivity"
             android:label="@string/title_activity_course">
         </activity>

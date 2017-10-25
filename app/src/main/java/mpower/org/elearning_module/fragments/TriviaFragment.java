@@ -15,7 +15,7 @@ import mpower.org.elearning_module.model.Question;
 
 
 public class TriviaFragment extends Fragment {
-    @BindView(R.id.tv_trivia)
+    @BindView(R.id.content_description)
     TextView tvTrivia;
     Question question;
 

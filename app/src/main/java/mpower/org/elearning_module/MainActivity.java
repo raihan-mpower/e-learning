@@ -22,9 +22,11 @@ import java.util.HashMap;
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.fragments.DashBoardFragment;
+import mpower.org.elearning_module.fragments.HomeFragment;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
 import mpower.org.elearning_module.utils.AppConstants;
+import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.Helper;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
@@ -65,9 +67,10 @@ public class MainActivity extends AppCompatActivity
         if (userType !=null){
             editor.putInt(AppConstants.USER_TYPE, userType.ordinal());
             editor.apply();
+            CurrentUserProgress.getInstance().setUserType(userType);
         }
 
-        HashMap<String,String> progressMap= databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(), userType);
+        HashMap<String,String> progressMap= databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(), CurrentUserProgress.getInstance().getUserType());
         Log.d("TAG",progressMap.toString());
         if (progressMap.size() > 0){
 
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashBoardFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
         } else if (id == R.id.nav_contact) {
 
         } else if (id == R.id.nav_videos) {
@@ -171,6 +174,6 @@ public class MainActivity extends AppCompatActivity
    }
 
     private void callModuleFragment() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DashBoardFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
     }
 }

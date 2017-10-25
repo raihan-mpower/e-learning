@@ -4,6 +4,7 @@ package mpower.org.elearning_module.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -34,6 +35,8 @@ import mpower.org.elearning_module.utils.UserType;
 import mpower.org.elearning_module.utils.Utils;
 
 public class ModuleFragment extends Fragment {
+
+    boolean firstTime=false;
     GridView gridView;
     private UserType userType;
     ModuleGridViewAdapter moduleGridViewAdapter;
@@ -64,6 +67,56 @@ public class ModuleFragment extends Fragment {
             if (userType!=null){
                 CurrentUserProgress.getInstance().setUserType(userType);
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (firstTime){
+            Log.d("TAG","FirstVisit In onResume");
+            setUpAdapter();
+            firstTime=false;
+        }else {
+            HashMap<String,String> progress=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),
+                    CurrentUserProgress.getInstance().getUserType());
+            Log.d("TAG",progress.toString());
+
+            String courseId=progress.get(AppConstants.KEY_COURSE_ID);
+            String moduleId=progress.get(AppConstants.KEY_MODULE_ID);
+            String questionId=progress.get(AppConstants.KEY_QUESTION_ID);
+
+            int noOfCourses=databaseHelper.getNoOfCoursesForThisModule(moduleId);
+
+            if (Integer.valueOf(courseId)>=noOfCourses){
+                courseId="1";
+                databaseHelper.updateProgressTable(UserCollection.getInstance().getUserData().getUsername(),
+                        moduleId,courseId,questionId,userType);
+            }
+
+
+            HashMap<String,String> updatedProgress=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),
+                    CurrentUserProgress.getInstance().getUserType());
+            Helper.MakeLog(this.getClass(),updatedProgress.toString());
+
+
+
+            int totalCourseOfThisModule;
+
+            for (Module module:moduleArrayList){
+                if (module.getId().equalsIgnoreCase(updatedProgress.get(AppConstants.KEY_MODULE_ID))){
+                    module.setStatus(Status.UNLOCKED);
+                }else if (Integer.valueOf(module.getId())<Integer.valueOf(updatedProgress.get(AppConstants.KEY_MODULE_ID))){
+                    module.setStatus(Status.UNLOCKED);
+                }else if(Integer.valueOf(updatedProgress.get(AppConstants.KEY_COURSE_ID))>=module.getCourses().size()){
+                    module.setStatus(Status.UNLOCKED);
+                }else {
+                    module.setStatus(Status.LOCKED);
+                }
+            }
+
+            setUpAdapter();
+            Log.d("TAG","RETURNED");
         }
     }
 
@@ -115,13 +168,22 @@ public class ModuleFragment extends Fragment {
         if (moduleArrayList==null){
 
         }
-        moduleGridViewAdapter=new ModuleGridViewAdapter(getContext(),moduleArrayList);
-        gridView.setAdapter(moduleGridViewAdapter);
-        setUpAdapter();
+        /*moduleGridViewAdapter=new ModuleGridViewAdapter(getContext(),moduleArrayList);
+        gridView.setAdapter(moduleGridViewAdapter);*/
+        //setUpAdapter();
+        firstTime=true;
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
     private void setUpAdapter() {
+        moduleGridViewAdapter=new ModuleGridViewAdapter(getContext(),moduleArrayList);
+        gridView.setAdapter(moduleGridViewAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -138,10 +200,6 @@ public class ModuleFragment extends Fragment {
                 startActivity(intent);
             }
         });
-    }
-
-    private void showToast() {
-
     }
 
     private void insertIntoDb(ArrayList<Module> moduleArrayList) {

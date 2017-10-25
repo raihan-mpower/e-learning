@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content_course"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:layout_height="wrap_content">
+        <include layout="@layout/my_toolbar"/>
+    </android.support.design.widget.AppBarLayout>
+
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridView1"
         android:numColumns="2"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_below="@+id/my_toolbar"
         android:gravity="center"
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"
@@ -16,4 +25,4 @@
 
     </GridView>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -59,9 +59,17 @@ public class CourseEndFragment extends BaseFragment {
         String questionId=CurrentUserProgress.getInstance().getCurrentUserQuestionProgress();
         UserType userType=CurrentUserProgress.getInstance().getUserType();
 
+        int module=Integer.valueOf(moduleId);
+
         int course=Integer.valueOf(courseId)+1;
 
-        databaseHelper.updateProgressTable(userName,moduleId, String.valueOf(course),questionId,userType);
+        int noOfCourses=databaseHelper.getNoOfCoursesForThisModule(moduleId);
+        if (course>noOfCourses){
+            module+=1;
+          //  course=1;
+        }
+
+        databaseHelper.updateProgressTable(userName, String.valueOf(module), String.valueOf(course),questionId,userType);
     }
 
     void showDialog() {

@@ -56,6 +56,8 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private static final String QUESTION_RIGHT_ANSWER="question_right_answer";
     private static final String QUESTION_TRUE_FALSE="question_true_false";
 
+    public static final String TOTAL_COURSES_FOR_THIS_MODULE="total_module_courses";
+
 
    public DatabaseHelper(Context context)  {
        super(ELearningApp.DATABASE_FOLDER_NAME,DATABASE_NAME,null,DATABASE_VERSION);
@@ -97,7 +99,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     private void createModuleTable(SQLiteDatabase db) {
         String sql="CREATE TABLE "+MODULE_TABLE+" ( "+MODULE_ID+" TEXT, "+MODULE_TITLE+" TEXT, "+
-                MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT"+
+                MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT, "+TOTAL_COURSES_FOR_THIS_MODULE+" INTEGER "+
                 ");";
         Log.d(TAG,sql);
         db.execSQL(sql);
@@ -138,12 +140,14 @@ public class DatabaseHelper extends CustomDbOpenHelper {
             }while (cursor.moveToNext());
             cursor.close();
             return dataMap;
+        }else {
+            saveInProgressTable(userName,"1","1","1",userType);
+            dataMap.put(AppConstants.KEY_MODULE_ID,"1");
+            dataMap.put(AppConstants.KEY_COURSE_ID,"1");
+            dataMap.put(AppConstants.KEY_QUESTION_ID,"1");
+            return dataMap;
         }
-        saveInProgressTable(userName,"1","1","1",userType);
-        dataMap.put(AppConstants.KEY_MODULE_ID,"1");
-        dataMap.put(AppConstants.KEY_COURSE_ID,"1");
-        dataMap.put(AppConstants.KEY_QUESTION_ID,"1");
-        return dataMap;
+
     }
 
     public void insertModule(Module module) {
@@ -154,6 +158,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(MODULE_ID,module.getId());
         cv.put(MODULE_TITLE,module.getTitle());
         cv.put(MODULE_ICON_IMAGE_NAME,module.getIconImage());
+        cv.put(TOTAL_COURSES_FOR_THIS_MODULE,module.getCourses().size());
 
         for (Course course:module.getCourses()){
             Log.d(TAG,course.toString());
@@ -319,4 +324,19 @@ public class DatabaseHelper extends CustomDbOpenHelper {
        int i=db.update(PROGRESS_TABLE,values,where,new String[]{userName});
        Log.d(TAG,""+i);
    }
+
+    public int getNoOfCoursesForThisModule(String moduleId) {
+        String where=MODULE_ID+" = ?";
+        SQLiteDatabase database=this.getWritableDatabase();
+
+        Cursor cursor=database.query(MODULE_TABLE, new String[]{TOTAL_COURSES_FOR_THIS_MODULE},where,new String[]{moduleId},null,null,null);
+        if (cursor!=null && cursor.getCount()>0){
+            cursor.moveToFirst();
+            int i=cursor.getInt(cursor.getColumnIndex(TOTAL_COURSES_FOR_THIS_MODULE));
+            cursor.close();
+            return i;
+        }
+
+        return 0;
+    }
 }

@@ -8,7 +8,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+
+import com.rd.PageIndicatorView;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
 
@@ -44,6 +48,11 @@ public class CourseContentActivity extends BaseActivity {
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        PageIndicatorView pageIndicatorView = (PageIndicatorView) findViewById(R.id.pageIndicatorView);
+        pageIndicatorView.setViewPager(mPager);
+       DotsIndicator dotsIndicator = (DotsIndicator) findViewById(R.id.dots_indicator);
+        dotsIndicator.setViewPager(mPager);
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -51,10 +60,10 @@ public class CourseContentActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position==questions.size()-1){
+               /* if (position==questions.size()-1){
                     isLast=true;
                 }
-                if (isLast) lastPageListener.isLastPage(true);
+                if (isLast) lastPageListener.isLastPage(true);*/
                 tvCounter.setText(""+(position+1)+" of "+questions.size());
             }
 
@@ -78,6 +87,14 @@ public class CourseContentActivity extends BaseActivity {
 
     }
 
+    public void jumpToPage(View view) {
+        mPager.setCurrentItem(mPager.getCurrentItem()+1,true);
+    }
+
+    public void jumpToPagePrev(View view) {
+        mPager.setCurrentItem(mPager.getCurrentItem()-1,true);
+    }
+
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter{
 
@@ -99,7 +116,7 @@ public class CourseContentActivity extends BaseActivity {
         public Fragment getItem(int position) {
 
             //slick bit of code :D ,sabbir
-            Fragment fragment = null;
+            Fragment fragment;
 
             if (position==questions.size()){
                     fragment=new CourseEndFragment();
@@ -135,10 +152,10 @@ public class CourseContentActivity extends BaseActivity {
 
             }*/
 
-            Log.d("TAG",""+isLast);
+           /* Log.d("TAG",""+isLast);
             if (fragment!=null && fragment instanceof LastPageListener){
                 lastPageListener= (LastPageListener) fragment;
-            }
+            }*/
 
             CurrentUserProgress.getInstance().setProgressQuestion(questions.get(position).getId());
 

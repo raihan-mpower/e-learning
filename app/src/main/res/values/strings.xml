@@ -14,4 +14,5 @@
     <string name="please_wait">Please wait</string>
     <string name="ok">Ok</string>
     <string name="sdcard_unmounted">SDCard not available</string>
+    <string name="complete_other_courses">Complete other courses first</string>
 </resources>

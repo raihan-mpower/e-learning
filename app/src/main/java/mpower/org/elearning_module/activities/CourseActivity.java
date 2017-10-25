@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
+import mpower.org.elearning_module.utils.Helper;
 import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 
@@ -43,9 +45,9 @@ public class CourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course);
 
 
-       /* Toolbar toolbar=findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);*/
-
+        Toolbar toolbar=findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         gridView = findViewById(R.id.gridView1);
 
 
@@ -101,6 +103,7 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (courses.get(position).isLocked()){
+                    Helper.showToast(getApplicationContext(),getResources().getString(R.string.complete_other_courses), Toast.LENGTH_LONG);
                     return;
                 }
                 CurrentUserProgress.getInstance().setProgressCourse(courses.get(position).getId());
