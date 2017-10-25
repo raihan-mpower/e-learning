@@ -14,6 +14,7 @@ public class AppConstants {
     public static final String KEY_MODULE_ID="module_id";
     public static final String KEY_COURSE_ID="course_id";
     public static final String KEY_QUESTION_ID="question_id";
+    public static final String DATA = "intent_data";
 
     public static String USER_PROGRESS_MODULE_ID="";
     public static  String USER_PROGRESS_COURSE_ID="";

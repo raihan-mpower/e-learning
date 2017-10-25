@@ -7,12 +7,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.rd.PageIndicatorView;
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
 
@@ -25,11 +22,12 @@ import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.interfaces.LastPageListener;
 import mpower.org.elearning_module.model.Question;
+import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 
 public class CourseContentActivity extends BaseActivity {
     private ViewPager mPager;
-    public static ArrayList<Question> questions;
+    private ArrayList<Question> questions;
     private TextView tvCounter;
     LastPageListener lastPageListener;
     /**
@@ -40,7 +38,11 @@ public class CourseContentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_course_content);
+        if (getIntent().getExtras()!=null){
+            questions= (ArrayList<Question>) getIntent().getExtras().get(AppConstants.DATA);
+        }
+
+        // setContentView(R.layout.activity_course_content);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,10 +51,8 @@ public class CourseContentActivity extends BaseActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        PageIndicatorView pageIndicatorView = (PageIndicatorView) findViewById(R.id.pageIndicatorView);
-        pageIndicatorView.setViewPager(mPager);
-       DotsIndicator dotsIndicator = (DotsIndicator) findViewById(R.id.dots_indicator);
-        dotsIndicator.setViewPager(mPager);
+
+
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

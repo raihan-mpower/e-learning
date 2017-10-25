@@ -2,11 +2,14 @@ package mpower.org.elearning_module;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,9 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
@@ -32,6 +38,10 @@ import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
 import mpower.org.elearning_module.utils.Utils;
 
+/**
+ * @author sabbir
+ * */
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,26 +50,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setMessage("Loading..Please Wait");
-        progressDialog.setCancelable(false);
-
-        databaseHelper=new DatabaseHelper(this);
-        databaseHelper.getWritableDatabase();
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        Helper.CopyAssets(this, ELearningApp.ROOT_FOLDER_NAME);
 
         UserType userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -70,21 +60,97 @@ public class MainActivity extends AppCompatActivity
             CurrentUserProgress.getInstance().setUserType(userType);
         }
 
-        HashMap<String,String> progressMap= databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(), CurrentUserProgress.getInstance().getUserType());
-        Log.d("TAG",progressMap.toString());
-        if (progressMap.size() > 0){
+        setContentView(R.layout.activity_main);
 
-            String module=progressMap.get(AppConstants.KEY_MODULE_ID);
-            String course=progressMap.get(AppConstants.KEY_COURSE_ID);
-            String question=progressMap.get(AppConstants.KEY_QUESTION_ID);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            AppConstants.USER_PROGRESS_MODULE_ID=module;
-            AppConstants.USER_PROGRESS_COURSE_ID=course;
-            AppConstants.USER_PROGRESS_QUESTION_ID=question;
+
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Loading..Please Wait");
+        progressDialog.setCancelable(false);
+
+        //databaseHelper=new DatabaseHelper(this);
+        //databaseHelper.getWritableDatabase();
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
+
+
+
+        checkForPermission();
+
+
+
+
+
+    }
+
+    private void getUserData(){
+        if (databaseHelper!=null){
+            HashMap<String,String> progressMap= databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(), CurrentUserProgress.getInstance().getUserType());
+            Log.d("TAG",progressMap.toString());
+            if (progressMap.size() > 0){
+
+                String module=progressMap.get(AppConstants.KEY_MODULE_ID);
+                String course=progressMap.get(AppConstants.KEY_COURSE_ID);
+                String question=progressMap.get(AppConstants.KEY_QUESTION_ID);
+
+                AppConstants.USER_PROGRESS_MODULE_ID=module;
+                AppConstants.USER_PROGRESS_COURSE_ID=course;
+                AppConstants.USER_PROGRESS_QUESTION_ID=question;
+
+            }
+        }else {
+            checkForPermission();
+        }
+    }
+
+
+    private void checkForPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            if (Build.VERSION.SDK_INT>=23){
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},23);
+            }
+        }else {
+            ELearningApp.createDirectory();
+            databaseHelper=new DatabaseHelper(this);
+            databaseHelper.getWritableDatabase();
+            getUserData();
+            new JsonParserTask().execute();
 
         }
+    }
 
-        new JsonParserTask().execute();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode==23){
+            if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                ELearningApp.createDirectory();
+                databaseHelper=new DatabaseHelper(this);
+                databaseHelper.getWritableDatabase();
+                getUserData();
+                new JsonParserTask().execute();
+            }else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},23);
+                    }
+                }
+            }
+        }
     }
 
     @Override

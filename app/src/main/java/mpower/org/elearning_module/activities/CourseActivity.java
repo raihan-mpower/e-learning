@@ -35,7 +35,7 @@ import mpower.org.elearning_module.utils.UserCollection;
 public class CourseActivity extends AppCompatActivity {
 
     private GridView gridView;
-    public static ArrayList<Course> courses;
+    private ArrayList<Course> courses;
     public static String CURRENT_MODULE_ID="";
     DatabaseHelper databaseHelper;
 
@@ -50,6 +50,9 @@ public class CourseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         gridView = findViewById(R.id.gridView1);
 
+        if (getIntent().getExtras()!=null){
+            courses= (ArrayList<Course>) getIntent().getExtras().get(AppConstants.DATA);
+        }
 
         for (Course course:courses){
             if (course.getId().equalsIgnoreCase(AppConstants.USER_PROGRESS_COURSE_ID)){
@@ -106,9 +109,10 @@ public class CourseActivity extends AppCompatActivity {
                     Helper.showToast(getApplicationContext(),getResources().getString(R.string.complete_other_courses), Toast.LENGTH_LONG);
                     return;
                 }
-                CurrentUserProgress.getInstance().setProgressCourse(courses.get(position).getId());
-                CourseContentActivity.questions = (ArrayList<Question>) courses.get(position).getQuestions();
                 Intent intent = new Intent(CourseActivity.this,CourseContentActivity.class);
+                intent.putExtra(AppConstants.DATA,(ArrayList<Question>)courses.get(position).getQuestions());
+                CurrentUserProgress.getInstance().setProgressCourse(courses.get(position).getId());
+               // CourseContentActivity.questions = (ArrayList<Question>) courses.get(position).getQuestions();
                 startActivity(intent);
             }
         });

@@ -187,16 +187,17 @@ public class ModuleFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(),CourseActivity.class);
-                sCURRENT_MODULE_ID=moduleArrayList.get(i).getId();
                 if (moduleArrayList.get(i).isLocked()){
                     Helper.showToast(getContext(),"Complete other modules first", Toast.LENGTH_LONG);
                     return;
 
                 }
+                Intent intent = new Intent(getActivity(),CourseActivity.class);
+                sCURRENT_MODULE_ID=moduleArrayList.get(i).getId();
                 CourseActivity.CURRENT_MODULE_ID=moduleArrayList.get(i).getId();
+                intent.putExtra(AppConstants.DATA,(ArrayList<Course>)moduleArrayList.get(i).getCourses());
                 CurrentUserProgress.getInstance().setProgressModule(moduleArrayList.get(i).getId());
-                CourseActivity.courses = (ArrayList<Course>) moduleArrayList.get(i).getCourses();
+               // CourseActivity.courses = (ArrayList<Course>) moduleArrayList.get(i).getCourses();
                 startActivity(intent);
             }
         });

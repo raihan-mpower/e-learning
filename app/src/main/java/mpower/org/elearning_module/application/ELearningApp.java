@@ -22,15 +22,11 @@ public class ELearningApp extends Application {
         super.onCreate();
         instance=this;
 
-        try {
-            createDirs();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
    @SuppressLint("StringFormatInvalid")
-   synchronized private void createDirs() throws Exception {
+   static synchronized private void createDirs() throws Exception {
        String cardstatus = Environment.getExternalStorageState();
        if (!cardstatus.equals(Environment.MEDIA_MOUNTED)) {
            throw new RuntimeException(
@@ -59,5 +55,13 @@ public class ELearningApp extends Application {
 
     public static ELearningApp getInstance(){
         return instance;
+    }
+
+    public static void createDirectory() {
+        try {
+            createDirs();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
