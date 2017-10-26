@@ -14,19 +14,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.interfaces.AudioPlayerListener;
 import mpower.org.elearning_module.interfaces.LastPageListener;
 import mpower.org.elearning_module.model.Question;
 
 
-public class TrueFalseFragment extends Fragment implements LastPageListener {
+public class TrueFalseFragment extends BaseFragment implements LastPageListener {
     private Button trueButton,falseButton;
     private TextView tvQuestionText,tvRightAnswer;
-    private OnFragmentInteractionListener mListener;
     private Question question;
     boolean isLast;
+
     public TrueFalseFragment() {
         // Required empty public constructor
     }
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,14 +40,16 @@ public class TrueFalseFragment extends Fragment implements LastPageListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_true_false, container, false);
-        tvQuestionText= (TextView) view.findViewById(R.id.tv_question);
-        tvRightAnswer= (TextView) view.findViewById(R.id.tv_right_answer);
-        trueButton= (Button) view.findViewById(R.id.btn_true);
-        falseButton= (Button) view.findViewById(R.id.btn_false);
+    protected int getFragmentLayout() {
+        return R.layout.fragment_true_false;
+    }
+
+    @Override
+    protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
+        tvQuestionText= view.findViewById(R.id.tv_question);
+        tvRightAnswer= view.findViewById(R.id.tv_right_answer);
+        trueButton= view.findViewById(R.id.btn_true);
+        falseButton= view.findViewById(R.id.btn_false);
         question = (Question) getArguments().getSerializable("question");
 
         if (question != null) {
@@ -78,15 +83,6 @@ public class TrueFalseFragment extends Fragment implements LastPageListener {
         if (isLast){
             Toast.makeText(getContext(), "IS on the last page", Toast.LENGTH_LONG).show();
         }
-
-        return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -97,7 +93,6 @@ public class TrueFalseFragment extends Fragment implements LastPageListener {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     public static TrueFalseFragment newInstance(Question question) {
@@ -113,11 +108,5 @@ public class TrueFalseFragment extends Fragment implements LastPageListener {
     public void isLastPage(boolean isLastPage) {
 
 
-    }
-
-
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

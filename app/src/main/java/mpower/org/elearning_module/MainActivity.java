@@ -18,16 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
-import mpower.org.elearning_module.fragments.DashBoardFragment;
 import mpower.org.elearning_module.fragments.HomeFragment;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;

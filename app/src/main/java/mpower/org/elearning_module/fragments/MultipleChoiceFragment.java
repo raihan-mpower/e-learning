@@ -3,10 +3,11 @@ package mpower.org.elearning_module.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,6 +24,16 @@ public class MultipleChoiceFragment extends BaseFragment {
     Question question;
     @BindView(R.id.tv_question)
     TextView tvQuestion;
+    @BindView(R.id.btn_audio)
+    ImageButton audioButton;
+
+    boolean isPlaying=false;
+    private boolean isPaused;
+
+    private boolean isPlaying(){
+        return isPlaying;
+    }
+
     public MultipleChoiceFragment() {
         // Required empty public constructor
     }
@@ -72,6 +83,36 @@ public class MultipleChoiceFragment extends BaseFragment {
             }
         }
 
+        audioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TAG",question.getAudio());
+                if (isPlaying){
+                    if (isPaused){
+                        getAudioPlayerListener().resume();
+                        isPaused=false;
+                        isPlaying=true;
+                    }else {
+                        getAudioPlayerListener().pausePlayer();
+                        audioButton.setImageResource(R.drawable.ic_action_muted_audio);
+                        isPlaying=false;
+                        isPaused=true;
+                    }
+                }else {
+                    getAudioPlayerListener().playAudio(question.getAudio());
+                    isPlaying=true;
+                    isPaused=false;
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getAudioPlayerListener().stopPlayer();
     }
 
     @Override

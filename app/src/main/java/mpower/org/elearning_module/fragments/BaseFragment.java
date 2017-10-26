@@ -2,6 +2,7 @@ package mpower.org.elearning_module.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import butterknife.ButterKnife;
 import mpower.org.elearning_module.BaseActivity;
+import mpower.org.elearning_module.interfaces.AudioPlayerListener;
 import mpower.org.elearning_module.interfaces.LastPageListener;
 
 /**
@@ -21,9 +25,13 @@ import mpower.org.elearning_module.interfaces.LastPageListener;
  */
 
 public abstract class BaseFragment extends Fragment implements LastPageListener {
-
+    AudioPlayerListener audioPlayerListener;
     protected Context mContext;
     protected LayoutInflater mInflater;
+
+    public AudioPlayerListener getAudioPlayerListener() {
+        return audioPlayerListener;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +43,11 @@ public abstract class BaseFragment extends Fragment implements LastPageListener 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof AudioPlayerListener){
+            audioPlayerListener= (AudioPlayerListener) context;
+        }else {
+            showToast("No player attached");
+        }
     }
 
     @Nullable
@@ -89,4 +102,6 @@ public abstract class BaseFragment extends Fragment implements LastPageListener 
     protected Activity getBaseActivity() {
         return getActivity();
     }
+
+
 }

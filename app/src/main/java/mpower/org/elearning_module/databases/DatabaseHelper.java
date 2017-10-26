@@ -50,6 +50,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private static final String QUESTION_ID="question_id";
     private static final String QUESTION_TITLE="question_title";
     private static final String QUESTION_IMAGE_NAME="question_icon_image";
+    private static final String QUESTION_AUDIO_NAME="question_audio_name";
     private static final String QUESTION_TYPE="question_type";
     private static final String QUESTION_DESCRIPTION="question_description";
     private static final String QUESTION_ANSWER="question_answer";
@@ -82,7 +83,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private void createQuestionsTable(SQLiteDatabase db) {
         String sql="CREATE TABLE "+QUESTION_TABLE+" ( "+COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT, "+QUESTION_TITLE+" TEXT, "+
                 QUESTION_DESCRIPTION+" TEXT, "+QUESTION_TYPE+" INTEGER, "+QUESTION_IMAGE_NAME+" TEXT, "+
-                QUESTION_ANSWER+" TEXT, "+QUESTION_RIGHT_ANSWER+" TEXT, "+QUESTION_TRUE_FALSE+" TEXT "+
+                QUESTION_ANSWER+" TEXT, "+QUESTION_AUDIO_NAME+" TEXT, "+QUESTION_RIGHT_ANSWER+" TEXT, "+QUESTION_TRUE_FALSE+" TEXT "+
                 ");";
         Log.d(TAG,sql);
         db.execSQL(sql);
@@ -192,6 +193,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(QUESTION_ID,question.getId());
         cv.put(QUESTION_TITLE,question.getTitleText());
         cv.put(QUESTION_ANSWER,question.getAnswer());
+        cv.put(QUESTION_AUDIO_NAME,question.getAudio());
         cv.put(QUESTION_DESCRIPTION,question.getDescriptionText());
         cv.put(QUESTION_RIGHT_ANSWER,question.getRightAnswer());
         cv.put(QUESTION_ID,question.getId());
@@ -275,6 +277,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 question.setRightAnswer(cursor.getString(cursor.getColumnIndex(QUESTION_RIGHT_ANSWER)));
                 question.setImage(cursor.getString(cursor.getColumnIndex(QUESTION_IMAGE_NAME)));
                 question.setType(cursor.getString(cursor.getColumnIndex(QUESTION_TYPE)));
+                question.setAudio(cursor.getString(cursor.getColumnIndex(QUESTION_AUDIO_NAME)));
                 question.setDescriptionText(cursor.getString(cursor.getColumnIndex(QUESTION_DESCRIPTION)));
                 question.setTrueFalse(cursor.getString(cursor.getColumnIndex(QUESTION_TRUE_FALSE)));
 

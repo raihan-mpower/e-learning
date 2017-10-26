@@ -2,22 +2,26 @@ package mpower.org.elearning_module.fragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.model.Question;
 
 
-public class TriviaFragment extends Fragment {
+public class TriviaFragment extends BaseFragment {
     @BindView(R.id.content_description)
     TextView tvTrivia;
     Question question;
+    @BindView(R.id.audio)
+    ImageButton audiobutton;
+
+    boolean isPlaying=false;
+    private boolean isPaused;
 
     public TriviaFragment() {
         // Required empty public constructor
@@ -42,16 +46,43 @@ public class TriviaFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_trivia,container,false);
-        ButterKnife.bind(this,view);
+    protected int getFragmentLayout() {
+        return R.layout.fragment_trivia;
+    }
 
+    @Override
+    protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         if (question!=null){
             tvTrivia.setText(question.getDescriptionText());
         }
-        return view;
+
+        audiobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TAG",question.getAudio());
+                if (isPlaying){
+                    if (isPaused){
+                        getAudioPlayerListener().resume();
+                        isPaused=false;
+                        isPlaying=true;
+                    }else {
+                        getAudioPlayerListener().pausePlayer();
+                        audiobutton.setImageResource(R.drawable.ic_action_muted_audio);
+                        isPlaying=false;
+                        isPaused=true;
+                    }
+                }else {
+                    getAudioPlayerListener().playAudio(question.getAudio());
+                    isPlaying=true;
+                    isPaused=false;
+                }
+
+            }
+        });
     }
 
+    @Override
+    public void isLastPage(boolean isLastPage) {
+
+    }
 }

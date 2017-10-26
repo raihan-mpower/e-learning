@@ -1,6 +1,12 @@
 package mpower.org.elearning_module.activities;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -11,29 +17,41 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.fragments.CourseContentActivityFragment;
 import mpower.org.elearning_module.fragments.CourseEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
 import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
+import mpower.org.elearning_module.interfaces.AudioPlayerListener;
 import mpower.org.elearning_module.interfaces.LastPageListener;
 import mpower.org.elearning_module.model.Question;
+import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
+import mpower.org.elearning_module.utils.Helper;
 
-public class CourseContentActivity extends BaseActivity {
+public class CourseContentActivity extends BaseActivity implements AudioPlayerListener {
     private ViewPager mPager;
     private ArrayList<Question> questions;
     private TextView tvCounter;
     LastPageListener lastPageListener;
+    private MediaPlayer mediaPlayer;
+    private MediaPlayerService mediaPlayerService;
+    boolean isServiceBound;
+
+
+
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
-    boolean isLast=false;
+
     private PagerAdapter mPagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +60,6 @@ public class CourseContentActivity extends BaseActivity {
             questions= (ArrayList<Question>) getIntent().getExtras().get(AppConstants.DATA);
         }
 
-        // setContentView(R.layout.activity_course_content);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,6 +94,17 @@ public class CourseContentActivity extends BaseActivity {
 
     }
 
+   private void playMusic(String media){
+        if (!isServiceBound){
+            Intent playerIntet=new Intent(this,MediaPlayerService.class);
+            playerIntet.putExtra(AppConstants.AUDIO_FILE_NAME,media);
+            startService(playerIntet);
+            bindService(playerIntet,mServiceConnection,BIND_AUTO_CREATE);
+        }else {
+
+        }
+    }
+
     @Override
     protected int getResourceLayout() {
         return R.layout.activity_course_content;
@@ -87,6 +115,13 @@ public class CourseContentActivity extends BaseActivity {
 
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopMusicService();
+    }
+
     public void jumpToPage(View view) {
         mPager.setCurrentItem(mPager.getCurrentItem()+1,true);
     }
@@ -94,6 +129,52 @@ public class CourseContentActivity extends BaseActivity {
     public void jumpToPagePrev(View view) {
         mPager.setCurrentItem(mPager.getCurrentItem()-1,true);
     }
+
+    @Override
+    public void playAudio(String name) {
+        /*mediaPlayer=null;
+        if (name==null || name.equalsIgnoreCase("")){
+            return;
+        }else {
+            if (!name.endsWith(".mp3")) name+=".mp3";
+            name= ELearningApp.IMAGES_FOLDER_NAME+ File.separator+name;
+        }
+        Helper.MakeLog(this.getClass(),name);
+        mediaPlayer=new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(name);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        playMusic(name);
+    }
+
+    @Override
+    public void stopPlayer() {
+        getMediaPlayerService().stopMedia();
+    }
+
+
+
+    @Override
+    public void mutePlayer(boolean flag) {
+       getMediaPlayerService().muteAudio(flag);
+    }
+
+    @Override
+    public void pausePlayer() {
+        getMediaPlayerService().pauseMedia();
+    }
+
+    @Override
+    public void resume() {
+        getMediaPlayerService().resumeMedia();
+    }
+
+
 
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter{
@@ -166,6 +247,41 @@ public class CourseContentActivity extends BaseActivity {
         public int getCount() {
             return questions.size()+1;
         }
+    }
+
+
+
+    public MediaPlayerService getMediaPlayerService() {
+        return mediaPlayerService;
+    }
+
+    private ServiceConnection mServiceConnection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            MediaPlayerService.AudioBinder musicBinder=(MediaPlayerService.AudioBinder) iBinder;
+            mediaPlayerService=musicBinder.getService();
+            isServiceBound=true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            isServiceBound=false;
+        }
+    };
+
+    public boolean isServiceBound(){
+        return isServiceBound;
+    }
+
+    public void startMusicSercive(){
+        Intent playerIntent = new Intent(this, MediaPlayerService.class);
+        startService(playerIntent);
+        bindService(playerIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    public void stopMusicService(){
+        mediaPlayerService.stopSelf();
+        unbindService(mServiceConnection);
     }
 
 }
