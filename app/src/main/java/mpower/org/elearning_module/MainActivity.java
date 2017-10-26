@@ -79,10 +79,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
-
-
-
         checkForPermission();
 
 
@@ -121,6 +117,7 @@ public class MainActivity extends AppCompatActivity
             ELearningApp.createDirectory();
             databaseHelper=new DatabaseHelper(this);
             databaseHelper.getWritableDatabase();
+            Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
             getUserData();
             new JsonParserTask().execute();
 
@@ -136,6 +133,7 @@ public class MainActivity extends AppCompatActivity
                 databaseHelper=new DatabaseHelper(this);
                 databaseHelper.getWritableDatabase();
                 getUserData();
+                Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
                 new JsonParserTask().execute();
             }else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

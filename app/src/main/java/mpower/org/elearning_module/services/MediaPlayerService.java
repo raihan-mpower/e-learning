@@ -30,9 +30,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static final String ACTION_NEXT = "com.sabbir.android.music.ACTION_NEXT";
     public static final String ACTION_STOP = "com.sabbir.android.music.ACTION_STOP";
 
-    private MediaSessionManager mediaSessionManager;
-    private MediaSessionCompat mediaSession;
-    private MediaControllerCompat.TransportControls transportControls;
+
 
     //AudioPlayer notification ID
     private static final int NOTIFICATION_ID = 101;
@@ -52,7 +50,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-
+        stopSelf();
     }
 
     @Override
@@ -62,7 +60,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        mediaPlayer.start();
+        playMedia();
     }
 
     @Override
@@ -98,7 +96,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
 
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopMedia();
+        stopSelf();
+    }
 
     public void playAudio(String name){
         if (name!=null && !name.endsWith(".mp3")) currentAudioPath+=".mp3";
@@ -109,7 +112,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
 
     private void muteAudio(){
-
+    if (mMediaPlayer!=null && mMediaPlayer.isPlaying()) {
+        mMediaPlayer.setVolume(0,0);
+         }
     }
 
     public void muteAudio(boolean flag){
@@ -118,6 +123,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
 
     private void unMuteAudio() {
+        if (mMediaPlayer!=null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.setVolume(1,1);
+        }
     }
 
     @Override

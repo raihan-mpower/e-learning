@@ -51,7 +51,7 @@ public class Question implements Serializable {
     }
 
     public enum QuestionType{
-        TRUE_FALSE,SELECT_ONE, NOT_DEFINED, MULTIPLE_SELECT,TRIVIA
+        TRUE_FALSE,SELECT_ONE, NOT_DEFINED, MULTIPLE_SELECT,TRIVIA,COURSE_CONTENT
     }
 
     public Question() {
@@ -172,6 +172,8 @@ public class Question implements Serializable {
                return QuestionType.MULTIPLE_SELECT;
            case "trivia":
                return QuestionType.TRIVIA;
+           case "course-content":
+               return QuestionType.COURSE_CONTENT;
            default:
                return QuestionType.NOT_DEFINED;
        }

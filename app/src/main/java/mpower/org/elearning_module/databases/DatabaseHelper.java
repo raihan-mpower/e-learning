@@ -81,7 +81,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     }
 
     private void createQuestionsTable(SQLiteDatabase db) {
-        String sql="CREATE TABLE "+QUESTION_TABLE+" ( "+COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT, "+QUESTION_TITLE+" TEXT, "+
+        String sql="CREATE TABLE "+QUESTION_TABLE+" ( "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT, "+QUESTION_TITLE+" TEXT, "+
                 QUESTION_DESCRIPTION+" TEXT, "+QUESTION_TYPE+" INTEGER, "+QUESTION_IMAGE_NAME+" TEXT, "+
                 QUESTION_ANSWER+" TEXT, "+QUESTION_AUDIO_NAME+" TEXT, "+QUESTION_RIGHT_ANSWER+" TEXT, "+QUESTION_TRUE_FALSE+" TEXT "+
                 ");";
@@ -180,15 +180,16 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
         for (Question question:course.getQuestions()){
             Log.d(TAG,question.toString());
-            insertQuestion(course.getId(),question);
+            insertQuestion(id,course.getId(),question);
         }
 
         SQLiteDatabase db=this.getWritableDatabase();
         db.insert(COURSE_TABLE,null,cv);
     }
 
-    private void insertQuestion(String id, Question question) {
+    private void insertQuestion(String moduleId,String id, Question question) {
         ContentValues cv =new ContentValues();
+        cv.put(MODULE_ID,moduleId);
         cv.put(COURSE_ID,id);
         cv.put(QUESTION_ID,question.getId());
         cv.put(QUESTION_TITLE,question.getTitleText());
@@ -252,7 +253,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 course.setId(cursor.getString(cursor.getColumnIndex(COURSE_ID)));
                 course.setTitle(cursor.getString(cursor.getColumnIndex(COURSE_TITLE)));
                 course.setIconImage(cursor.getString(cursor.getColumnIndex(COURSE_ICON_IMAGE_NAME)));
-                course.setQuestions(getAllQuestions(course.getId()));
+                course.setQuestions(getAllQuestions(id,course.getId()));
 
                 courses.add(course);
             }while (cursor.moveToNext());
@@ -262,8 +263,9 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         return null;
     }
 
-    private List<Question> getAllQuestions(String id) {
-        String sql="SELECT * FROM "+QUESTION_TABLE+" WHERE "+COURSE_ID+" = '"+id+"'";
+    private List<Question> getAllQuestions(String moduleId,String courseId) {
+        String sql="SELECT * FROM "+QUESTION_TABLE+" WHERE "+COURSE_ID+" = '"+courseId+"'"+" AND "
+                +MODULE_ID+" = '"+moduleId+"'";
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         ArrayList<Question> questions;
         if (cursor!=null && cursor.getCount()>0){

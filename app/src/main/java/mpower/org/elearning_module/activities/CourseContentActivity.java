@@ -41,18 +41,18 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
     private ViewPager mPager;
     private ArrayList<Question> questions;
     private TextView tvCounter;
-    LastPageListener lastPageListener;
     private MediaPlayer mediaPlayer;
     private MediaPlayerService mediaPlayerService;
     boolean isServiceBound;
+    private PagerAdapter mPagerAdapter;
 
-
+    public static final String Broadcast_PLAY_NEW_AUDIO = "com.sabbir.android.music.PlayNewAudio";
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
 
-    private PagerAdapter mPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,7 +208,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
                     case TRUE_FALSE:
                         fragment = TrueFalseFragment.newInstance(questions.get(position));
                         break;
-                    case SELECT_ONE:
+                    case COURSE_CONTENT:
                         fragment = CourseContentActivityFragment.newInstance(questions.get(position));
                         break;
                     case TRIVIA:
@@ -280,8 +280,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
     }
 
     public void stopMusicService(){
-        mediaPlayerService.stopSelf();
-        unbindService(mServiceConnection);
+        if (isServiceBound()) unbindService(mServiceConnection);
     }
 
 }

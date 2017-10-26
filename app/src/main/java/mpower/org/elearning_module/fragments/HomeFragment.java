@@ -33,18 +33,15 @@ import mpower.org.elearning_module.utils.UserType;
  * @author Sabbir ,sabbir@mpower-social.com
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener{
+public class HomeFragment extends Fragment{
     private ImageView mProfileImage;
     private static final int PICK_PHOTO_FOR_AVATAR =99 ;
-    @BindView(R.id.e_learn_btn)
-    Button btnELearn;
 
     @Override
     public void onResume() {
         super.onResume();
 
         getActivity().setTitle("Home");
-        //   ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Home");
 
     }
     @Override
@@ -58,19 +55,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         View view=inflater.inflate(R.layout.activity_settings,container,false);
         ButterKnife.bind(this,view);
 
-        //  optionSpinner = (Spinner) view.findViewById(R.id.spinner);
         Fragment fragment=ModuleFragment.newInstance(getUserType());
         getChildFragmentManager().beginTransaction().replace(R.id.module_fragment_container,fragment).commit();
 
-        mProfileImage=(ImageView) view.findViewById(R.id.profile_image);
+        mProfileImage= view.findViewById(R.id.profile_image);
 
-        btnELearn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment=ModuleFragment.newInstance(getUserType());
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
-            }
-        });
 
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +71,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         setProfileInfo();
         return view;
-        // return inflater.inflate(R.layout.activity_settings,container,false);
     }
 
     private void pickImageForProfilePic() {
@@ -107,16 +95,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         alertDialog.show();
     }
 
-    @Override
-    public void onClick(View v) {
-        FragmentManager fragmentManager;
-        FragmentTransaction fragmentTransaction;
-        switch (v.getId()){
-            case R.id.e_learn_btn:
-
-                break;
-        }
-    }
 
     private UserType getUserType() {
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getContext());

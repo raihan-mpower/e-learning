@@ -6,13 +6,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.interfaces.AudioPlayerListener;
 import mpower.org.elearning_module.interfaces.LastPageListener;
@@ -20,11 +23,14 @@ import mpower.org.elearning_module.model.Question;
 
 
 public class TrueFalseFragment extends BaseFragment implements LastPageListener {
+    @BindView(R.id.btn_audio)
+    ImageButton audiobutton;
     private Button trueButton,falseButton;
     private TextView tvQuestionText,tvRightAnswer;
     private Question question;
     boolean isLast;
-
+    boolean isPlaying=false;
+    private boolean isPaused;
     public TrueFalseFragment() {
         // Required empty public constructor
     }
@@ -80,9 +86,29 @@ public class TrueFalseFragment extends BaseFragment implements LastPageListener 
             }
         });
 
-        if (isLast){
-            Toast.makeText(getContext(), "IS on the last page", Toast.LENGTH_LONG).show();
-        }
+        audiobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TAG",question.getAudio());
+                if (isPlaying){
+                    if (isPaused){
+                        getAudioPlayerListener().resume();
+                        isPaused=false;
+                        isPlaying=true;
+                    }else {
+                        getAudioPlayerListener().pausePlayer();
+                        audiobutton.setImageResource(R.drawable.ic_action_muted_audio);
+                        isPlaying=false;
+                        isPaused=true;
+                    }
+                }else {
+                    getAudioPlayerListener().playAudio(question.getAudio());
+                    isPlaying=true;
+                    isPaused=false;
+                }
+
+            }
+        });
     }
 
     @Override

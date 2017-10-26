@@ -5,7 +5,7 @@
         "user_type":"DOT",
         "title": "module1",
         "id": "1",
-        "icon_image": "icon1.png",
+        "icon_image": "tube_1.png",
         "courses": [
           {
             "title": "course1",
@@ -15,7 +15,7 @@
               {
                 "title_text": "loren ipsum",
                 "id": "1",
-                "type": "",
+                "type": "course-content",
                 "image": "tuberculosis.jpg",
                 "audio": "sample_audio.mp3",
                 "description_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac lacus id nulla pretium vehicula quis at quam. Sed id faucibus ante. Praesent venenatis bibendum nisl at faucibus. Donec dictum nisi id sapien vestibulum, eu consequat metus iaculis. Nullam porttitor leo quis ornare lobortis. Aliquam tristique nulla non ullamcorper bibendum. Proin dui dui, dignissim vitae elementum id, dapibus et ante. Sed fringilla dui leo, ac bibendum mi pulvinar condimentum. Aenean bibendum, neque vitae consectetur iaculis, augue nisi ornare erat, sed euismod nunc lacus in orci.",
@@ -75,7 +75,128 @@
         "user_type":"DOT",
         "title": "module2",
         "id": "2",
-        "icon_image": "icon2.png",
+        "icon_image": "tube_2.png",
+        "courses": [
+          {
+            "title": "",
+            "id": "1",
+            "icon_image": "",
+            "questions": [
+              {
+                "title_text": "Some Title",
+                "id": "1",
+                "type": "true-false",
+                "image": "",
+                "audio": "sample_audio.mp3",
+                "description_text": "Come aboard to Hogwarts!!",
+                "answer": "Hell,yeahh",
+                "right_answer": "true",
+                "wrong_answer": "false",
+                "true_false": ""
+              },
+              {
+                "title_text": "Some random Trivia",
+                "id": "2",
+                "type": "trivia",
+                "image": "",
+                "audio": "sample_audio.mp3",
+                "description_text": "The cold war didn't happen on winter !!",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+              },
+              {
+                "title_text": "Some random Multiple choice",
+                "id": "3",
+                "type": "multiple-choice",
+                "image": "",
+                "audio": "sample_audio.mp3",
+                "description_text": "Attack ships on fire at the belt of Orion?",
+                "answer": "yes,maybe,no,idk",
+                "right_answer": "yes",
+                "wrong_answer": "",
+                "true_false": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "user_type":"DOT",
+        "title": "module 3",
+        "id": "3",
+        "icon_image": "tube_3.png",
+        "courses": [
+          {
+            "title": "course1",
+            "id": "1",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "loren ipsum",
+                "id": "1",
+                "type": "course-content",
+                "image": "tuberculosis.jpg",
+                "audio": "sample_audio.mp3",
+                "description_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac lacus id nulla pretium vehicula quis at quam. Sed id faucibus ante. Praesent venenatis bibendum nisl at faucibus. Donec dictum nisi id sapien vestibulum, eu consequat metus iaculis. Nullam porttitor leo quis ornare lobortis. Aliquam tristique nulla non ullamcorper bibendum. Proin dui dui, dignissim vitae elementum id, dapibus et ante. Sed fringilla dui leo, ac bibendum mi pulvinar condimentum. Aenean bibendum, neque vitae consectetur iaculis, augue nisi ornare erat, sed euismod nunc lacus in orci.",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+              },
+              {
+                "title_text": "Mauris lectus",
+                "id": "2",
+                "type": "true-false",
+                "image": "tuberculosis.jpg",
+                "audio": "sample_audio.mp3",
+                "description_text": "সু প্ত যক্ষ্মো সংক্রস্ম ত বেস্মি মেলে অেে বেস্মিলত যক্ষ্মোর িীবোুু ছড়োয় েো",
+                "answer": "",
+                "right_answer": "true",
+                "wrong_answer": "false",
+                "true_false": ""
+              }
+            ]
+          },
+          {
+            "title": "course1",
+            "id": "2",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "loren ipsum",
+                "id": "1",
+                "type": "",
+                "image": "tuberculosis.jpg",
+                "audio": "sample_audio.mp3",
+                "description_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac lacus id nulla pretium vehicula quis at quam. Sed id faucibus ante. Praesent venenatis bibendum nisl at faucibus. Donec dictum nisi id sapien vestibulum, eu consequat metus iaculis. Nullam porttitor leo quis ornare lobortis. Aliquam tristique nulla non ullamcorper bibendum. Proin dui dui, dignissim vitae elementum id, dapibus et ante. Sed fringilla dui leo, ac bibendum mi pulvinar condimentum. Aenean bibendum, neque vitae consectetur iaculis, augue nisi ornare erat, sed euismod nunc lacus in orci.",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+              },
+              {
+                "title_text": "Mauris lectus",
+                "id": "2",
+                "type": "true-false",
+                "image": "tuberculosis.jpg",
+                "audio": "sample_audio.mp3",
+                "description_text": "সু প্ত যক্ষ্মো সংক্রস্ম ত বেস্মি মেলে অেে বেস্মিলত যক্ষ্মোর িীবোুু ছড়োয় েো",
+                "answer": "",
+                "right_answer": "true",
+                "wrong_answer": "false",
+                "true_false": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "user_type":"DOT",
+        "title": "module4",
+        "id": "4",
+        "icon_image": "tube_4.png",
         "courses": [
           {
             "title": "",
