@@ -192,6 +192,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(MODULE_ID,moduleId);
         cv.put(COURSE_ID,id);
         cv.put(QUESTION_ID,question.getId());
+        cv.put(QUESTION_IMAGE_NAME,question.getImage());
         cv.put(QUESTION_TITLE,question.getTitleText());
         cv.put(QUESTION_ANSWER,question.getAnswer());
         cv.put(QUESTION_AUDIO_NAME,question.getAudio());

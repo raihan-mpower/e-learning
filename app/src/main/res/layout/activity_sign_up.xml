@@ -7,13 +7,13 @@
     tools:context="mpower.org.elearning_module.activities.SignUpActivity">
 
     <LinearLayout
-        android:padding="5dp"
+        android:padding="20dp"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
         android:orientation="vertical"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:padding="10dp"
             android:textSize="30sp"
             android:text="Sign Up"
             android:layout_width="match_parent"
@@ -23,7 +23,9 @@
             android:text="Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <EditText
+            android:id="@+id/et_name"
             android:hint="Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -39,12 +41,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
+                android:id="@+id/et_dot_id"
                 android:hint="DOT ID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
+            android:padding="5dp"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -60,11 +64,13 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/et_phone"
             android:inputType="phone"
             android:hint="Mobile No."
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <LinearLayout
+            android:padding="5dp"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -80,6 +86,7 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/et_password"
             android:hint="Password"
             android:inputType="textPassword"
             android:layout_width="match_parent"

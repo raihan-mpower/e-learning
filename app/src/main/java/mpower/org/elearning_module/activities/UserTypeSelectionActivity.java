@@ -36,6 +36,7 @@ public class UserTypeSelectionActivity extends AppCompatActivity {
     }
 
     public void dotSignUp(View view) {
+        isDotProvider=true;
         Intent intent=new Intent(this,SignUpActivity.class);
         intent.putExtra(AppConstants.USER_TYPE,isDotProvider);
         startActivity(intent);
@@ -43,6 +44,7 @@ public class UserTypeSelectionActivity extends AppCompatActivity {
     }
 
     public void otherSignUp(View view) {
+        isDotProvider=false;
         Intent intent=new Intent(this,SignUpActivity.class);
         intent.putExtra(AppConstants.USER_TYPE,isDotProvider);
         startActivity(intent);

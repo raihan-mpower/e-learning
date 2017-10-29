@@ -34,7 +34,9 @@ public class Utils {
             stream = context.getAssets().open(path);
             return Drawable.createFromStream(stream, null);
         }
-        catch (Exception ignored) {} finally
+        catch (Exception ignored) {
+
+        } finally
         {
             try
             {
@@ -42,7 +44,9 @@ public class Utils {
                 {
                     stream.close();
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+
+            }
         }
         return null;
     }

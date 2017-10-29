@@ -94,7 +94,7 @@ public class MultipleChoiceFragment extends BaseFragment {
                         isPlaying=true;
                     }else {
                         getAudioPlayerListener().pausePlayer();
-                        audioButton.setImageResource(R.drawable.ic_action_muted_audio);
+                        audioButton.setImageResource(R.drawable.mute_small);
                         isPlaying=false;
                         isPaused=true;
                     }

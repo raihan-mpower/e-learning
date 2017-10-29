@@ -2,6 +2,7 @@ package mpower.org.elearning_module.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,7 +26,7 @@ import mpower.org.elearning_module.model.Question;
 public class TrueFalseFragment extends BaseFragment implements LastPageListener {
     @BindView(R.id.btn_audio)
     ImageButton audiobutton;
-    private Button trueButton,falseButton;
+    private ImageButton trueButton,falseButton;
     private TextView tvQuestionText,tvRightAnswer;
     private Question question;
     boolean isLast;
@@ -59,6 +60,8 @@ public class TrueFalseFragment extends BaseFragment implements LastPageListener 
         question = (Question) getArguments().getSerializable("question");
 
         if (question != null) {
+            Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
+            tvQuestionText.setTypeface(typeface);
             tvQuestionText.setText(question.getDescriptionText());
         }
 
@@ -97,7 +100,7 @@ public class TrueFalseFragment extends BaseFragment implements LastPageListener 
                         isPlaying=true;
                     }else {
                         getAudioPlayerListener().pausePlayer();
-                        audiobutton.setImageResource(R.drawable.ic_action_muted_audio);
+                        audiobutton.setImageResource(R.drawable.mute_small);
                         isPlaying=false;
                         isPaused=true;
                     }

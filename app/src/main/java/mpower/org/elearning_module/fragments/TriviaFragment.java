@@ -1,16 +1,19 @@
 package mpower.org.elearning_module.fragments;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.model.Question;
+import mpower.org.elearning_module.utils.Utils;
 
 
 public class TriviaFragment extends BaseFragment {
@@ -19,7 +22,8 @@ public class TriviaFragment extends BaseFragment {
     Question question;
     @BindView(R.id.audio)
     ImageButton audiobutton;
-
+    @BindView(R.id.content_image)
+    ImageView imageView;
     boolean isPlaying=false;
     private boolean isPaused;
 
@@ -53,7 +57,14 @@ public class TriviaFragment extends BaseFragment {
     @Override
     protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         if (question!=null){
+            Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
+            tvTrivia.setTypeface(typeface);
             tvTrivia.setText(question.getDescriptionText());
+
+            String imageName=question.getImage();
+            if (imageName!=null && !imageName.equalsIgnoreCase("")){
+                imageView.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),imageName));
+            }
         }
 
         audiobutton.setOnClickListener(new View.OnClickListener() {
@@ -61,20 +72,12 @@ public class TriviaFragment extends BaseFragment {
             public void onClick(View view) {
                 Log.d("TAG",question.getAudio());
                 if (isPlaying){
-                    if (isPaused){
-                        getAudioPlayerListener().resume();
-                        isPaused=false;
-                        isPlaying=true;
-                    }else {
-                        getAudioPlayerListener().pausePlayer();
-                        audiobutton.setImageResource(R.drawable.ic_action_muted_audio);
+                    getAudioPlayerListener().pausePlayer();
+                        audiobutton.setImageResource(R.drawable.mute_small);
                         isPlaying=false;
-                        isPaused=true;
-                    }
                 }else {
                     getAudioPlayerListener().playAudio(question.getAudio());
                     isPlaying=true;
-                    isPaused=false;
                 }
 
             }

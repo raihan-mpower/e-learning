@@ -251,6 +251,7 @@ public class LogInActivity extends AppCompatActivity {
     public void gotoSignUp(View view) {
         Intent intent=new Intent(this,UserTypeSelectionActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void gotoForgotPassword(View view) {

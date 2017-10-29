@@ -60,7 +60,7 @@ public class CourseContentActivityFragment extends BaseFragment {
                         isPlaying=true;
                     }else {
                         getAudioPlayerListener().pausePlayer();
-                        audiobutton.setImageResource(R.drawable.ic_action_muted_audio);
+                        audiobutton.setImageResource(R.drawable.mute_small);
                         isPlaying=false;
                         isPaused=true;
                     }
