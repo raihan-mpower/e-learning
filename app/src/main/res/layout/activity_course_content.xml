@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/prev"
-        android:src="@android:drawable/ic_media_play"
+        android:src="@drawable/ic_action_name"
         android:layout_gravity="bottom|start"
         />
     <ImageButton
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/next"
-        android:src="@android:drawable/ic_media_play"
+        android:src="@drawable/ic_action_next_page"
         android:layout_gravity="bottom|end"
         />
 

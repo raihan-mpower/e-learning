@@ -158,17 +158,7 @@ public class LogInActivity extends AppCompatActivity {
             return;
         }
 
-        int selectedRadioId=userTypeGroup.getCheckedRadioButtonId();
-        if (selectedRadioId!=-1){
-            RadioButton radioButton= findViewById(selectedRadioId);
-            if (radioButton!=null){
-                userType=radioButton.getText().toString();
-                //Toast.makeText(this,"UserType "+userType,Toast.LENGTH_SHORT).show();
-            }
-        }else {
-            Toast.makeText(this,"Please Select User Type",Toast.LENGTH_LONG).show();
-            return;
-        }
+
 
         try {
           //  user.checkLogin(username, password, this);
@@ -196,7 +186,7 @@ public class LogInActivity extends AppCompatActivity {
     private void startNextActivity() {
 
         Intent i = new Intent(this, MainActivity.class);
-        i.putExtra(AppConstants.USER_TYPE,getUserType());
+        i.putExtra(AppConstants.USER_TYPE,UserType.DOT);
         startActivity(i);
         finish();
     }
@@ -208,7 +198,7 @@ public class LogInActivity extends AppCompatActivity {
             case "Other":
                 return UserType.OTHER;
             default:
-              return  UserType.PUBLIC;
+              return  UserType.DOT;
         }
     }
 
@@ -256,6 +246,14 @@ public class LogInActivity extends AppCompatActivity {
 
     public void checkLoginOnline() {
         new LoginTask().execute();
+    }
+
+    public void gotoSignUp(View view) {
+        Intent intent=new Intent(this,UserTypeSelectionActivity.class);
+        startActivity(intent);
+    }
+
+    public void gotoForgotPassword(View view) {
     }
 
     /**
