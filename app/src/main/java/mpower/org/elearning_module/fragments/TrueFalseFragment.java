@@ -23,7 +23,7 @@ import mpower.org.elearning_module.interfaces.LastPageListener;
 import mpower.org.elearning_module.model.Question;
 
 
-public class TrueFalseFragment extends BaseFragment implements LastPageListener {
+public class TrueFalseFragment extends BaseFragment {
     @BindView(R.id.btn_audio)
     ImageButton audiobutton;
     private ImageButton trueButton,falseButton;
@@ -133,9 +133,4 @@ public class TrueFalseFragment extends BaseFragment implements LastPageListener 
 
     }
 
-    @Override
-    public void isLastPage(boolean isLastPage) {
-
-
-    }
 }

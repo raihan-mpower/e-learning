@@ -60,7 +60,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
         if (getIntent().getExtras()!=null){
             questions= (ArrayList<Question>) getIntent().getExtras().get(AppConstants.DATA);
         }
-
+        startMusicSercive();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,23 +71,22 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
 
         setTitle(CURRENT_COURSE_TITLE);
 
-        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
-               /* if (position==questions.size()-1){
-                    isLast=true;
+                if (position==questions.size()){
+                    tvCounter.setText("Last Page");
+                }else {
+                    tvCounter.setText(""+(position+1)+" of "+questions.size());
                 }
-                if (isLast) lastPageListener.isLastPage(true);*/
-              /* if (position==questions.size()-1){
-                   setTitle(questions.get(position-1).getTitleText());
-               }else {
-                   setTitle(questions.get(position).getTitleText());
-               }*/
-               tvCounter.setText(""+(position+1)+" of "+questions.size());
+
+               if (getMediaPlayerService().isPlaying()){
+                   getMediaPlayerService().stopMedia();
+               }
             }
 
             @Override
@@ -107,7 +106,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
             startService(playerIntet);
             bindService(playerIntet,mServiceConnection,BIND_AUTO_CREATE);
         }else {
-
+            getMediaPlayerService().playAudio(media);
         }
     }
 
@@ -138,23 +137,6 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
 
     @Override
     public void playAudio(String name) {
-        /*mediaPlayer=null;
-        if (name==null || name.equalsIgnoreCase("")){
-            return;
-        }else {
-            if (!name.endsWith(".mp3")) name+=".mp3";
-            name= ELearningApp.IMAGES_FOLDER_NAME+ File.separator+name;
-        }
-        Helper.MakeLog(this.getClass(),name);
-        mediaPlayer=new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(name);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
         playMusic(name);
     }
 
@@ -185,15 +167,6 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter{
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-//            Toast.makeText(CourseContentActivity.this,""+position,Toast.LENGTH_SHORT).show();
-//            tvCounter.setText(""+position+" of "+questions.size());
-            return super.getPageTitle(position);
-        }
-
-
-
 
         ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -202,7 +175,6 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
         @Override
         public Fragment getItem(int position) {
 
-            //slick bit of code :D ,sabbir
             Fragment fragment;
 
             if (position==questions.size()){
@@ -232,23 +204,13 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
 
 
             }
-           /* if (isLast) {
-                Bundle bundle=new Bundle();
-                bundle.putBoolean("isLast",isLast);
-                fragment.setArguments(bundle);
-
-            }*/
-
-           /* Log.d("TAG",""+isLast);
-            if (fragment!=null && fragment instanceof LastPageListener){
-                lastPageListener= (LastPageListener) fragment;
-            }*/
 
             CurrentUserProgress.getInstance().setProgressQuestion(questions.get(position).getId());
 
             return fragment;
         }
         //plus one is for detecting the last fragment
+
         @Override
         public int getCount() {
             return questions.size()+1;

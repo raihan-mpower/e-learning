@@ -26,11 +26,6 @@ import mpower.org.elearning_module.utils.AppConstants;
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnInfoListener {
 
 
-
-
-    //AudioPlayer notification ID
-    private static final int NOTIFICATION_ID = 101;
-
     private MediaPlayer mMediaPlayer;
     private AudioManager mAudioManager;
     //path to the audio file
@@ -91,6 +86,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     }
 
+    public boolean isPlaying(){
+        return mMediaPlayer != null && mMediaPlayer.isPlaying();
+    }
+
 
     @Override
     public void onDestroy() {
@@ -128,13 +127,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public int onStartCommand(Intent intent, int flags, int startId) {
 
             //An audio file is passed to the service through putExtra();
-        String name=null;
+        String name;
         if (intent.getExtras()!=null){
             name=intent.getExtras().getString(AppConstants.AUDIO_FILE_NAME);
+            playAudio(name);
         }
 
         //  mediaFile = intent.getExtras().getString("media");
-        playAudio(name);
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -180,6 +180,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         if (mMediaPlayer == null) return;
         if (mMediaPlayer.isPlaying()) {
             mMediaPlayer.stop();
+            mMediaPlayer.reset();
         }
     }
 

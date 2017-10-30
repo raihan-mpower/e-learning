@@ -97,8 +97,4 @@ public class TriviaFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public void isLastPage(boolean isLastPage) {
-
-    }
 }

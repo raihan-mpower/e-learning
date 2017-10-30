@@ -34,6 +34,7 @@ import mpower.org.elearning_module.utils.UserCollection;
 
 public class CourseActivity extends AppCompatActivity {
 
+    public static String CURRENT_MODULE_TITLE="";
     private GridView gridView;
     private ArrayList<Course> courses;
     public static String CURRENT_MODULE_ID="";
@@ -53,6 +54,7 @@ public class CourseActivity extends AppCompatActivity {
         if (getIntent().getExtras()!=null){
             courses= (ArrayList<Course>) getIntent().getExtras().get(AppConstants.DATA);
         }
+        setTitle(CURRENT_MODULE_TITLE);
 
         for (Course course:courses){
             if (course.getId().equalsIgnoreCase(AppConstants.USER_PROGRESS_COURSE_ID)){

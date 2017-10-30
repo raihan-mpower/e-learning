@@ -13,7 +13,6 @@
 
 
     <LinearLayout
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
@@ -21,7 +20,6 @@
         android:id="@+id/container">
 
         <LinearLayout
-            android:padding="10dp"
             android:id="@+id/linear_image_container"
             android:orientation="horizontal"
             android:layout_width="0dp"
@@ -32,7 +30,7 @@
 
             <ImageView
                 android:id="@+id/content_image"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
@@ -48,7 +46,9 @@
             >
 
             <TextView
-                android:textSize="22sp"
+                android:layout_margin="10dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_gravity="start"
                 android:textColor="@color/colorPrimary"
                 android:text="TextView"
                 android:layout_width="match_parent"

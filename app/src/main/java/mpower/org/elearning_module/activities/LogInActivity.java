@@ -43,6 +43,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -355,6 +358,97 @@ public class LogInActivity extends AppCompatActivity {
 
                 UserCollection.getInstance().setLoginResult(true, onlineLd, null);
             } else {
+                if (loginStatus != 401) {
+                    // There was an error checking login online, but we are not
+                    // explicitly denied, let's proceed with offline login if
+                    // possible
+
+                    try {
+                        boolean offlineUserDataAvailable = UserCollection.getInstance().offlineUserDataAvailable();
+
+                        if (offlineUserDataAvailable) {
+                            if (UserCollection.getInstance().checkOfflineLogin(username, password)) {
+                                UserDataCollection offlineLd = UserCollection.getInstance().extractOfflineLoginData();
+                                UserCollection.getInstance().setLoginResult(true, offlineLd, null);
+                            } else {
+                                // Offline login username/password mismatch
+                                UserCollection.getInstance().setLoginResult(false, null, UserCollection.LOGOUT_MESSAGE_ID_MISSMATCH);
+                            }
+                        } else {
+                            // Offline login data not available
+                            UserCollection.getInstance().setLoginResult(false, null, UserCollection.LOGOUT_MESSAGE_NETWORK_SERVER);
+                        }
+                    } catch (Exception e) {
+                        UserCollection.getInstance().setLoginResult(false, null, UserCollection.LOGOUT_MESSAGE_INTERNAL_ERROR);
+                    }
+
+                } else {
+                    // Login failed for sure, server returned 401
+                    UserCollection.getInstance().setLoginResult(false, null, UserCollection.LOGOUT_MESSAGE_ID_MISSMATCH);
+                }
+            }
+        }
+    }
+
+    private class LoginAsyncTask extends AsyncTask<Void,Void,Void>{
+        private ProgressDialog progressDialog;
+        private String loginUrl;
+        private int timeOut;
+        int loginStatus;
+        private UserDataCollection onlineUserData;
+        private void initPrefs() {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LogInActivity.this);
+            loginUrl = prefs.getString(AppConstants.KEY_SERVER_URL, getString(R.string.default_server_url));
+            if(!loginUrl.endsWith("/")) loginUrl += "/";
+            loginUrl += username;
+            loginUrl += AppConstants.URL_PART_LOGIN;
+            loginUrl += "?";
+            List<NameValuePair> params = new LinkedList<NameValuePair>();
+            if(UserCollection.getInstance().getUserData().getUsername() != null)
+                params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("password", password));
+            String paramString = URLEncodedUtils.format(params, "utf-8");
+            loginUrl+= paramString;
+            Log.d(this.getClass().getSimpleName(), "Login URL = " + loginUrl);
+            //TODO for testing Sabbir http://192.168.19.87:8001/accounts/login/
+            timeOut = AppConstants.CONNECTION_TIMEOUT;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(LogInActivity.this);
+            progressDialog.setTitle("Logging In");
+            progressDialog.setMessage("Loading....Please Wait");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            initPrefs();
+            try {
+                login();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private void login() throws Exception {
+            URL url=new URL(loginUrl);
+            HttpURLConnection httpURLConnection= (HttpURLConnection) url.openConnection();
+            loginStatus=httpURLConnection.getResponseCode();
+
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (loginStatus==200){
+                onlineUserData=new UserDataCollection();
+                onlineUserData.setUsername(username);
+                onlineUserData.setPassword(password);
+                UserCollection.getInstance().setLoginResult(true, onlineUserData, null);
+            }else {
                 if (loginStatus != 401) {
                     // There was an error checking login online, but we are not
                     // explicitly denied, let's proceed with offline login if

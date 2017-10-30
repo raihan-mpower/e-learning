@@ -2,9 +2,11 @@ package mpower.org.elearning_module.application;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.res.Configuration;
 import android.os.Environment;
 
 import java.io.File;
+import java.util.Locale;
 
 import mpower.org.elearning_module.R;
 
@@ -25,7 +27,7 @@ public class ELearningApp extends Application {
 
     }
 
-   @SuppressLint("StringFormatInvalid")
+    @SuppressLint("StringFormatInvalid")
    static synchronized private void createDirs() throws Exception {
        String cardstatus = Environment.getExternalStorageState();
        if (!cardstatus.equals(Environment.MEDIA_MOUNTED)) {

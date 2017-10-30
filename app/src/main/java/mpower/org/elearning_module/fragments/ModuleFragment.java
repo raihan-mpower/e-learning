@@ -192,6 +192,7 @@ public class ModuleFragment extends Fragment {
                     return;
 
                 }
+                CourseActivity.CURRENT_MODULE_TITLE=moduleArrayList.get(i).getTitle();
                 Intent intent = new Intent(getActivity(),CourseActivity.class);
                 sCURRENT_MODULE_ID=moduleArrayList.get(i).getId();
                 CourseActivity.CURRENT_MODULE_ID=moduleArrayList.get(i).getId();

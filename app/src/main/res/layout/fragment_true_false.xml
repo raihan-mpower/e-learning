@@ -18,7 +18,7 @@
         <TextView
             android:background="@color/_background_color"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:padding="10dp"
             android:textColor="@color/colorPrimary"
             android:text="@string/true_false_factory_text"
@@ -31,7 +31,6 @@
         android:id="@+id/content_true_false"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/true_false_factory"
-        android:padding="10dp"
         android:gravity="center"
         android:layout_gravity="center"
         android:orientation="horizontal"
@@ -40,13 +39,13 @@
 
         <TextView
             android:textColor="@color/colorPrimary"
-            android:textSize="25sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/tv_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment" />
         <ImageButton
-            android:padding="5dp"
+            android:layout_margin="5dp"
             android:textColor="@color/white_background"
             android:background="@drawable/icon_check"
             android:text="True"
@@ -54,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageButton
-            android:padding="5dp"
+            android:layout_margin="5dp"
             android:textColor="@color/white_background"
             android:background="@drawable/icon_delete"
             android:text="False"

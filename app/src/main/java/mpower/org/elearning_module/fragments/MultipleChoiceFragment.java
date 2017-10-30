@@ -114,10 +114,4 @@ public class MultipleChoiceFragment extends BaseFragment {
         super.onDestroy();
     }
 
-    @Override
-    public void isLastPage(boolean isLastPage) {
-        //showToast("You are in Last Page");
-       // getFragmentManager().beginTransaction().replace(R.id.fragment_container,new CourseEndFragment()).commit();
-        //showDialog();
-    }
 }

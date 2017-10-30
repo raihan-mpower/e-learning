@@ -24,10 +24,6 @@ public class CourseEndFragment extends BaseFragment {
     ProgressDialog progressDialog;
     DatabaseHelper databaseHelper;
 
-    @Override
-    public void isLastPage(boolean isLastPage) {
-
-    }
 
     @Override
     protected int getFragmentLayout() {

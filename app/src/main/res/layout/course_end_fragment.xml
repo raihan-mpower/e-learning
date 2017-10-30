@@ -9,7 +9,7 @@
     android:padding="20dp"
     android:gravity="center"
     android:layout_gravity="center"
-    android:textSize="25sp"
+    android:textAppearance="?android:attr/textAppearanceLarge"
     android:text="You completed the course.\nNow appear in the exam."
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />

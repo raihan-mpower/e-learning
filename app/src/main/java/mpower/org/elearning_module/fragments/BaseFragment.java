@@ -24,7 +24,7 @@ import mpower.org.elearning_module.interfaces.LastPageListener;
  * Created by sabbir on 10/22/17.
  */
 
-public abstract class BaseFragment extends Fragment implements LastPageListener {
+public abstract class BaseFragment extends Fragment {
     AudioPlayerListener audioPlayerListener;
     protected Context mContext;
     protected LayoutInflater mInflater;

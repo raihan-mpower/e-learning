@@ -48,16 +48,16 @@ public class CourseContentActivityFragment extends BaseFragment {
     @Override
     protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         question = (Question) getArguments().getSerializable("question");
-        TextView description = (TextView)view.findViewById(R.id.content_description);
+        TextView description = view.findViewById(R.id.content_description);
         description.setText(question.getDescriptionText());
-        ImageView contentImage = (ImageView)view.findViewById(R.id.content_image);
+        ImageView contentImage = view.findViewById(R.id.content_image);
         String imageName=question.getImage();
         if (imageName!=null && !imageName.isEmpty()){
-
+            contentImage.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),"images/"+question.getImage()));
         }else {
             imageLayout.setVisibility(View.GONE);
         }
-        contentImage.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),"images/"+question.getImage()));
+
         audiobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,10 +81,5 @@ public class CourseContentActivityFragment extends BaseFragment {
 
             }
         });
-    }
-
-    @Override
-    public void isLastPage(boolean isLastPage) {
-
     }
 }
