@@ -38,6 +38,7 @@ import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.Helper;
 
 public class CourseContentActivity extends BaseActivity implements AudioPlayerListener {
+    public static String CURRENT_COURSE_TITLE = "CourseName";
     private ViewPager mPager;
     private ArrayList<Question> questions;
     private TextView tvCounter;
@@ -68,7 +69,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-
+        setTitle(CURRENT_COURSE_TITLE);
 
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -81,7 +82,12 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
                     isLast=true;
                 }
                 if (isLast) lastPageListener.isLastPage(true);*/
-                tvCounter.setText(""+(position+1)+" of "+questions.size());
+              /* if (position==questions.size()-1){
+                   setTitle(questions.get(position-1).getTitleText());
+               }else {
+                   setTitle(questions.get(position).getTitleText());
+               }*/
+               tvCounter.setText(""+(position+1)+" of "+questions.size());
             }
 
             @Override

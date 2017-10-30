@@ -7,22 +7,40 @@
     android:gravity="center"
     tools:context="mpower.org.elearning_module.fragments.TrueFalseFragment">
 
+    <LinearLayout
+        android:padding="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/true_false_factory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:background="@color/_background_color"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/true_false_factory_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/content_true_false"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/true_false_factory"
         android:padding="10dp"
         android:gravity="center"
         android:layout_gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
-            android:text="GKwU †QvU cixÿv n‡q hvK!
-wb‡P †`qv e³e¨wU mZ¨ n‡j wUK wPý Pvcyb, wg_¨v n‡j µm wPý Pvcyb|"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp"
             android:id="@+id/tv_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,27 +61,35 @@ wb‡P †`qv e³e¨wU mZ¨ n‡j wUK wPý Pvcyb, wg_¨v n‡j µm wPý Pvcyb|"
             android:id="@+id/btn_false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_right_answer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageButton
-                android:src="@drawable/audio"
-                android:id="@+id/btn_audio"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
 
-            <ImageButton
-                android:id="@+id/btn_audio_play"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/play" />
-        </RelativeLayout>
+
     </LinearLayout>
+    <TextView
+        android:layout_below="@id/content_true_false"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="30dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/tv_right_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:src="@drawable/audio"
+            android:id="@+id/btn_audio"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <ImageButton
+            android:id="@+id/btn_audio_play"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/play" />
+    </RelativeLayout>
 </RelativeLayout>

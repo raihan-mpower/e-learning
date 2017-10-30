@@ -60,8 +60,8 @@ public class TrueFalseFragment extends BaseFragment implements LastPageListener 
         question = (Question) getArguments().getSerializable("question");
 
         if (question != null) {
-            Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
-            tvQuestionText.setTypeface(typeface);
+            /*Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
+            tvQuestionText.setTypeface(typeface);*/
             tvQuestionText.setText(question.getDescriptionText());
         }
 
@@ -70,9 +70,9 @@ public class TrueFalseFragment extends BaseFragment implements LastPageListener 
             @Override
             public void onClick(View v) {
                 if (question.getRightAnswer().equalsIgnoreCase("true")){
-                    tvRightAnswer.setText("Correct Answer!! "+question.getRightAnswer());
+                    tvRightAnswer.setText("Correct Answer!!"+question.getAnswer());
                 }else {
-                    tvRightAnswer.setText("Wrong Answer!! "+question.getRightAnswer());
+                    tvRightAnswer.setText("Wrong Answer!! "+question.getAnswer());
                 }
             }
         });
@@ -82,9 +82,9 @@ public class TrueFalseFragment extends BaseFragment implements LastPageListener 
             @Override
             public void onClick(View v) {
                 if (question.getRightAnswer().equalsIgnoreCase("false")){
-                    tvRightAnswer.setText("Correct Answer!! "+question.getRightAnswer());
+                    tvRightAnswer.setText("Correct Answer!! "+question.getAnswer());
                 }else {
-                    tvRightAnswer.setText("Wrong Answer!! "+question.getRightAnswer());
+                    tvRightAnswer.setText("Wrong Answer!! "+question.getAnswer());
                 }
             }
         });
@@ -96,14 +96,14 @@ public class TrueFalseFragment extends BaseFragment implements LastPageListener 
                 if (isPlaying){
                     if (isPaused){
                         getAudioPlayerListener().resume();
+                        audiobutton.setImageResource(R.drawable.audio);
                         isPaused=false;
-                        isPlaying=true;
                     }else {
                         getAudioPlayerListener().pausePlayer();
                         audiobutton.setImageResource(R.drawable.mute_small);
-                        isPlaying=false;
                         isPaused=true;
                     }
+
                 }else {
                     getAudioPlayerListener().playAudio(question.getAudio());
                     isPlaying=true;

@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mpower.org.elearning_module.view.SquareGrid xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<mpower.org.elearning_module.view.SquareCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:background="#f2f2f2"
-    android:layout_margin="20dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="9dp"
+    app:cardElevation="10dp"
+    android:layout_height="match_parent">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
+            android:adjustViewBounds="true"
             android:layout_gravity="center"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:srcCompat="@drawable/tube_1"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:id="@+id/icon" />
 
         <ImageView
@@ -41,5 +39,4 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
     </FrameLayout>
-
-</mpower.org.elearning_module.view.SquareGrid>
+</mpower.org.elearning_module.view.SquareCardView>

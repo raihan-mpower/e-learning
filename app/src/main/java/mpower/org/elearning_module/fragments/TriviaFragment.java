@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -24,6 +25,8 @@ public class TriviaFragment extends BaseFragment {
     ImageButton audiobutton;
     @BindView(R.id.content_image)
     ImageView imageView;
+    @BindView(R.id.linear_image_container)
+    LinearLayout imageLayout;
     boolean isPlaying=false;
     private boolean isPaused;
 
@@ -57,13 +60,15 @@ public class TriviaFragment extends BaseFragment {
     @Override
     protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         if (question!=null){
-            Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
-            tvTrivia.setTypeface(typeface);
+            /*Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
+            tvTrivia.setTypeface(typeface);*/
             tvTrivia.setText(question.getDescriptionText());
 
             String imageName=question.getImage();
             if (imageName!=null && !imageName.equalsIgnoreCase("")){
                 imageView.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),imageName));
+            }else {
+                imageLayout.setVisibility(View.GONE);
             }
         }
 
@@ -72,12 +77,20 @@ public class TriviaFragment extends BaseFragment {
             public void onClick(View view) {
                 Log.d("TAG",question.getAudio());
                 if (isPlaying){
-                    getAudioPlayerListener().pausePlayer();
+                    if (isPaused){
+                        getAudioPlayerListener().resume();
+                        audiobutton.setImageResource(R.drawable.audio);
+                        isPaused=false;
+                    }else {
+                        getAudioPlayerListener().pausePlayer();
                         audiobutton.setImageResource(R.drawable.mute_small);
-                        isPlaying=false;
+                        isPaused=true;
+                    }
+
                 }else {
                     getAudioPlayerListener().playAudio(question.getAudio());
                     isPlaying=true;
+                    isPaused=false;
                 }
 
             }

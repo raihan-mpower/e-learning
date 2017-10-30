@@ -29,9 +29,6 @@ public class UserTypeSelectionActivity extends AppCompatActivity {
                 userType=radioButton.getText().toString();
                 //Toast.makeText(this,"UserType "+userType,Toast.LENGTH_SHORT).show();
             }
-        }else {
-            Toast.makeText(this,"Please Select User Type",Toast.LENGTH_LONG).show();
-            return;
         }
     }
 

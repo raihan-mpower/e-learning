@@ -35,21 +35,20 @@
         <activity
             android:name=".activities.LogInActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+        <service android:name=".services.MediaPlayerService" />
+
+        <activity android:name=".activities.UserTypeSelectionActivity" />
+        <activity android:name=".activities.SignUpActivity" />
+        <activity android:name=".activities.ForgotPasswordActivity"></activity>
+        <activity android:name=".activities.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <service android:name=".services.MediaPlayerService" />
-
-        <activity
-            android:name=".activities.UserTypeSelectionActivity" />
-        <activity
-            android:name=".activities.SignUpActivity" />
-        <activity
-            android:name=".activities.ForgotPasswordActivity">
         </activity>
     </application>
 

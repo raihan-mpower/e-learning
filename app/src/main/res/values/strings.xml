@@ -15,4 +15,5 @@
     <string name="ok">Ok</string>
     <string name="sdcard_unmounted">SDCard not available</string>
     <string name="complete_other_courses">Complete other courses first</string>
+    <string name="true_false_factory_text">একটি ছোট পরীক্ষা হয়ে যাক! \n নিচে দেয়া বক্তব্যটি সত্য হলে টিক চিহ্ন চাপুন, মিথ্যা হলে ক্রস চিহ্ন চাপুন।</string>
 </resources>

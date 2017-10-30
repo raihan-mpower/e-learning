@@ -1,6 +1,7 @@
 package mpower.org.elearning_module;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -18,10 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import mpower.org.elearning_module.activities.LogInActivity;
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.fragments.HomeFragment;
@@ -81,10 +86,24 @@ public class MainActivity extends AppCompatActivity
 
         checkForPermission();
 
+       TextView mTvLanguage = (TextView) findViewById(R.id.tv_lang);
+
+        Button logOutButton = (Button) findViewById(R.id.btn_logout);
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(),"LogOut Button Clicked2",Toast.LENGTH_SHORT).show();
+                logOutButtonClicked();
+            }
+        });
 
 
+    }
 
-
+    private void logOutButtonClicked() {
+        Intent logoutIntent = new Intent(this, LogInActivity.class);
+        startActivity(logoutIntent);
+        finish();
     }
 
     private void getUserData(){

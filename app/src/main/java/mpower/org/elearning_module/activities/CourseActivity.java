@@ -110,6 +110,7 @@ public class CourseActivity extends AppCompatActivity {
                     return;
                 }
                 Intent intent = new Intent(CourseActivity.this,CourseContentActivity.class);
+                CourseContentActivity.CURRENT_COURSE_TITLE=courses.get(position).getTitle();
                 intent.putExtra(AppConstants.DATA,(ArrayList<Question>)courses.get(position).getQuestions());
                 CurrentUserProgress.getInstance().setProgressCourse(courses.get(position).getId());
                // CourseContentActivity.questions = (ArrayList<Question>) courses.get(position).getQuestions();

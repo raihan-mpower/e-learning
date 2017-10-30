@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -22,6 +23,8 @@ import mpower.org.elearning_module.utils.Utils;
 public class CourseContentActivityFragment extends BaseFragment {
     @BindView(R.id.audio)
     ImageButton audiobutton;
+    @BindView(R.id.linear_image_container)
+    LinearLayout imageLayout;
     private Question question;
     boolean isPlaying=false;
     private boolean isPaused;
@@ -48,6 +51,12 @@ public class CourseContentActivityFragment extends BaseFragment {
         TextView description = (TextView)view.findViewById(R.id.content_description);
         description.setText(question.getDescriptionText());
         ImageView contentImage = (ImageView)view.findViewById(R.id.content_image);
+        String imageName=question.getImage();
+        if (imageName!=null && !imageName.isEmpty()){
+
+        }else {
+            imageLayout.setVisibility(View.GONE);
+        }
         contentImage.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),"images/"+question.getImage()));
         audiobutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,14 +65,14 @@ public class CourseContentActivityFragment extends BaseFragment {
                 if (isPlaying){
                     if (isPaused){
                         getAudioPlayerListener().resume();
+                        audiobutton.setImageResource(R.drawable.audio);
                         isPaused=false;
-                        isPlaying=true;
                     }else {
                         getAudioPlayerListener().pausePlayer();
                         audiobutton.setImageResource(R.drawable.mute_small);
-                        isPlaying=false;
                         isPaused=true;
                     }
+
                 }else {
                     getAudioPlayerListener().playAudio(question.getAudio());
                     isPlaying=true;

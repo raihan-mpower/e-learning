@@ -24,11 +24,7 @@ import mpower.org.elearning_module.utils.AppConstants;
  */
 
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnInfoListener {
-    public static final String ACTION_PLAY = "com.sabbir.android.music.ACTION_PLAY";
-    public static final String ACTION_PAUSE = "com.sabbir.android.music.ACTION_PAUSE";
-    public static final String ACTION_PREVIOUS = "com.sabbir.android.music.ACTION_PREVIOUS";
-    public static final String ACTION_NEXT = "com.sabbir.android.music.ACTION_NEXT";
-    public static final String ACTION_STOP = "com.sabbir.android.music.ACTION_STOP";
+
 
 
 
