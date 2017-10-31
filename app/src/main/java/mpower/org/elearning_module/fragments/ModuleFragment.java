@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.activities.CourseActivity;
@@ -25,14 +23,12 @@ import mpower.org.elearning_module.adapter.ModuleGridViewAdapter;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
-import mpower.org.elearning_module.parser.CurriculumParser;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.Helper;
 import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
-import mpower.org.elearning_module.utils.Utils;
 
 public class ModuleFragment extends Fragment {
 
@@ -44,6 +40,7 @@ public class ModuleFragment extends Fragment {
     private ArrayList<Module> moduleArrayList;
     private DatabaseHelper databaseHelper;
     public static String sCURRENT_MODULE_ID="";
+
     public ModuleFragment() {
         // Required empty public constructor
     }
@@ -135,13 +132,9 @@ public class ModuleFragment extends Fragment {
 
         String progressMId = progressMap.get(AppConstants.KEY_MODULE_ID);
 
+        UserType userType=CurrentUserProgress.getInstance().getUserType();
 
-
-        //moduleArrayList=databaseHelper.getAllModules(null,null);
-
-       // moduleArrayList=databaseHelper.getModules(progressMap.get("moduleId"));
-      //  moduleArrayList=databaseHelper.getModules("2");
-        moduleArrayList=databaseHelper.getAllModules(null,null);
+        moduleArrayList=databaseHelper.getAllModules(null,userType);
 
 
         for (Module module:moduleArrayList){
@@ -154,23 +147,10 @@ public class ModuleFragment extends Fragment {
             }
         }
 
-        /*ArrayList<Module> modules=new ArrayList<>();
-        modules.add(moduleArrayList.get(0));
-        for (Module module:moduleArrayList){
-            for (Module module1:modules){
-                if (!module.getId().equalsIgnoreCase(module1.getId())){
-                    modules.add(module);
-                }
-            }
-        }*/
-
         progressDialog.dismiss();
         if (moduleArrayList==null){
 
         }
-        /*moduleGridViewAdapter=new ModuleGridViewAdapter(getContext(),moduleArrayList);
-        gridView.setAdapter(moduleGridViewAdapter);*/
-        //setUpAdapter();
         firstTime=true;
         return view;
     }
@@ -198,7 +178,6 @@ public class ModuleFragment extends Fragment {
                 CourseActivity.CURRENT_MODULE_ID=moduleArrayList.get(i).getId();
                 intent.putExtra(AppConstants.DATA,(ArrayList<Course>)moduleArrayList.get(i).getCourses());
                 CurrentUserProgress.getInstance().setProgressModule(moduleArrayList.get(i).getId());
-               // CourseActivity.courses = (ArrayList<Course>) moduleArrayList.get(i).getCourses();
                 startActivity(intent);
             }
         });
@@ -206,7 +185,7 @@ public class ModuleFragment extends Fragment {
 
     private void insertIntoDb(ArrayList<Module> moduleArrayList) {
         for (Module module:moduleArrayList){
-            databaseHelper.insertModule(module);
+            databaseHelper.insertModule(module, userType);
         }
     }
 

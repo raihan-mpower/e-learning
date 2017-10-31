@@ -99,7 +99,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     }
 
     private void createModuleTable(SQLiteDatabase db) {
-        String sql="CREATE TABLE "+MODULE_TABLE+" ( "+MODULE_ID+" TEXT, "+MODULE_TITLE+" TEXT, "+
+        String sql="CREATE TABLE "+MODULE_TABLE+" ( "+MODULE_ID+" TEXT, "+MODULE_TITLE+" TEXT, "+USER_TYPE+" INTEGER, "+
                 MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT, "+TOTAL_COURSES_FOR_THIS_MODULE+" INTEGER "+
                 ");";
         Log.d(TAG,sql);
@@ -151,7 +151,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     }
 
-    public void insertModule(Module module) {
+    public void insertModule(Module module, UserType userType) {
         if (checkIsDataAlreadyInDBorNot(MODULE_TABLE,MODULE_ID,module.getId())){
             return;
         }
@@ -159,6 +159,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(MODULE_ID,module.getId());
         cv.put(MODULE_TITLE,module.getTitle());
         cv.put(MODULE_ICON_IMAGE_NAME,module.getIconImage());
+        cv.put(USER_TYPE,userType.ordinal());
         cv.put(TOTAL_COURSES_FOR_THIS_MODULE,module.getCourses().size());
 
         for (Course course:module.getCourses()){
@@ -221,7 +222,15 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     public ArrayList<Module> getAllModules(@Nullable String userName, @Nullable UserType userType){
         String sql="SELECT * FROM "+MODULE_TABLE;
-        if (userName!=null) sql+=" WHERE "+USER_NAME+" = '"+userName+"'";
+
+        if (userName!=null && userType!=null){
+            sql+=" WHERE "+USER_NAME+" = '"+userName+"'"+" AND "+USER_TYPE+" = '"+userType.ordinal()+"'";
+        }else if (userName!=null && userType==null){
+            sql+=" WHERE "+USER_NAME+" = '"+userName+"'";
+        }else if (userType!=null && userName==null){
+            sql+=" WHERE "+USER_TYPE+" = '"+userType.ordinal()+"'";
+        }
+
         ArrayList<Module> modules;
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         if (cursor!=null && cursor.getCount()>0){

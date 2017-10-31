@@ -46,13 +46,14 @@ import mpower.org.elearning_module.utils.Utils;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private UserType userType;
     private DatabaseHelper databaseHelper;
     private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UserType userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
+        userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor=sharedPreferences.edit();
         if (userType !=null){
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 
        TextView mTvLanguage = findViewById(R.id.tv_lang);
 
-        Button logOutButton = (Button) findViewById(R.id.btn_logout);
+        Button logOutButton = findViewById(R.id.btn_logout);
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +137,8 @@ public class MainActivity extends AppCompatActivity
             ELearningApp.createDirectory();
             databaseHelper=new DatabaseHelper(this);
             databaseHelper.getWritableDatabase();
-            copyAssets();
+           // copyAssets();
+            Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
             getUserData();
             new JsonParserTask().execute();
 
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity
            new AsyncTask<Void,Void,Void>(){
                @Override
                protected Void doInBackground(Void... voids) {
-                   Helper.CopyAssets(MainActivity.this, ELearningApp.IMAGES_FOLDER_NAME);
+                   Helper.CopyAssets(getApplicationContext(), ELearningApp.IMAGES_FOLDER_NAME);
                    return null;
                }
 
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity
                    SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                    SharedPreferences.Editor editor=prefs.edit();
                    editor.putBoolean(AppConstants.DATA_COPIED,true);
-                   editor.apply();
+                   editor.commit();
                }
            }.execute();
         }
@@ -182,8 +184,8 @@ public class MainActivity extends AppCompatActivity
                 databaseHelper=new DatabaseHelper(this);
                 databaseHelper.getWritableDatabase();
                 getUserData();
-                copyAssets();
-               // Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
+                //copyAssets();
+                Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
                 new JsonParserTask().execute();
             }else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -229,6 +231,8 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -236,7 +240,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
         } else if (id == R.id.nav_contact) {
 
@@ -268,7 +271,7 @@ public class MainActivity extends AppCompatActivity
            ArrayList<Module> moduleArrayList = (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json", MainActivity.this)).getModules();
            if (moduleArrayList !=null && moduleArrayList.size()>0){
                for (Module module: moduleArrayList){
-                   databaseHelper.insertModule(module);
+                   databaseHelper.insertModule(module,userType);
                }
            }
            return null;

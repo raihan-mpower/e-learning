@@ -29,6 +29,7 @@ import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.utils.Utils;
 
 public class ModuleGridViewAdapter extends BaseAdapter {
+
     private Context context;
     private ArrayList<Module> modules;
 
