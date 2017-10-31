@@ -1,9 +1,10 @@
 package mpower.org.elearning_module.fragments;
 
 
-import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -11,8 +12,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.Utils;
 
@@ -27,6 +33,8 @@ public class TriviaFragment extends BaseFragment {
     ImageView imageView;
     @BindView(R.id.linear_image_container)
     LinearLayout imageLayout;
+    @BindView(R.id.tv_q_title)
+            TextView tvTitle;
     boolean isPlaying=false;
     private boolean isPaused;
 
@@ -62,11 +70,14 @@ public class TriviaFragment extends BaseFragment {
         if (question!=null){
             /*Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
             tvTrivia.setTypeface(typeface);*/
+            tvTitle.setText(question.getTitleText());
             tvTrivia.setText(question.getDescriptionText());
-
+            tvTrivia.setMovementMethod(new ScrollingMovementMethod());
             String imageName=question.getImage();
             if (imageName!=null && !imageName.equalsIgnoreCase("")){
-                imageView.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),imageName));
+                Glide.with(this).load(Uri.fromFile(new File(ELearningApp.IMAGES_FOLDER_NAME+ File.separator+imageName)))
+                        .into(imageView);
+               // imageView.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),imageName));
             }else {
                 imageLayout.setVisibility(View.GONE);
             }

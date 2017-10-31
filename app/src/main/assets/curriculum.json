@@ -25,7 +25,7 @@
                 "true_false": ""
               },
               {
-                "title_text": "Mauris lectus",
+                "title_text": "যক্ষ্মা একটি জীবাণুঘটিত",
                 "id": "2",
                 "type": "course-content",
                 "image": "c2.png",
@@ -37,7 +37,7 @@
                 "true_false": ""
               },
               {
-                "title_text": "Some Title",
+                "title_text": "যক্ষ্মা একটি জীবাণুঘটিত",
                 "id": "3",
                 "type": "trivia",
                 "image": "",
@@ -49,7 +49,7 @@
                 "true_false": ""
               },
               {
-                "title_text": "Some random Trivia",
+                "title_text": "যক্ষ্মা একটি জীবাণুঘটিত",
                 "id": "4",
                 "type": "course-content",
                 "image": "c4.jpg",
@@ -80,7 +80,7 @@
             "icon_image": "icon1.png",
             "questions": [
               {
-                "title_text": "loren ipsum",
+                "title_text": "সঠিক চিকিৎসা",
                 "id": "1",
                 "type": "course-content",
                 "image": "tuberculosis.jpg",
@@ -92,16 +92,16 @@
                 "true_false": ""
               },
               {
-                "title_text": "Mauris lectus",
+                "title_text": "একটি ছোট পরীক্ষা হয়ে যাক!",
                 "id": "2",
                 "type": "true-false",
                 "image": "tuberculosis.jpg",
                 "audio": "sample_audio.mp3",
-                "description_text": "যক্ষ্মা শুধুমাত্র ফুসফুস আক্রান্ত করে ",
+                "description_text": "নিচে দেয়া বক্তব্যটি সত্য হলে টিক চিহ্ন চাপুন, মিথ্যা হলে ক্রস চিহ্ন চাপুন।",
                 "answer": "কিডনি, মেরুদ-, মস্তিষ্ক, হাড়, পাকস্থলি, লসিকা গ্রন্থি ইত্যাদি অঙ্গ-প্রত্যঙ্গেও যক্ষ্মা ছড়িয়ে পরতে পারে।",
-                "right_answer": "true",
-                "wrong_answer": "false",
-                "true_false": ""
+                "right_answer": "yes",
+                "wrong_answer": "no",
+                "true_false": "যক্ষ্মা শুধুমাত্র ফুসফুস আক্রান্ত করে "
               }
             ]
           },

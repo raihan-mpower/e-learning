@@ -1,37 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="mpower_color">#810d1a</color>
-
-
     <color name="colorPrimary">#4f0063</color>
     <color name="colorPrimaryDark">#360451</color>
     <color name="colorAccent">#7b10b5</color>
-    <color name="colorGold">#DAB674</color>
-    <color name="_background_color">#5EC7D6</color>
-    <color name="button_color">#43a047</color>
-    <color name="fqs_green_color">#4caf50</color>
-    <color name="green_shade">#66bb6a</color>
-    <color name="background">#e8f5e9</color>
-    <color name="light_green_backgroud">#9CCC65</color>
-    <color name="light_green_primaryDark">#33691e</color>
-    <color name="light_green_primary">#8BC34A</color>
-    <color name="soft_light_green_background">#C5E1A5</color>
-    <color name="green_200">#A5D6A7</color>
     <color name="white_background">#FFFFFF</color>
     <color name="light_grey_background">#BDBDBD</color>
-    <color name="dark_colr">#90000000</color>
-    <color name="grey">#1f000000</color>
-    <color name="common_google_signin_btn_text_light_focused">#90000000</color>
-    <color name="common_google_signin_btn_text_light_pressed">#de000000</color>
-
-    <color  name="primary_background">#191929</color>
-    <color name="secondary_background">#202032</color>
-    <color name="dark_gray">#0F0F19</color>
-    <color name="slate_gray">#5E5B54</color>
-    <color name="cloud_gray">#A1A7B1</color>
-
-    <color name="burnt_orange">#E43B24</color>
-    <color name="tangerine">#F39307</color>
-    <color name="sky_blue">#15A7E8</color>
-    <color name="sky_blue_light">#62CBEE</color>
 </resources>

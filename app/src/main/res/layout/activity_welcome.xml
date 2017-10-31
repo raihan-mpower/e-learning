@@ -7,7 +7,6 @@
     tools:context="mpower.org.elearning_module.activities.WelcomeActivity">
 
     <LinearLayout
-        android:layout_marginBottom="50dp"
         android:padding="5dp"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
@@ -30,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp" />
         <TextView
+            android:visibility="gone"
             android:onClick="showChangeLangDialog"
             android:clickable="true"
             android:textSize="20sp"

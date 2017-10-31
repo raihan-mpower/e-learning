@@ -1,5 +1,6 @@
 package mpower.org.elearning_module.fragments;
 
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,8 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.Utils;
 
@@ -26,6 +32,8 @@ public class CourseContentActivityFragment extends BaseFragment {
     ImageButton audiobutton;
     @BindView(R.id.linear_image_container)
     LinearLayout imageLayout;
+    @BindView(R.id.tv_q_title)
+    TextView tvTitle;
     private Question question;
     boolean isPlaying=false;
     private boolean isPaused;
@@ -53,9 +61,12 @@ public class CourseContentActivityFragment extends BaseFragment {
         description.setText(question.getDescriptionText());
         description.setMovementMethod(new ScrollingMovementMethod());
         ImageView contentImage = view.findViewById(R.id.content_image);
+        tvTitle.setText(question.getTitleText());
         String imageName=question.getImage();
         if (imageName!=null && !imageName.isEmpty()){
-            contentImage.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),"images/"+question.getImage()));
+           // contentImage.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),"images/"+question.getImage()));
+            Glide.with(this).load(Uri.fromFile(new File(ELearningApp.IMAGES_FOLDER_NAME+ File.separator+imageName)))
+                    .into(contentImage);
         }else {
             imageLayout.setVisibility(View.GONE);
         }

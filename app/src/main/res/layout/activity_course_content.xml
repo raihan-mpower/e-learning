@@ -19,6 +19,7 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
             <TextView
+                android:layout_marginEnd="10dp"
                 android:layout_gravity="end"
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"

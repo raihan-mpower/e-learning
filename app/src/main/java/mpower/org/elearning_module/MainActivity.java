@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
         checkForPermission();
 
-       TextView mTvLanguage = (TextView) findViewById(R.id.tv_lang);
+       TextView mTvLanguage = findViewById(R.id.tv_lang);
 
         Button logOutButton = (Button) findViewById(R.id.btn_logout);
         logOutButton.setOnClickListener(new View.OnClickListener() {
@@ -136,11 +136,41 @@ public class MainActivity extends AppCompatActivity
             ELearningApp.createDirectory();
             databaseHelper=new DatabaseHelper(this);
             databaseHelper.getWritableDatabase();
-            Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
+            copyAssets();
             getUserData();
             new JsonParserTask().execute();
 
         }
+    }
+
+    private void copyAssets() {
+        if (isAlreadyCopied()){
+
+        }else {
+           new AsyncTask<Void,Void,Void>(){
+               @Override
+               protected Void doInBackground(Void... voids) {
+                   Helper.CopyAssets(MainActivity.this, ELearningApp.IMAGES_FOLDER_NAME);
+                   return null;
+               }
+
+               @Override
+               protected void onPostExecute(Void aVoid) {
+                   super.onPostExecute(aVoid);
+                   SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                   SharedPreferences.Editor editor=prefs.edit();
+                   editor.putBoolean(AppConstants.DATA_COPIED,true);
+                   editor.apply();
+               }
+           }.execute();
+        }
+
+    }
+
+    private boolean isAlreadyCopied() {
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
+        return sharedPreferences.getBoolean(AppConstants.DATA_COPIED,false);
+
     }
 
     @Override
@@ -152,7 +182,8 @@ public class MainActivity extends AppCompatActivity
                 databaseHelper=new DatabaseHelper(this);
                 databaseHelper.getWritableDatabase();
                 getUserData();
-                Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
+                copyAssets();
+               // Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
                 new JsonParserTask().execute();
             }else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

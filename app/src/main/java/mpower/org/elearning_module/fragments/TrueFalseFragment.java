@@ -27,6 +27,10 @@ import mpower.org.elearning_module.model.Question;
 public class TrueFalseFragment extends BaseFragment {
     @BindView(R.id.btn_audio)
     ImageButton audiobutton;
+    @BindView(R.id.tv_q_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_q_description)
+    TextView tvDescription;
     private RadioButton radioYes,radioNo;
     private TextView tvQuestionText,tvRightAnswer;
     private Question question;
@@ -63,7 +67,9 @@ public class TrueFalseFragment extends BaseFragment {
         if (question != null) {
             /*Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
             tvQuestionText.setTypeface(typeface);*/
-            tvQuestionText.setText(question.getDescriptionText());
+            tvQuestionText.setText(question.getTrueFalse());
+            tvDescription.setText(question.getDescriptionText());
+            tvTitle.setText(question.getTitleText());
             String audioName=question.getAudio();
             if (audioName!=null && !audioName.isEmpty()){
                 getAudioPlayerListener().playAudio(audioName);
@@ -76,7 +82,7 @@ public class TrueFalseFragment extends BaseFragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                if (question.getRightAnswer().equalsIgnoreCase("true")){
+                if (question.getRightAnswer().equalsIgnoreCase("yes")){
                     tvRightAnswer.setText("Correct Answer!!"+question.getAnswer());
                 }else {
                     tvRightAnswer.setText("Wrong Answer!! "+question.getAnswer());
@@ -88,7 +94,7 @@ public class TrueFalseFragment extends BaseFragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                if (question.getRightAnswer().equalsIgnoreCase("false")){
+                if (question.getRightAnswer().equalsIgnoreCase("no")){
                     tvRightAnswer.setText("Correct Answer!! "+question.getAnswer());
                 }else {
                     tvRightAnswer.setText("Wrong Answer!! "+question.getAnswer());

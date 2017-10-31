@@ -7,6 +7,7 @@ package mpower.org.elearning_module.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.io.File;
 import java.util.ArrayList;
 
 import mpower.org.elearning_module.activities.CourseActivity;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
@@ -57,7 +62,9 @@ public class ModuleGridViewAdapter extends BaseAdapter {
 
 
         viewHolder.tvTitle.setText(module.getTitle());
-        viewHolder.imageViewIcon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+module.getIconImage()));
+        Glide.with(context).load(Uri.fromFile(new File(ELearningApp.IMAGES_FOLDER_NAME+File.separator+module.getIconImage())))
+                .into(viewHolder.imageViewIcon);
+      //  viewHolder.imageViewIcon.setImageDrawable(Utils.loadDrawableFromAssets(context,"images/"+module.getIconImage()));
 
         if (module.isLocked()){
             viewHolder.imageViewStatus.setImageResource(R.drawable.lock);
