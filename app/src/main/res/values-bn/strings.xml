@@ -20,4 +20,6 @@
     <string name="lang_dialog_message">You want to use the app in</string>
     <string name="language_setting">Select Language</string>
     <string name="change_lang">Change Language</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

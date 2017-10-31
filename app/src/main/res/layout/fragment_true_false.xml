@@ -3,23 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_margin="10dp"
     android:layout_gravity="center_horizontal"
-    android:gravity="center"
     tools:context="mpower.org.elearning_module.fragments.TrueFalseFragment">
 
     <LinearLayout
-        android:padding="20dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_centerHorizontal="true"
         android:id="@+id/true_false_factory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
-            android:background="@color/_background_color"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:padding="10dp"
+            android:padding="5dp"
             android:textColor="@color/colorPrimary"
             android:text="@string/true_false_factory_text"
             android:layout_width="wrap_content"
@@ -29,66 +26,50 @@
 
     <LinearLayout
         android:id="@+id/content_true_false"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/true_false_factory"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:padding="5dp"
             android:textColor="@color/colorPrimary"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/tv_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment" />
-        <ImageButton
-            android:layout_margin="5dp"
-            android:textColor="@color/white_background"
-            android:background="@drawable/icon_check"
-            android:text="True"
-            android:id="@+id/btn_true"
+        <RadioGroup
+            android:padding="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageButton
-            android:layout_margin="5dp"
-            android:textColor="@color/white_background"
-            android:background="@drawable/icon_delete"
-            android:text="False"
-            android:id="@+id/btn_false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/radio_btn_yes"
+                android:text="@string/yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:text="@string/no"
+                android:id="@+id/radio_btn_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
 
 
     </LinearLayout>
     <TextView
+        android:padding="10dp"
         android:layout_below="@id/content_true_false"
         android:textSize="20sp"
         android:textColor="@color/colorPrimary"
-        android:layout_marginBottom="30dp"
-        android:layout_centerInParent="true"
         android:id="@+id/tv_right_answer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <RelativeLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageButton
-            android:src="@drawable/audio"
-            android:id="@+id/btn_audio"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-
-        <ImageButton
-            android:id="@+id/btn_audio_play"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/play" />
-    </RelativeLayout>
+    <ImageButton
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/audio"
+        android:id="@+id/btn_audio"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 </RelativeLayout>

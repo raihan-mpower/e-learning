@@ -3,6 +3,7 @@ package mpower.org.elearning_module.fragments;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ public class CourseContentActivityFragment extends BaseFragment {
         question = (Question) getArguments().getSerializable("question");
         TextView description = view.findViewById(R.id.content_description);
         description.setText(question.getDescriptionText());
+        description.setMovementMethod(new ScrollingMovementMethod());
         ImageView contentImage = view.findViewById(R.id.content_image);
         String imageName=question.getImage();
         if (imageName!=null && !imageName.isEmpty()){
@@ -57,6 +59,13 @@ public class CourseContentActivityFragment extends BaseFragment {
         }else {
             imageLayout.setVisibility(View.GONE);
         }
+        String audioName=question.getAudio();
+        if (audioName!=null && !audioName.isEmpty()){
+            getAudioPlayerListener().playAudio(audioName);
+            audiobutton.setImageResource(R.drawable.audio);
+            isPlaying=true;
+        }
+
 
         audiobutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,11 +84,43 @@ public class CourseContentActivityFragment extends BaseFragment {
 
                 }else {
                     getAudioPlayerListener().playAudio(question.getAudio());
+                    audiobutton.setImageResource(R.drawable.audio);
                     isPlaying=true;
                     isPaused=false;
                 }
 
             }
         });
+    }
+
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getAudioPlayerListener().stopPlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getAudioPlayerListener().stopPlayer();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if (question!=null){
+                String audioName=question.getAudio();
+                if (audioName!=null && !audioName.isEmpty()){
+                    getAudioPlayerListener().playAudio(audioName);
+                    audiobutton.setImageResource(R.drawable.audio);
+                    isPlaying=true;
+                }
+            }
+
+        }
+
     }
 }

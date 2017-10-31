@@ -70,6 +70,13 @@ public class TriviaFragment extends BaseFragment {
             }else {
                 imageLayout.setVisibility(View.GONE);
             }
+
+            String audioName=question.getAudio();
+            if (audioName!=null && !audioName.isEmpty()){
+                getAudioPlayerListener().playAudio(audioName);
+                audiobutton.setImageResource(R.drawable.mute_small);
+                isPlaying=true;
+            }
         }
 
         audiobutton.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +102,35 @@ public class TriviaFragment extends BaseFragment {
 
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getAudioPlayerListener().stopPlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getAudioPlayerListener().stopPlayer();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if (question!=null){
+                String audioName=question.getAudio();
+                if (audioName!=null && !audioName.isEmpty()){
+                    getAudioPlayerListener().playAudio(audioName);
+                    audiobutton.setImageResource(R.drawable.audio);
+                    isPlaying=true;
+                }
+            }
+
+        }
+
     }
 
 }

@@ -40,7 +40,7 @@ public class CourseGridViewAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            convertView=inflater.inflate(R.layout.item_row,null);
+            convertView=inflater.inflate(R.layout.module,null);
             viewHolder=new ViewHolder();
             viewHolder.tvTitle=convertView.findViewById(R.id.title);
             viewHolder.imageViewIcon=convertView.findViewById(R.id.icon);

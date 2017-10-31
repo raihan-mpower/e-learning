@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +27,10 @@ import mpower.org.elearning_module.model.Question;
 public class TrueFalseFragment extends BaseFragment {
     @BindView(R.id.btn_audio)
     ImageButton audiobutton;
-    private ImageButton trueButton,falseButton;
+    private RadioButton radioYes,radioNo;
     private TextView tvQuestionText,tvRightAnswer;
     private Question question;
-    boolean isLast;
+
     boolean isPlaying=false;
     private boolean isPaused;
     public TrueFalseFragment() {
@@ -42,7 +43,7 @@ public class TrueFalseFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments()!=null){
-            isLast=getArguments().getBoolean("isLast");
+
         }
     }
 
@@ -55,17 +56,23 @@ public class TrueFalseFragment extends BaseFragment {
     protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         tvQuestionText= view.findViewById(R.id.tv_question);
         tvRightAnswer= view.findViewById(R.id.tv_right_answer);
-        trueButton= view.findViewById(R.id.btn_true);
-        falseButton= view.findViewById(R.id.btn_false);
+        radioYes= view.findViewById(R.id.radio_btn_yes);
+        radioNo= view.findViewById(R.id.radio_btn_no);
         question = (Question) getArguments().getSerializable("question");
 
         if (question != null) {
             /*Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
             tvQuestionText.setTypeface(typeface);*/
             tvQuestionText.setText(question.getDescriptionText());
+            String audioName=question.getAudio();
+            if (audioName!=null && !audioName.isEmpty()){
+                getAudioPlayerListener().playAudio(audioName);
+                audiobutton.setImageResource(R.drawable.mute_small);
+                isPlaying=true;
+            }
         }
 
-        trueButton.setOnClickListener(new View.OnClickListener() {
+        radioYes.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
@@ -77,7 +84,7 @@ public class TrueFalseFragment extends BaseFragment {
             }
         });
 
-        falseButton.setOnClickListener(new View.OnClickListener() {
+        radioNo.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
@@ -130,6 +137,35 @@ public class TrueFalseFragment extends BaseFragment {
         bundle.putSerializable("question", question);
         trueFalseFragment.setArguments(bundle);
         return trueFalseFragment;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getAudioPlayerListener().stopPlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getAudioPlayerListener().stopPlayer();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if (question!=null){
+                String audioName=question.getAudio();
+                if (audioName!=null && !audioName.isEmpty()){
+                    getAudioPlayerListener().playAudio(audioName);
+                    audiobutton.setImageResource(R.drawable.audio);
+                    isPlaying=true;
+                }
+            }
+
+        }
 
     }
 
