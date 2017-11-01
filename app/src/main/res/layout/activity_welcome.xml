@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp" />
         <TextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:onClick="showChangeLangDialog"
             android:clickable="true"
             android:textSize="20sp"

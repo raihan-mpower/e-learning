@@ -1,6 +1,7 @@
 package mpower.org.elearning_module.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.adapter.CourseGridViewAdapter;
@@ -29,6 +31,7 @@ import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.Helper;
+import mpower.org.elearning_module.utils.LocaleHelper;
 import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 
@@ -44,8 +47,8 @@ public class CourseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
-
-
+        //TODO forcing activity to load locale
+        new LocaleHelper().updateLocale(this,"bn");
         Toolbar toolbar=findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

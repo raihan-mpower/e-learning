@@ -56,11 +56,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RadioButton
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimaryDark"
                 android:id="@+id/radio_btn_yes"
                 android:text="@string/yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <RadioButton
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="@string/no"
                 android:id="@+id/radio_btn_no"
                 android:layout_width="wrap_content"

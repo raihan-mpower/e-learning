@@ -2,19 +2,26 @@ package mpower.org.elearning_module.application;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.support.multidex.MultiDex;
 
 import java.io.File;
 import java.util.Locale;
 
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.utils.AppConstants;
+import mpower.org.elearning_module.utils.LocaleHelper;
 
 /**
  * Created by sabbir on 10/12/17.
  */
 
 public class ELearningApp extends Application {
+
+    public static String defaultSysLanguage;
     public static ELearningApp instance=null;
     public static final String ROOT_FOLDER_NAME= Environment.getExternalStorageDirectory()+File.separator+"TB_ELEARNING";
     public static final String DATABASE_FOLDER_NAME=ROOT_FOLDER_NAME+ File.separator+"databases";
@@ -23,7 +30,16 @@ public class ELearningApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        defaultSysLanguage = Locale.getDefault().getLanguage();
+        new LocaleHelper().updateLocale(this);
         instance=this;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
 
 
     }
@@ -65,6 +81,17 @@ public class ELearningApp extends Application {
             createDirs();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        defaultSysLanguage = newConfig.locale.getLanguage();
+        boolean isUsingSysLanguage = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(AppConstants.KEY_APP_LANGUAGE, "").equals("");
+        if (!isUsingSysLanguage) {
+            new LocaleHelper().updateLocale(this);
         }
     }
 }

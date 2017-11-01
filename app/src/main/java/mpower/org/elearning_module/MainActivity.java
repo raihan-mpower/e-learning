@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,10 +22,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import mpower.org.elearning_module.activities.LogInActivity;
 import mpower.org.elearning_module.application.ELearningApp;
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     private UserType userType;
     private DatabaseHelper databaseHelper;
     private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +77,6 @@ public class MainActivity extends AppCompatActivity
         progressDialog.setMessage("Loading..Please Wait");
         progressDialog.setCancelable(false);
 
-        //databaseHelper=new DatabaseHelper(this);
-        //databaseHelper.getWritableDatabase();
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity
                 logOutButtonClicked();
             }
         });
-
 
     }
 
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
                    editor.putBoolean(AppConstants.DATA_COPIED,true);
                    editor.commit();
                }
-           }.execute();
+           }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
     }
@@ -258,7 +258,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-   private class JsonParserTask extends AsyncTask<Void,Void,Void>{
+   private class JsonParserTask extends AsyncTask<Void,Integer,Void>{
+
 
        @Override
        protected void onPreExecute() {
@@ -283,6 +284,11 @@ public class MainActivity extends AppCompatActivity
            progressDialog.dismiss();
 
            callModuleFragment();
+       }
+
+       @Override
+       protected void onProgressUpdate(Integer... values) {
+           super.onProgressUpdate(values);
        }
    }
 

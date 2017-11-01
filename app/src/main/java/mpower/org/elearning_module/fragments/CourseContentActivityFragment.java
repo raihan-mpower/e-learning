@@ -70,7 +70,7 @@ public class CourseContentActivityFragment extends BaseFragment {
         }else {
             imageLayout.setVisibility(View.GONE);
         }
-        String audioName=question.getAudio();
+        final String audioName=question.getAudio();
         if (audioName!=null && !audioName.isEmpty()){
             getAudioPlayerListener().playAudio(audioName);
             audiobutton.setImageResource(R.drawable.audio);
@@ -81,24 +81,26 @@ public class CourseContentActivityFragment extends BaseFragment {
         audiobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TAG",question.getAudio());
-                if (isPlaying){
-                    if (isPaused){
-                        getAudioPlayerListener().resume();
-                        audiobutton.setImageResource(R.drawable.audio);
-                        isPaused=false;
-                    }else {
-                        getAudioPlayerListener().pausePlayer();
-                        audiobutton.setImageResource(R.drawable.mute_small);
-                        isPaused=true;
-                    }
+                if (audioName!=null && !audioName.isEmpty()){
+                    if (isPlaying){
+                        if (isPaused){
+                            getAudioPlayerListener().resume();
+                            audiobutton.setImageResource(R.drawable.audio);
+                            isPaused=false;
+                        }else {
+                            getAudioPlayerListener().pausePlayer();
+                            audiobutton.setImageResource(R.drawable.mute_small);
+                            isPaused=true;
+                        }
 
-                }else {
-                    getAudioPlayerListener().playAudio(question.getAudio());
-                    audiobutton.setImageResource(R.drawable.audio);
-                    isPlaying=true;
-                    isPaused=false;
+                    }else {
+                        getAudioPlayerListener().playAudio(question.getAudio());
+                        audiobutton.setImageResource(R.drawable.audio);
+                        isPlaying=true;
+                        isPaused=false;
+                    }
                 }
+
 
             }
         });

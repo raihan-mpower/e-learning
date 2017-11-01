@@ -41,7 +41,7 @@ public class TrueFalseFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-
+    private String audioName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,21 +72,27 @@ public class TrueFalseFragment extends BaseFragment {
             tvTitle.setText(question.getTitleText());
             String audioName=question.getAudio();
             if (audioName!=null && !audioName.isEmpty()){
+                this.audioName=audioName;
                 getAudioPlayerListener().playAudio(audioName);
                 audiobutton.setImageResource(R.drawable.mute_small);
                 isPlaying=true;
             }
+
+            radioYes.setText(question.getRightAnswer());
+            radioNo.setText(question.getWrongAnswer());
+
         }
 
         radioYes.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                if (question.getRightAnswer().equalsIgnoreCase("yes")){
-                    tvRightAnswer.setText("Correct Answer!!"+question.getAnswer());
+                tvRightAnswer.setText("Correct Answer !! "+question.getAnswer());
+                /*if (question.getRightAnswer().trim().equalsIgnoreCase(getResources().getString(R.string.yes))){
+                    tvRightAnswer.setText("Correct Answer !! "+question.getAnswer());
                 }else {
-                    tvRightAnswer.setText("Wrong Answer!! "+question.getAnswer());
-                }
+                    tvRightAnswer.setText("Wrong Answer !! "+question.getAnswer());
+                }*/
             }
         });
 
@@ -94,33 +100,36 @@ public class TrueFalseFragment extends BaseFragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                if (question.getRightAnswer().equalsIgnoreCase("no")){
-                    tvRightAnswer.setText("Correct Answer!! "+question.getAnswer());
+                tvRightAnswer.setText("Wrong Answer !! "+question.getAnswer());
+               /* if (question.getRightAnswer().trim().equalsIgnoreCase(getResources().getString(R.string.no))){
+                    tvRightAnswer.setText("Correct Answer !! "+question.getAnswer());
                 }else {
-                    tvRightAnswer.setText("Wrong Answer!! "+question.getAnswer());
-                }
+                    tvRightAnswer.setText("Wrong Answer !! "+question.getAnswer());
+                }*/
             }
         });
 
         audiobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TAG",question.getAudio());
-                if (isPlaying){
-                    if (isPaused){
-                        getAudioPlayerListener().resume();
-                        audiobutton.setImageResource(R.drawable.audio);
-                        isPaused=false;
-                    }else {
-                        getAudioPlayerListener().pausePlayer();
-                        audiobutton.setImageResource(R.drawable.mute_small);
-                        isPaused=true;
-                    }
+                if (audioName!=null && !audioName.isEmpty()){
+                    if (isPlaying){
+                        if (isPaused){
+                            getAudioPlayerListener().resume();
+                            audiobutton.setImageResource(R.drawable.audio);
+                            isPaused=false;
+                        }else {
+                            getAudioPlayerListener().pausePlayer();
+                            audiobutton.setImageResource(R.drawable.mute_small);
+                            isPaused=true;
+                        }
 
-                }else {
-                    getAudioPlayerListener().playAudio(question.getAudio());
-                    isPlaying=true;
-                    isPaused=false;
+                    }else {
+                        getAudioPlayerListener().playAudio(question.getAudio());
+                        audiobutton.setImageResource(R.drawable.audio);
+                        isPlaying=true;
+                        isPaused=false;
+                    }
                 }
 
             }

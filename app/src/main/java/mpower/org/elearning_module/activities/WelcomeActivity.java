@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import java.util.Locale;
 
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.utils.LocaleHelper;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -87,11 +88,12 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void setLangRecreate(String langval) {
-        Configuration config = getBaseContext().getResources().getConfiguration();
+        new LocaleHelper().updateLocale(this,langval);
+        /*Configuration config = getBaseContext().getResources().getConfiguration();
         locale = new Locale(langval);
         Locale.setDefault(locale);
         config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());*/
         recreate();
     }
 }

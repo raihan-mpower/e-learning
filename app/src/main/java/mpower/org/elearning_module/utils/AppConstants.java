@@ -17,6 +17,7 @@ public class AppConstants {
     public static final String DATA = "intent_data";
     public static final java.lang.String AUDIO_FILE_NAME ="audio_name" ;
     public static final String DATA_COPIED = "image_copied";
+    public static final String KEY_APP_LANGUAGE = "app_lang";
 
     public static String USER_PROGRESS_MODULE_ID="";
     public static  String USER_PROGRESS_COURSE_ID="";
