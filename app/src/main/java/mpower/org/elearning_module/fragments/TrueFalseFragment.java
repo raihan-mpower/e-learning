@@ -2,29 +2,20 @@ package mpower.org.elearning_module.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
-import mpower.org.elearning_module.interfaces.AudioPlayerListener;
-import mpower.org.elearning_module.interfaces.LastPageListener;
 import mpower.org.elearning_module.model.Question;
 
 
 public class TrueFalseFragment extends BaseFragment {
+
     @BindView(R.id.btn_audio)
     ImageButton audiobutton;
     @BindView(R.id.tv_q_title)
@@ -37,6 +28,7 @@ public class TrueFalseFragment extends BaseFragment {
 
     boolean isPlaying=false;
     private boolean isPaused;
+
     public TrueFalseFragment() {
         // Required empty public constructor
     }
