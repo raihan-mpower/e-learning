@@ -28,6 +28,7 @@ import mpower.org.elearning_module.utils.Utils;
  * A placeholder fragment containing a simple view.
  */
 public class CourseContentActivityFragment extends BaseFragment {
+
     @BindView(R.id.audio)
     ImageButton audiobutton;
     @BindView(R.id.linear_image_container)
@@ -37,6 +38,7 @@ public class CourseContentActivityFragment extends BaseFragment {
     private Question question;
     boolean isPlaying=false;
     private boolean isPaused;
+
     public CourseContentActivityFragment() {
     }
 

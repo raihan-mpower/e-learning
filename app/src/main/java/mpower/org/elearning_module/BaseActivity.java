@@ -33,7 +33,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected ActionBar mActionBar;
 
-    private MediaPlayer mediaPlayer;
 
 
     @Override

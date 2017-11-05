@@ -1,6 +1,7 @@
 package mpower.org.elearning_module.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -41,10 +42,14 @@ public class CourseEndFragment extends BaseFragment {
                 progressDialog.show();
                 saveCurrentProgress();
                 progressDialog.dismiss();
-
-                showToast("Exam will open here");
+                startExamActivity();
+               showLongToast("Exam will Start here");
             }
         });
+    }
+
+    private void startExamActivity() {
+        //TODO
     }
 
     private void saveCurrentProgress() {

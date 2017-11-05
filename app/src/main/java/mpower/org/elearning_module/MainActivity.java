@@ -1,6 +1,8 @@
 package mpower.org.elearning_module;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -13,16 +15,21 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,6 +45,7 @@ import mpower.org.elearning_module.parser.CurriculumParser;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.Helper;
+import mpower.org.elearning_module.utils.LocaleHelper;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
 import mpower.org.elearning_module.utils.Utils;
@@ -76,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Loading..Please Wait");
         progressDialog.setCancelable(false);
+        progressDialog.show();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,7 +97,9 @@ public class MainActivity extends AppCompatActivity
 
         checkForPermission();
 
-       TextView mTvLanguage = findViewById(R.id.tv_lang);
+        TextView langTv= (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.nav_lang));
+        langTv.setText("English");
+        langTv.setGravity(Gravity.CENTER_VERTICAL);
 
         Button logOutButton = findViewById(R.id.btn_logout);
         logOutButton.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +111,8 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+
 
     private void logOutButtonClicked() {
         Intent logoutIntent = new Intent(this, LogInActivity.class);
@@ -137,8 +150,8 @@ public class MainActivity extends AppCompatActivity
             ELearningApp.createDirectory();
             databaseHelper=new DatabaseHelper(this);
             databaseHelper.getWritableDatabase();
-           // copyAssets();
-            Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
+            copyAssets();
+            //Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
             getUserData();
             new JsonParserTask().execute();
 
@@ -149,22 +162,23 @@ public class MainActivity extends AppCompatActivity
         if (isAlreadyCopied()){
 
         }else {
-           new AsyncTask<Void,Void,Void>(){
-               @Override
-               protected Void doInBackground(Void... voids) {
-                   Helper.CopyAssets(getApplicationContext(), ELearningApp.IMAGES_FOLDER_NAME);
-                   return null;
-               }
+            @SuppressLint("StaticFieldLeak") AsyncTask<Void,Void,Void> copyTask=new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    Helper.CopyAssets(getApplicationContext(), ELearningApp.IMAGES_FOLDER_NAME);
+                    return null;
+                }
 
-               @Override
-               protected void onPostExecute(Void aVoid) {
-                   super.onPostExecute(aVoid);
-                   SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                   SharedPreferences.Editor editor=prefs.edit();
-                   editor.putBoolean(AppConstants.DATA_COPIED,true);
-                   editor.commit();
-               }
-           }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                    SharedPreferences.Editor editor=prefs.edit();
+                    editor.putBoolean(AppConstants.DATA_COPIED,true);
+                    editor.commit();
+                }
+            };
+          copyTask.execute();
         }
 
     }
@@ -184,8 +198,8 @@ public class MainActivity extends AppCompatActivity
                 databaseHelper=new DatabaseHelper(this);
                 databaseHelper.getWritableDatabase();
                 getUserData();
-                //copyAssets();
-                Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
+                copyAssets();
+                //Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
                 new JsonParserTask().execute();
             }else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -236,26 +250,76 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
-        } else if (id == R.id.nav_contact) {
-
-        } else if (id == R.id.nav_videos) {
-
-        } else if (id == R.id.nav_doc) {
-
-        } else if (id == R.id.nav_about_us) {
-
-        } else if (id == R.id.nav_images) {
-
+        switch (id){
+            case R.id.nav_lang:
+                showChangeLangDialog();
+                break;
+            case R.id.nav_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+                break;
+            case R.id.nav_contact:
+                break;
+            case R.id.nav_about_us:
+                break;
+            case R.id.nav_images:
+                break;
+            case R.id.nav_doc:
+                break;
+            case R.id.nav_videos:
+                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showChangeLangDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.language_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final Spinner spinner1 = dialogView.findViewById(R.id.spinner1);
+
+        dialogBuilder.setTitle(getResources().getString(R.string.lang_dialog_title));
+        dialogBuilder.setMessage(getResources().getString(R.string.lang_dialog_message));
+        dialogBuilder.setPositiveButton("Change", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                int langpos = spinner1.getSelectedItemPosition();
+                switch(langpos) {
+                    case 0: //English
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(AppConstants.KEY_APP_LANGUAGE, "en").commit();
+                        setLangRecreate("en");
+                        return;
+                    case 1:
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(AppConstants.KEY_APP_LANGUAGE, "bn").commit();
+                        setLangRecreate("bn");
+                        return;
+                    default: //By default set to english
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(AppConstants.KEY_APP_LANGUAGE, "bn").commit();
+                        setLangRecreate("bn");
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+
+    public void setLangRecreate(String langval) {
+        new LocaleHelper().updateLocale(this,langval);
+        /*Configuration config = getBaseContext().getResources().getConfiguration();
+        locale = new Locale(langval);
+        Locale.setDefault(locale);
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());*/
+        recreate();
     }
 
    private class JsonParserTask extends AsyncTask<Void,Integer,Void>{

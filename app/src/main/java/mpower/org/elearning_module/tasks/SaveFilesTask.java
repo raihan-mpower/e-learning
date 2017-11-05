@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,9 +12,8 @@ import java.util.List;
  */
 
 public class SaveFilesTask extends AsyncTask<List<String>,Integer,Boolean> {
-
-    FileSavingListener listener;
-    Context mContext;
+    private FileSavingListener listener;
+    private Context mContext;
 
     public interface  FileSavingListener{
         void onFileSaved();

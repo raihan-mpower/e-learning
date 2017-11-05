@@ -67,7 +67,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", "en").commit();
                         setLangRecreate("en");
                         return;
-                    case 1: //Hindi
+                    case 1:
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", "hi").commit();
                         setLangRecreate("bn");
                         return;

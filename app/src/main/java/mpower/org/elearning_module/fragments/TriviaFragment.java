@@ -4,6 +4,7 @@ package mpower.org.elearning_module.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +39,7 @@ public class TriviaFragment extends BaseFragment {
     boolean isPlaying=false;
     private boolean isPaused;
     String audioName;
+
     public TriviaFragment() {
         // Required empty public constructor
     }
@@ -89,6 +91,7 @@ public class TriviaFragment extends BaseFragment {
                 isPlaying=true;
             }
         }
+
 
         audiobutton.setOnClickListener(new View.OnClickListener() {
             @Override

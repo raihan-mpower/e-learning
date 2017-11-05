@@ -103,5 +103,8 @@ public abstract class BaseFragment extends Fragment {
         return getActivity();
     }
 
+    protected void showLongToast(String message){
+        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+    }
 
 }

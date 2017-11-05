@@ -23,7 +23,7 @@ public class ELearningApp extends Application {
 
     public static String defaultSysLanguage;
     public static ELearningApp instance=null;
-    public static final String ROOT_FOLDER_NAME= Environment.getExternalStorageDirectory()+File.separator+"TB_ELEARNING";
+    public static final String ROOT_FOLDER_NAME= Environment.getExternalStorageDirectory()+File.separator+"Tb_eLearning";
     public static final String DATABASE_FOLDER_NAME=ROOT_FOLDER_NAME+ File.separator+"databases";
     public static final String IMAGES_FOLDER_NAME=ROOT_FOLDER_NAME+ File.separator+"images";
 

@@ -74,6 +74,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         PLAYING,
         PAUSED
     }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -133,7 +134,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             playAudio(name);
         }
 
-        //  mediaFile = intent.getExtras().getString("media");
 
         return super.onStartCommand(intent, flags, startId);
     }
