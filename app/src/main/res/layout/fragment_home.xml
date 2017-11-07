@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_settings"
@@ -8,8 +8,13 @@
     android:layout_height="match_parent"
     >
 
-
+    <LinearLayout
+        android:weightSum="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <LinearLayout
+            android:layout_weight=".5"
             android:visibility="visible"
             android:padding="20dp"
             android:background="@drawable/ans_image"
@@ -83,7 +88,7 @@
             </LinearLayout>
         </LinearLayout>
         <FrameLayout
-            android:layout_weight="1"
+            android:layout_weight=".5"
             android:layout_margin="5dp"
             android:padding="5dp"
             android:id="@+id/module_fragment_container"
@@ -91,6 +96,9 @@
             android:layout_height="0dp">
 
         </FrameLayout>
+    </LinearLayout>
 
 
-</LinearLayout>
+
+
+</ScrollView>

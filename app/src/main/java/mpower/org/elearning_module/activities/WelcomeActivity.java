@@ -68,13 +68,12 @@ public class WelcomeActivity extends AppCompatActivity {
                         setLangRecreate("en");
                         return;
                     case 1:
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", "hi").commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", "bn").commit();
                         setLangRecreate("bn");
                         return;
                     default: //By default set to english
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", "en").commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANG", "bn").commit();
                         setLangRecreate("bn");
-                        return;
                 }
             }
         });

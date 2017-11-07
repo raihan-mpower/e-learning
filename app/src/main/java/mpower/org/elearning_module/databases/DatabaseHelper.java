@@ -27,6 +27,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private static final String TAG="DatabaseHelper";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME="tb_e_learn.db";
+    private static final String _ID="_id";
 
     private static final String USER_NAME="user_name";
     private static final String USER_TYPE="user_type";
@@ -75,13 +76,13 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     }
 
     private void createProgressTable(SQLiteDatabase db) {
-        String sql="CREATE TABLE IF NOT EXISTS "+PROGRESS_TABLE+" ( "+USER_NAME+" TEXT ,"+MODULE_ID+" TEXT, "+
+        String sql="CREATE TABLE IF NOT EXISTS "+PROGRESS_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+USER_NAME+" TEXT ,"+MODULE_ID+" TEXT, "+
                 COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT,"+USER_TYPE+" INTEGER "+");";
         db.execSQL(sql);
     }
 
     private void createQuestionsTable(SQLiteDatabase db) {
-        String sql="CREATE TABLE "+QUESTION_TABLE+" ( "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT, "+QUESTION_TITLE+" TEXT, "+
+        String sql="CREATE TABLE "+QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT, "+QUESTION_TITLE+" TEXT, "+
                 QUESTION_DESCRIPTION+" TEXT, "+QUESTION_TYPE+" INTEGER, "+QUESTION_IMAGE_NAME+" TEXT, "+
                 QUESTION_ANSWER+" TEXT, "+QUESTION_AUDIO_NAME+" TEXT, "+QUESTION_RIGHT_ANSWER+" TEXT, "+QUESTION_TRUE_FALSE+" TEXT "+
                 ");";
@@ -91,7 +92,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     }
 
     private void createCourseTable(SQLiteDatabase db) {
-        String sql="CREATE TABLE "+COURSE_TABLE+" ( "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+COURSE_TITLE+" TEXT, "+
+        String sql="CREATE TABLE "+COURSE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+COURSE_TITLE+" TEXT, "+
                 COURSE_STATUS+" INTEGER ,"+COURSE_ICON_IMAGE_NAME+" TEXT "+QUESTION_ID+" TEXT "+
                 ");";
         Log.d(TAG,sql);
@@ -99,7 +100,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     }
 
     private void createModuleTable(SQLiteDatabase db) {
-        String sql="CREATE TABLE "+MODULE_TABLE+" ( "+MODULE_ID+" TEXT, "+MODULE_TITLE+" TEXT, "+USER_TYPE+" INTEGER, "+
+        String sql="CREATE TABLE "+MODULE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+MODULE_TITLE+" TEXT, "+USER_TYPE+" INTEGER, "+
                 MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT, "+TOTAL_COURSES_FOR_THIS_MODULE+" INTEGER "+
                 ");";
         Log.d(TAG,sql);

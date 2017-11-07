@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_course"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
@@ -14,14 +15,15 @@
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridView1"
         android:numColumns="2"
-        android:layout_marginTop="?android:attr/actionBarSize"
-        android:layout_below="@+id/my_toolbar"
+        android:layout_margin="5dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:gravity="center"
+        android:columnWidth="50dp"
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"
         android:stretchMode="columnWidth"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content" >
 
     </GridView>
 

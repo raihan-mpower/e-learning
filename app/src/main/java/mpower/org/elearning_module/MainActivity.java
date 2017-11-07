@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor=sharedPreferences.edit();
+
         if (userType !=null){
             editor.putInt(AppConstants.USER_TYPE, userType.ordinal());
             editor.apply();
@@ -98,14 +99,24 @@ public class MainActivity extends AppCompatActivity
         checkForPermission();
 
         TextView langTv= (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.nav_lang));
-        langTv.setText("English");
+        String lang=sharedPreferences.getString(AppConstants.KEY_APP_LANGUAGE,"");
+        switch (lang){
+            case "bn":
+                langTv.setText(getResources().getText(R.string.bangla));
+                break;
+            case "en":
+                langTv.setText(getResources().getText(R.string.english));
+                break;
+            default:
+                    langTv.setText(getResources().getText(R.string.english));
+                    break;
+        }
         langTv.setGravity(Gravity.CENTER_VERTICAL);
 
         Button logOutButton = findViewById(R.id.btn_logout);
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(),"LogOut Button Clicked2",Toast.LENGTH_SHORT).show();
                 logOutButtonClicked();
             }
         });
@@ -129,6 +140,12 @@ public class MainActivity extends AppCompatActivity
                 String module=progressMap.get(AppConstants.KEY_MODULE_ID);
                 String course=progressMap.get(AppConstants.KEY_COURSE_ID);
                 String question=progressMap.get(AppConstants.KEY_QUESTION_ID);
+
+                //was crashing with the constant feilds
+
+                CurrentUserProgress.getInstance().setProgressCourse(course);
+                CurrentUserProgress.getInstance().setProgressModule(module);
+                CurrentUserProgress.getInstance().setProgressQuestion(question);
 
                 AppConstants.USER_PROGRESS_MODULE_ID=module;
                 AppConstants.USER_PROGRESS_COURSE_ID=course;
@@ -232,12 +249,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -306,6 +319,7 @@ public class MainActivity extends AppCompatActivity
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //pass
+                dialog.cancel();
             }
         });
         AlertDialog b = dialogBuilder.create();
@@ -319,9 +333,11 @@ public class MainActivity extends AppCompatActivity
         Locale.setDefault(locale);
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());*/
-        recreate();
+        this.recreate();
+        getUserData();
     }
 
+   @SuppressLint("StaticFieldLeak")
    private class JsonParserTask extends AsyncTask<Void,Integer,Void>{
 
 

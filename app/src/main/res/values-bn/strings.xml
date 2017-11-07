@@ -10,16 +10,17 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="default_server_url">something</string>
-    <string name="please_wait">Please wait</string>
-    <string name="ok">OK</string>
-    <string name="sdcard_unmounted">SDCard not available</string>
-    <string name="complete_other_courses">Complete other courses first</string>
+    <string name="please_wait">দয়া করে অপেক্ষা করুন </string>
+    <string name="ok">ওকে</string>
+    <string name="sdcard_unmounted">এসডি কার্ড নেই</string>
+    <string name="complete_other_courses">আগের কোর্সগুলো সম্পন্ন করুন</string>
     <string name="true_false_factory_text">একটি ছোট পরীক্ষা হয়ে যাক! \n নিচে দেয়া বক্তব্যটি সত্য হলে টিক চিহ্ন চাপুন, মিথ্যা হলে ক্রস চিহ্ন চাপুন।</string>
-    <string name="lang_dialog_title">Select Language</string>
-    <string name="lang_dialog_message">You want to use the app in</string>
-    <string name="language_setting">Select Language</string>
-    <string name="change_lang">Change Language</string>
-    <string name="yes">হ্যা</string>
+    <string name="lang_dialog_title">ভাষা সিলেক্ট করুন</string>
+    <string name="lang_dialog_message">কোন ভাষায় দেখতে চান</string>
+    <string name="language_setting">ভাষা সিলেক্ট করুন</string>
+    <string name="change_lang">কোন ভাষায় দেখতে চান</string>
+    <string name="yes">Yes</string>
     <string name="no">না</string>
+    <string name="bangla">Bangla</string>
+    <string name="english">English</string>
 </resources>

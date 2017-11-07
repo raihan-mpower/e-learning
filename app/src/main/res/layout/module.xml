@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:layout_margin="20dp"
-    android:background="#f2f2f2"
+    android:background="#EEEEEE"
     >
 
     <LinearLayout

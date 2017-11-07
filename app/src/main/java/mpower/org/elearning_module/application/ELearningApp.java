@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.Locale;
 
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.LocaleHelper;
 
@@ -26,6 +27,7 @@ public class ELearningApp extends Application {
     public static final String ROOT_FOLDER_NAME= Environment.getExternalStorageDirectory()+File.separator+"Tb_eLearning";
     public static final String DATABASE_FOLDER_NAME=ROOT_FOLDER_NAME+ File.separator+"databases";
     public static final String IMAGES_FOLDER_NAME=ROOT_FOLDER_NAME+ File.separator+"images";
+
 
     @Override
     public void onCreate() {
@@ -70,6 +72,21 @@ public class ELearningApp extends Application {
                }
            }
        }
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
     }
 
     public static ELearningApp getInstance(){

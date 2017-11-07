@@ -48,7 +48,7 @@ public class CourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
         //TODO forcing activity to load locale
-        new LocaleHelper().updateLocale(this,"bn");
+      /*  new LocaleHelper().updateLocale(this,"bn");*/
         Toolbar toolbar=findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,9 +60,9 @@ public class CourseActivity extends AppCompatActivity {
         setTitle(CURRENT_MODULE_TITLE);
 
         for (Course course:courses){
-            if (course.getId().equalsIgnoreCase(AppConstants.USER_PROGRESS_COURSE_ID)){
+            if (course.getId().equalsIgnoreCase(CurrentUserProgress.getInstance().getCurrentUserCourseProgress())){
                 course.setStatus(Status.UNLOCKED);
-            }else if (Integer.valueOf(course.getId())<Integer.valueOf(AppConstants.USER_PROGRESS_COURSE_ID)){
+            }else if (Integer.valueOf(course.getId())<Integer.valueOf(CurrentUserProgress.getInstance().getCurrentUserCourseProgress())){
                 course.setStatus(Status.UNLOCKED);
             }else {
                 course.setStatus(Status.LOCKED);
