@@ -2,7 +2,6 @@ package mpower.org.elearning_module.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,12 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import butterknife.ButterKnife;
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.interfaces.AudioPlayerListener;
-import mpower.org.elearning_module.interfaces.LastPageListener;
 
 /**
  * Created by sabbir on 10/22/17.
@@ -47,6 +43,7 @@ public abstract class BaseFragment extends Fragment {
             audioPlayerListener= (AudioPlayerListener) context;
         }else {
             showToast("No player attached");
+            throw new RuntimeException("Implementor have to have a instance of MediaPlayerService");
         }
     }
 

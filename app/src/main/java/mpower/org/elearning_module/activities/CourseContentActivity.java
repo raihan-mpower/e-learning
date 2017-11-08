@@ -17,25 +17,20 @@ import android.view.View;
 import android.widget.TextView;
 
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
-import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.fragments.CourseContentActivityFragment;
 import mpower.org.elearning_module.fragments.CourseEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
 import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.interfaces.AudioPlayerListener;
-import mpower.org.elearning_module.interfaces.LastPageListener;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
-import mpower.org.elearning_module.utils.Helper;
 
 public class CourseContentActivity extends BaseActivity implements AudioPlayerListener {
     public static String CURRENT_COURSE_TITLE = "CourseName";

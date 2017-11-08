@@ -80,11 +80,6 @@ public class TrueFalseFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 tvRightAnswer.setText("Correct Answer !! "+question.getAnswer());
-                /*if (question.getRightAnswer().trim().equalsIgnoreCase(getResources().getString(R.string.yes))){
-                    tvRightAnswer.setText("Correct Answer !! "+question.getAnswer());
-                }else {
-                    tvRightAnswer.setText("Wrong Answer !! "+question.getAnswer());
-                }*/
             }
         });
 
@@ -93,11 +88,6 @@ public class TrueFalseFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 tvRightAnswer.setText("Wrong Answer !! "+question.getAnswer());
-               /* if (question.getRightAnswer().trim().equalsIgnoreCase(getResources().getString(R.string.no))){
-                    tvRightAnswer.setText("Correct Answer !! "+question.getAnswer());
-                }else {
-                    tvRightAnswer.setText("Wrong Answer !! "+question.getAnswer());
-                }*/
             }
         });
 

@@ -22,7 +22,7 @@ public class SavedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.comming_soon,container,false);
-        tvDummy=(TextView) view.findViewById(R.id.tv_dummy);
+        tvDummy= view.findViewById(R.id.tv_dummy);
         tvDummy.setText("Saved");
         return view;
     }

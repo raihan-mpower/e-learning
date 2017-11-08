@@ -4,13 +4,12 @@ package mpower.org.elearning_module.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,7 +20,6 @@ import butterknife.BindView;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.model.Question;
-import mpower.org.elearning_module.utils.Utils;
 
 
 public class TriviaFragment extends BaseFragment {
