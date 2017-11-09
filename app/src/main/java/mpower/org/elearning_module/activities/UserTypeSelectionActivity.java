@@ -47,4 +47,10 @@ public class UserTypeSelectionActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public void callLogin(View view) {
+        Intent intent=new Intent(this,LogInActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

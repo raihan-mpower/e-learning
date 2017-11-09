@@ -48,6 +48,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:padding="5dp"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -70,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <LinearLayout
+            android:visibility="gone"
             android:padding="5dp"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -99,6 +101,6 @@
             android:background="@color/colorPrimary"
             android:text="SIGN UP"
             android:layout_width="match_parent"
-            android:layout_height="60dp" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </RelativeLayout>

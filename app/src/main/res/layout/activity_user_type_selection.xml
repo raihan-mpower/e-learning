@@ -35,7 +35,6 @@
         </RadioGroup>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginBottom="50dp"
         android:padding="5dp"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
@@ -57,6 +56,19 @@
             android:text="Other"
             android:layout_width="match_parent"
             android:layout_height="60dp" />
+
+        <TextView
+            android:onClick="callLogin"
+            android:padding="5dp"
+            android:textColor="@color/mpower_color"
+            android:textColorLink="@color/mpower_color"
+            android:linksClickable="true"
+            android:focusable="true"
+            android:clickable="true"
+            android:text="ALREADY REGISTERED ? LOGIN"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>
