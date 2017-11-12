@@ -1,0 +1,75 @@
+{
+  "exam_curriculum": {
+    "exams": [
+      {
+        "user_type":"DOT",
+        "title": "module1",
+        "id": "1",
+        "module_id":"1",
+        "course_id":"1",
+        "icon_image": "icon1.png",
+        "exam_questions": [
+          {
+            
+                "title_text": "loren ipsum",
+                "id": "1",
+                "type": "multiple-choice",
+                "image": "tuberculosis.jpg",
+                "audio": "",
+                "description_text": "what ?",
+                "answer":[ "a","b","c","d" ],
+                "right_answer": "a",
+                "wrong_answer": ""
+          },
+           {
+            
+                "title_text": "loren ipsum",
+                "id": "2",
+                "type": "multiple-choice",
+                "image": "tuberculosis.jpg",
+                "audio": "",
+                "description_text": "what ?",
+                "answer":[ "a","b","c","d" ],
+                "right_answer": "a",
+                "wrong_answer": ""
+          }
+ 
+            ]
+          },
+      {
+        "user_type":"DOT",
+        "title": "module1",
+        "id": "2",
+        "course_id":"2",
+        "icon_image": "icon1.png",
+        "exam_questions": [
+          {
+            
+                "title_text": "loren ipsum",
+                "id": "1",
+                "type": "multiple-choice",
+                "image": "tuberculosis.jpg",
+                "audio": "",
+                "description_text": "what ?",
+                "answer":[ "a","b","c","d" ],
+                "right_answer": "a",
+                "wrong_answer": ""
+          },
+           {
+            
+                "title_text": "loren ipsum",
+                "id": "2",
+                "type": "multiple-choice",
+                "image": "tuberculosis.jpg",
+                "audio": "",
+                "description_text": "what ?",
+                "answer":[ "a","b","c","d" ],
+                "right_answer": "a",
+                "wrong_answer": ""
+          }
+ 
+            ]
+          }
+        ]
+      }
+ }

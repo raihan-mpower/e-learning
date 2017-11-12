@@ -34,14 +34,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import mpower.org.elearning_module.activities.LogInActivity;
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.fragments.HomeFragment;
+import mpower.org.elearning_module.model.Exam;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
+import mpower.org.elearning_module.tasks.ExamCurriculamParserTask;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.Helper;
@@ -362,8 +365,21 @@ public class MainActivity extends AppCompatActivity
        protected void onPostExecute(Void aVoid) {
            super.onPostExecute(aVoid);
            progressDialog.dismiss();
+           ExamCurriculamParserTask examCurriculamParserTask=new ExamCurriculamParserTask(MainActivity.this, new ExamCurriculamParserTask.ExamCurriculamParserTaskListener() {
+               @Override
+               public void onParsingComplete(List<Exam> exams) {
+                   if (exams!=null){
+                       Log.d("TAG",""+exams.size());
+                       for (Exam exam:exams){
+                           databaseHelper.insertExam(exam,userType);
+                       }
+                   }
 
-           callModuleFragment();
+                   callModuleFragment();
+               }
+           });
+           examCurriculamParserTask.execute("");
+
        }
 
        @Override

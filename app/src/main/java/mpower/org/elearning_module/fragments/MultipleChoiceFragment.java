@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,13 +16,15 @@ import java.util.Random;
 
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.model.ExamQuestion;
 import mpower.org.elearning_module.model.Question;
+import mpower.org.elearning_module.utils.AppConstants;
 
 /**
  * @author sabbir
  */
 public class MultipleChoiceFragment extends BaseFragment {
-    Question question;
+    ExamQuestion question;
     @BindView(R.id.tv_question)
     TextView tvQuestion;
     @BindView(R.id.btn_audio)
@@ -38,10 +41,10 @@ public class MultipleChoiceFragment extends BaseFragment {
         // Required empty public constructor
     }
 
- public static  MultipleChoiceFragment newInstance(Question question){
+ public static  MultipleChoiceFragment newInstance(ExamQuestion question){
         MultipleChoiceFragment fragment=new MultipleChoiceFragment();
      Bundle bundle = new Bundle();
-     bundle.putSerializable("question", question);
+     bundle.putSerializable(AppConstants.DATA, question);
      fragment.setArguments(bundle);
         return fragment;
     }
@@ -50,7 +53,7 @@ public class MultipleChoiceFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments()!=null){
-            question = (Question) getArguments().getSerializable("question");
+            question = (ExamQuestion) getArguments().getSerializable(AppConstants.DATA);
         }
     }
 
@@ -62,7 +65,7 @@ public class MultipleChoiceFragment extends BaseFragment {
     @Override
     protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         tvQuestion.setText(question.getDescriptionText());
-        String answer=question.getAnswer();
+        /*String answer=question.();
         ArrayList<CheckBox> checkBoxes;
         if (answer.contains(",")){
             String[] answers=answer.split(",");
@@ -81,7 +84,22 @@ public class MultipleChoiceFragment extends BaseFragment {
                     viewGroup.addView(checkBox);
                 }
             }
+        }*/
+
+        ArrayList<RadioButton> radioButtons=new ArrayList<>();
+        for (String answer:question.getAnswer()){
+            RadioButton radioButton=new RadioButton(getContext());
+            radioButton.setText(answer);
+            radioButton.setId(new Random().nextInt());
+            radioButtons.add(radioButton);
+
         }
+
+        ViewGroup viewGroup= (ViewGroup) view;
+        for (RadioButton radioButton:radioButtons){
+            viewGroup.addView(radioButton);
+        }
+
 
         audioButton.setOnClickListener(new View.OnClickListener() {
             @Override

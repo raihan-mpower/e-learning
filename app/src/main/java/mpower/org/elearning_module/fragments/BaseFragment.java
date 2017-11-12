@@ -42,8 +42,8 @@ public abstract class BaseFragment extends Fragment {
         if (context instanceof AudioPlayerListener){
             audioPlayerListener= (AudioPlayerListener) context;
         }else {
-            showToast("No player attached");
-            throw new RuntimeException("Implementor have to have a instance of MediaPlayerService");
+            //showToast("No player attached");
+           // throw new RuntimeException("Implementor have to have a instance of MediaPlayerService");
         }
     }
 

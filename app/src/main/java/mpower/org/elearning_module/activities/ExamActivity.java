@@ -13,9 +13,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
-
 
 import java.util.ArrayList;
 
@@ -26,36 +25,35 @@ import mpower.org.elearning_module.fragments.CourseEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
 import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
-import mpower.org.elearning_module.interfaces.AudioPlayerListener;
+import mpower.org.elearning_module.model.ExamQuestion;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 
-public class CourseContentActivity extends BaseActivity implements AudioPlayerListener {
-    public static String CURRENT_COURSE_TITLE = "CourseName";
+public class ExamActivity extends BaseActivity {
+    public static String CURRENT_COURSE_TITLE = "ExamName";
     private ViewPager mPager;
-    private ArrayList<Question> questions;
+    private ArrayList<ExamQuestion> questions;
     private TextView tvCounter;
-    private MediaPlayer mediaPlayer;
     private MediaPlayerService mediaPlayerService;
     boolean isServiceBound;
     private PagerAdapter mPagerAdapter;
 
-    public static final String Broadcast_PLAY_NEW_AUDIO = "com.sabbir.android.music.PlayNewAudio";
-
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getResourceLayout() {
+        return R.layout.activity_exam;
+    }
+
+    @Override
+    protected void onViewReady(Bundle savedInstanceState) {
+        Log.d("TAG","******");
         if (getIntent().getExtras()!=null){
-            questions= (ArrayList<Question>) getIntent().getExtras().get(AppConstants.DATA);
+            questions= (ArrayList<ExamQuestion>) getIntent().getExtras().get(AppConstants.DATA);
         }
-        startMusicSercive();
+      //  startMusicSercive();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,9 +77,9 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
                     tvCounter.setText(""+(position+1)+" of "+questions.size());
                 }
 
-               if (getMediaPlayerService().isPlaying()){
-                   getMediaPlayerService().stopMedia();
-               }
+                /*if (getMediaPlayerService().isPlaying()){
+                    getMediaPlayerService().stopMedia();
+                }*/
             }
 
             @Override
@@ -89,78 +87,9 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
 
             }
         });
-
-
-
     }
 
-   private void playMusic(String media){
-        if (!isServiceBound){
-            Intent playerIntet=new Intent(this,MediaPlayerService.class);
-            playerIntet.putExtra(AppConstants.AUDIO_FILE_NAME,media);
-            startService(playerIntet);
-            bindService(playerIntet,mServiceConnection,BIND_AUTO_CREATE);
-        }else {
-            getMediaPlayerService().playAudio(media);
-        }
-    }
-
-    @Override
-    protected int getResourceLayout() {
-        return R.layout.activity_course_content;
-    }
-
-    @Override
-    protected void onViewReady(Bundle savedInstanceState) {
-
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        stopMusicService();
-    }
-
-    public void jumpToPage(View view) {
-        mPager.setCurrentItem(mPager.getCurrentItem()+1,true);
-    }
-
-    public void jumpToPagePrev(View view) {
-        mPager.setCurrentItem(mPager.getCurrentItem()-1,true);
-    }
-
-    @Override
-    public void playAudio(String name) {
-        playMusic(name);
-    }
-
-    @Override
-    public void stopPlayer() {
-        getMediaPlayerService().stopMedia();
-    }
-
-
-
-    @Override
-    public void mutePlayer(boolean flag) {
-       getMediaPlayerService().muteAudio(flag);
-    }
-
-    @Override
-    public void pausePlayer() {
-        getMediaPlayerService().pauseMedia();
-    }
-
-    @Override
-    public void resume() {
-        getMediaPlayerService().resumeMedia();
-    }
-
-
-
-
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter{
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
 
         ScreenSlidePagerAdapter(FragmentManager fm) {
@@ -173,31 +102,19 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
             Fragment fragment;
 
             if (position==questions.size()){
-                    fragment=new CourseEndFragment();
+                fragment=new CourseEndFragment();
                 return fragment;
             }else {
-                switch (questions.get(position).getQuestionType()) {
-
-                    case TRUE_FALSE:
-                        fragment = TrueFalseFragment.newInstance(questions.get(position));
+                switch (questions.get(position).getType()) {
+                    case "multiple-choice":
+                        fragment=MultipleChoiceFragment.newInstance(questions.get(position));
                         break;
-                    case COURSE_CONTENT:
-                        fragment = CourseContentActivityFragment.newInstance(questions.get(position));
-                        break;
-                    case TRIVIA:
-                        fragment = TriviaFragment.newInstance(questions.get(position));
-                        break;
-                    case NOT_DEFINED:
-                        fragment=CourseContentActivityFragment.newInstance(questions.get(position));
-                        break;
-                    default:
-                        return CourseContentActivityFragment.newInstance(questions.get(position));
+                        default:
+                            return MultipleChoiceFragment.newInstance(questions.get(position));
                 }
 
 
             }
-
-            CurrentUserProgress.getInstance().setProgressQuestion(questions.get(position).getId());
 
             return fragment;
         }
@@ -242,5 +159,4 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
     public void stopMusicService(){
         if (isServiceBound()) unbindService(mServiceConnection);
     }
-
 }

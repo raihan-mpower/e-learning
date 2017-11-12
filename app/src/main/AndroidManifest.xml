@@ -7,28 +7,28 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:configChanges="locale"
-        android:largeHeap="true"
         android:name=".application.ELearningApp"
         android:allowBackup="true"
+        android:configChanges="locale"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:configChanges="locale"
             android:name=".MainActivity"
+            android:configChanges="locale"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:configChanges="locale"
             android:name=".activities.CourseActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_course"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:configChanges="locale"
             android:name=".activities.CourseContentActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_course_content"
             android:parentActivityName=".activities.CourseActivity"
             android:screenOrientation="landscape"
@@ -38,17 +38,15 @@
                 android:value="mpower.org.elearning_module.activities.CourseActivity" />
         </activity>
         <activity
-            android:configChanges="locale"
             android:name=".activities.LogInActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:configChanges="locale"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service android:name=".services.MediaPlayerService" />
 
         <activity android:name=".activities.UserTypeSelectionActivity" />
         <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.ForgotPasswordActivity"></activity>
+        <activity android:name=".activities.ForgotPasswordActivity" />
         <activity android:name=".activities.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,6 +54,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".activities.ExamActivity"></activity>
     </application>
 
 </manifest>

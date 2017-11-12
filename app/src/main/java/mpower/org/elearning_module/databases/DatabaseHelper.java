@@ -13,6 +13,8 @@ import java.util.List;
 
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.model.Course;
+import mpower.org.elearning_module.model.Exam;
+import mpower.org.elearning_module.model.ExamQuestion;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.AppConstants;
@@ -58,6 +60,23 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private static final String QUESTION_RIGHT_ANSWER="question_right_answer";
     private static final String QUESTION_TRUE_FALSE="question_true_false";
 
+    public static final String EXAM_TABLE="exam_table";
+    public static final String EXAM_ID="exam_id";
+    public static final String EXAM_TITLE="exam_title";
+
+    private static final String EXAM_QUESTION_TABLE="exam_question_table";
+    private static final String EXAM_QUESTION_ID="exam_question_id";
+    private static final String EXAM_QUESTION_TITLE="exam_question_title";
+    private static final String EXAM_QUESTION_IMAGE_NAME="exam_question_icon_image";
+    private static final String EXAM_QUESTION_AUDIO_NAME="exam_question_audio_name";
+    private static final String EXAM_QUESTION_TYPE="exam_question_type";
+    private static final String EXAM_QUESTION_DESCRIPTION="exam_question_description";
+    private static final String EXAM_QUESTION_ANSWER="exam_question_answer";
+    private static final String EXAM_QUESTION_RIGHT_ANSWER="exam_question_right_answer";
+    private static final String EXAM_QUESTION_TRUE_FALSE="exam_question_true_false";
+
+    public static final String EXAM_QUESTION_ANSWER_TABLE="exam_question_answer_table";
+
     public static final String TOTAL_COURSES_FOR_THIS_MODULE="total_module_courses";
 
 
@@ -73,6 +92,32 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         createCourseTable(db);
         createQuestionsTable(db);
         createProgressTable(db);
+        createExamTable(db);
+        createExamQuestionTable(db);
+        createExamQuestionAnswerTable(db);
+    }
+
+    private void createExamQuestionAnswerTable(SQLiteDatabase db) {
+       String sql="CREATE TABLE IF NOT EXISTS "+EXAM_QUESTION_ANSWER_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "
+               +EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_ANSWER+" TEXT"+" );";
+
+       db.execSQL(sql);
+    }
+
+    private void createExamQuestionTable(SQLiteDatabase db) {
+        String sql="CREATE TABLE "+EXAM_QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+COURSE_ID+" TEXT, "+EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_TITLE+" TEXT, "+
+                EXAM_QUESTION_DESCRIPTION+" TEXT, "+EXAM_QUESTION_TYPE+" INTEGER, "+EXAM_QUESTION_IMAGE_NAME+" TEXT, "+
+                EXAM_QUESTION_ANSWER+" TEXT, "+EXAM_QUESTION_AUDIO_NAME+" TEXT, "+EXAM_QUESTION_RIGHT_ANSWER+" TEXT, "+EXAM_QUESTION_TRUE_FALSE+" TEXT "+
+                ");";
+        Log.d(TAG,sql);
+        db.execSQL(sql);
+    }
+
+    private void createExamTable(SQLiteDatabase db) {
+       //TODO exam table
+        String sql="CREATE TABLE IF NOT EXISTS "+EXAM_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+EXAM_ID+" TEXT, "
+                +COURSE_ID+" TEXT, "+MODULE_ID+" TEXT, "+USER_TYPE+" INTEGER, "+EXAM_TITLE+" TEXT "+");";
+        db.execSQL(sql);
     }
 
     private void createProgressTable(SQLiteDatabase db) {
@@ -109,7 +154,8 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sql="DROP TABLE IF EXISTS "+MODULE_TABLE+","+COURSE_TABLE+","+QUESTION_TABLE+";";
+        String sql="DROP TABLE IF EXISTS "+MODULE_TABLE+","+COURSE_TABLE+","+QUESTION_TABLE+
+                ","+EXAM_QUESTION_TABLE+","+EXAM_TABLE+";";
         db.execSQL(sql);
         onCreate(db);
     }
@@ -150,6 +196,52 @@ public class DatabaseHelper extends CustomDbOpenHelper {
             return dataMap;
         }
 
+    }
+
+    public void insertExam(Exam exam,UserType userType){
+        if (checkIsDataAlreadyInDBorNot(EXAM_TABLE,EXAM_ID,exam.getId())){
+         return;
+        }
+        ContentValues cv=new ContentValues();
+        cv.put(EXAM_ID,exam.getId());
+        cv.put(EXAM_TITLE,exam.getTitle());
+        cv.put(COURSE_ID,exam.getCourseId());
+        cv.put(USER_TYPE,userType.ordinal());
+
+        for (ExamQuestion question:exam.getExamQuestions()){
+            Log.d(TAG,question.toString());
+            insertExamQuestion(exam.getId(),question);
+        }
+
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        sqLiteDatabase.insert(EXAM_TABLE,null,cv);
+    }
+
+    private void insertExamQuestion(String id, ExamQuestion question) {
+        ContentValues cv =new ContentValues();
+        cv.put(COURSE_ID,id);
+        cv.put(EXAM_QUESTION_ID,question.getId());
+        cv.put(EXAM_QUESTION_IMAGE_NAME,question.getImage());
+        cv.put(EXAM_QUESTION_TITLE,question.getTitleText());
+        cv.put(EXAM_QUESTION_AUDIO_NAME,question.getAudio());
+        cv.put(EXAM_QUESTION_DESCRIPTION,question.getDescriptionText());
+        cv.put(EXAM_QUESTION_RIGHT_ANSWER,question.getRightAnswer());
+        cv.put(EXAM_QUESTION_TYPE,question.getType());
+
+        for (String s:question.getAnswer()){
+            insertQuestionAnswer(question.getId(),s);
+        }
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.insert(EXAM_QUESTION_TABLE,null,cv);
+    }
+
+    private void insertQuestionAnswer(String id, String s) {
+        ContentValues cv=new ContentValues();
+        cv.put(EXAM_QUESTION_ID,id);
+        cv.put(EXAM_QUESTION_ANSWER,s);
+
+        this.getWritableDatabase().insert(EXAM_QUESTION_ANSWER_TABLE,null,cv);
     }
 
     public void insertModule(Module module, UserType userType) {
@@ -355,5 +447,103 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         }
 
         return 0;
+    }
+
+
+    public Exam getExam(String courseId){
+        String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+COURSE_ID+" = '"+courseId+"'";
+        Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
+        if (cursor!=null && cursor.getCount()>0){
+            cursor.moveToFirst();
+            Exam exam=new Exam();
+            while (!cursor.isAfterLast()){
+                exam.setCourseId(cursor.getString(cursor.getColumnIndex(COURSE_ID)));
+                exam.setId(cursor.getString(cursor.getColumnIndex(EXAM_ID)));
+//                exam.setModuleId(cursor.getString(cursor.getColumnIndex(MODULE_ID)));
+                exam.setTitle(cursor.getString(cursor.getColumnIndex(EXAM_TITLE)));
+                cursor.moveToNext();
+            }
+            cursor.close();
+            exam.setExamQuestions(getExamQuestions(exam.getId()));
+            return exam;
+        }
+
+        return null;
+    }
+
+   public List<Exam> getAllExams(){
+       String sql="SELECT * FROM "+EXAM_TABLE;
+       List<Exam> exams;
+       Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
+       if (cursor!=null && cursor.getCount()>0){
+           exams=new ArrayList<>();
+           cursor.moveToFirst();
+           while (!cursor.isAfterLast()){
+               Exam exam=new Exam();
+               exam.setCourseId(cursor.getString(cursor.getColumnIndex(COURSE_ID)));
+               exam.setId(cursor.getString(cursor.getColumnIndex(EXAM_ID)));
+               exam.setModuleId(cursor.getString(cursor.getColumnIndex(MODULE_ID)));
+               exam.setTitle(cursor.getString(cursor.getColumnIndex(EXAM_TITLE)));
+
+               exam.setExamQuestions(getExamQuestions(exam.getId()));
+           }
+           cursor.close();
+           return exams;
+       }
+
+       return null;
+   }
+
+    private List<ExamQuestion> getExamQuestions(String id) {
+        String sql = "SELECT * FROM " + EXAM_QUESTION_TABLE + " WHERE " + EXAM_QUESTION_ID + " = '" + id + "'";
+        Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
+        if (cursor!=null && cursor.getCount()>0){
+            List<ExamQuestion> questions=new ArrayList<>();
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                ExamQuestion question=new ExamQuestion();
+                question.setId(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_ID)));
+                question.setAudio(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_AUDIO_NAME)));
+                question.setImage(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_IMAGE_NAME)));
+                question.setDescriptionText(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_DESCRIPTION)));
+                question.setRightAnswer(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_RIGHT_ANSWER)));
+                question.setType(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_TYPE)));
+
+                question.setAnswer(getExamQuestionAnswer(question.getId()));
+                questions.add(question);
+                cursor.moveToNext();
+
+
+            }
+            cursor.close();
+            return questions;
+
+        }
+       return null;
+   }
+
+    private List<String> getExamQuestionAnswer(String id) {
+       String sql="SELECT * FROM "+EXAM_QUESTION_ANSWER_TABLE+" WHERE "+EXAM_QUESTION_ID+" = '"+id+"'";
+
+       Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
+
+       if (cursor!=null && cursor.getCount()>0){
+           List<String> answers=new ArrayList<>();
+           cursor.moveToFirst();
+           while (!cursor.isAfterLast()){
+               answers.add(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_ANSWER)));
+               cursor.moveToNext();
+           }
+           cursor.close();
+           return answers;
+       }
+
+       return null;
+    }
+
+    public boolean isExamAvailableForCourse(String currentUserCourseProgress) {
+       String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+COURSE_ID+" = '"+currentUserCourseProgress+"'";
+       Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
+        return cursor != null && cursor.getCount() > 0;
     }
 }
