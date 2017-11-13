@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:hardwareAccelerated="true"
         android:name=".application.ELearningApp"
         android:allowBackup="true"
         android:configChanges="locale"
@@ -40,7 +41,8 @@
         <activity
             android:name=".activities.LogInActivity"
             android:configChanges="locale"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <service android:name=".services.MediaPlayerService" />
 
@@ -57,7 +59,9 @@
         <activity
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activities.ExamActivity"></activity>
+            android:name=".activities.ExamActivity">
+
+        </activity>
     </application>
 
 </manifest>

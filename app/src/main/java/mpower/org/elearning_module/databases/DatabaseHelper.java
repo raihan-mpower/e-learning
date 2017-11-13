@@ -26,7 +26,8 @@ import mpower.org.elearning_module.utils.UserType;
 
 public class DatabaseHelper extends CustomDbOpenHelper {
 
-    private static final String TAG="DatabaseHelper";
+    private static final String TAG=DatabaseHelper.class.getSimpleName();
+
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME="tb_e_learn.db";
     private static final String _ID="_id";
@@ -60,9 +61,9 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private static final String QUESTION_RIGHT_ANSWER="question_right_answer";
     private static final String QUESTION_TRUE_FALSE="question_true_false";
 
-    public static final String EXAM_TABLE="exam_table";
-    public static final String EXAM_ID="exam_id";
-    public static final String EXAM_TITLE="exam_title";
+    private static final String EXAM_TABLE="exam_table";
+    private static final String EXAM_ID="exam_id";
+    private static final String EXAM_TITLE="exam_title";
 
     private static final String EXAM_QUESTION_TABLE="exam_question_table";
     private static final String EXAM_QUESTION_ID="exam_question_id";
@@ -75,9 +76,14 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private static final String EXAM_QUESTION_RIGHT_ANSWER="exam_question_right_answer";
     private static final String EXAM_QUESTION_TRUE_FALSE="exam_question_true_false";
 
-    public static final String EXAM_QUESTION_ANSWER_TABLE="exam_question_answer_table";
+    private static final String EXAM_QUESTION_ANSWER_TABLE="exam_question_answer_table";
 
-    public static final String TOTAL_COURSES_FOR_THIS_MODULE="total_module_courses";
+    private static final String TOTAL_COURSES_FOR_THIS_MODULE="total_module_courses";
+
+    private static final String EXAM_PROGRESS_TABLE="exam_progress_table";
+    private static final String PREVEIOUS_EXAM_QUESTIONS="prev_exam_questions";
+    private static final String EXAM_SCORE="exam_score";
+
 
 
    public DatabaseHelper(Context context)  {
@@ -88,13 +94,71 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        createModuleTable(db);
+
+        TableCreator.createTables(db,getAllTheTablesSQL());
+
+       /* createModuleTable(db);
         createCourseTable(db);
         createQuestionsTable(db);
         createProgressTable(db);
         createExamTable(db);
         createExamQuestionTable(db);
         createExamQuestionAnswerTable(db);
+        createExamProgressTable(db);*/
+    }
+
+    private List<String> getAllTheTablesSQL() {
+       List<String> sqlList=new ArrayList<>();
+
+        String examProgresssql=EXAM_PROGRESS_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY,"
+                +USER_NAME+" TEXT, "+EXAM_SCORE+" INTEGER, "+EXAM_ID+" TEXT, "+PREVEIOUS_EXAM_QUESTIONS+" TEXT "
+                +" );";
+
+        String examQuestionAnswerTablesql=EXAM_QUESTION_ANSWER_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "
+                +EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_ANSWER+" TEXT"+" );";
+
+        String examQuestionTablesql=EXAM_QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+COURSE_ID+" TEXT, "+EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_TITLE+" TEXT, "+
+                EXAM_QUESTION_DESCRIPTION+" TEXT, "+EXAM_QUESTION_TYPE+" INTEGER, "+EXAM_QUESTION_IMAGE_NAME+" TEXT, "+
+                EXAM_QUESTION_ANSWER+" TEXT, "+EXAM_QUESTION_AUDIO_NAME+" TEXT, "+EXAM_QUESTION_RIGHT_ANSWER+" TEXT, "+EXAM_QUESTION_TRUE_FALSE+" TEXT "+
+                ");";
+
+        String examTablesql=EXAM_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+EXAM_ID+" TEXT, "
+                +COURSE_ID+" TEXT, "+MODULE_ID+" TEXT, "+USER_TYPE+" INTEGER, "+EXAM_TITLE+" TEXT "+");";
+
+        String pregressTablesql=PROGRESS_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+USER_NAME+" TEXT ,"+MODULE_ID+" TEXT, "+
+                COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT,"+USER_TYPE+" INTEGER "+");";
+
+        String questionTablesql= QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT, "+QUESTION_TITLE+" TEXT, "+
+                QUESTION_DESCRIPTION+" TEXT, "+QUESTION_TYPE+" INTEGER, "+QUESTION_IMAGE_NAME+" TEXT, "+
+                QUESTION_ANSWER+" TEXT, "+QUESTION_AUDIO_NAME+" TEXT, "+QUESTION_RIGHT_ANSWER+" TEXT, "+QUESTION_TRUE_FALSE+" TEXT "+
+                ");";
+
+        String coursesql=COURSE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+COURSE_TITLE+" TEXT, "+
+                COURSE_STATUS+" INTEGER ,"+COURSE_ICON_IMAGE_NAME+" TEXT "+QUESTION_ID+" TEXT "+
+                ");";
+
+        String modulesql=MODULE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+MODULE_TITLE+" TEXT, "+USER_TYPE+" INTEGER, "+
+                MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT, "+TOTAL_COURSES_FOR_THIS_MODULE+" INTEGER "+
+                ");";
+
+        sqlList.add(modulesql);
+        sqlList.add(coursesql);
+        sqlList.add(questionTablesql);
+        sqlList.add(pregressTablesql);
+        sqlList.add(examProgresssql);
+        sqlList.add(examTablesql);
+        sqlList.add(examQuestionAnswerTablesql);
+        sqlList.add(examQuestionTablesql);
+
+        return sqlList;
+    }
+
+
+    private void createExamProgressTable(SQLiteDatabase db) {
+        String sql="CREATE TABLE IF NOT EXISTS "+EXAM_PROGRESS_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY,"
+                +USER_NAME+" TEXT, "+EXAM_SCORE+" INTEGER, "+EXAM_ID+" TEXT, "+PREVEIOUS_EXAM_QUESTIONS+" TEXT "
+                +" );";
+        db.execSQL(sql);
     }
 
     private void createExamQuestionAnswerTable(SQLiteDatabase db) {
@@ -209,7 +273,6 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(USER_TYPE,userType.ordinal());
 
         for (ExamQuestion question:exam.getExamQuestions()){
-            Log.d(TAG,question.toString());
             insertExamQuestion(exam.getId(),question);
         }
 
@@ -345,7 +408,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         return null;
     }
 
-    private ArrayList<Course> getAllCourses(String id) {
+    public ArrayList<Course> getAllCourses(String id) {
         String sql="SELECT * FROM "+COURSE_TABLE+" WHERE "+MODULE_ID+" = '"+id+"'";
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         ArrayList<Course> courses;
@@ -546,4 +609,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
        Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         return cursor != null && cursor.getCount() > 0;
     }
+
+
+
 }

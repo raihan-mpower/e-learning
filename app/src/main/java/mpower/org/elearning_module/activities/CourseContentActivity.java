@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
@@ -16,14 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.fragments.CourseContentActivityFragment;
 import mpower.org.elearning_module.fragments.CourseEndFragment;
-import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
 import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.interfaces.AudioPlayerListener;
@@ -33,11 +30,11 @@ import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 
 public class CourseContentActivity extends BaseActivity implements AudioPlayerListener {
+
     public static String CURRENT_COURSE_TITLE = "CourseName";
     private ViewPager mPager;
     private ArrayList<Question> questions;
     private TextView tvCounter;
-    private MediaPlayer mediaPlayer;
     private MediaPlayerService mediaPlayerService;
     boolean isServiceBound;
     private PagerAdapter mPagerAdapter;

@@ -48,7 +48,7 @@
             android:layout_weight="1"
             >
             <TextView
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/tv_q_title"
                 android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                 android:layout_margin="10dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_gravity="start"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

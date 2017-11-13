@@ -21,7 +21,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:layout_marginBottom="30dp"
                 android:textSize="30sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/black"
                 android:text="TB E Learning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

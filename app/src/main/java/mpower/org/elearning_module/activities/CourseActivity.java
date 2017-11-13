@@ -1,29 +1,21 @@
 package mpower.org.elearning_module.activities;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
+import mpower.org.elearning_module.MainActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.adapter.CourseGridViewAdapter;
 import mpower.org.elearning_module.databases.DatabaseHelper;
@@ -32,7 +24,6 @@ import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.Helper;
-import mpower.org.elearning_module.utils.LocaleHelper;
 import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 
@@ -59,18 +50,55 @@ public class CourseActivity extends AppCompatActivity {
             courses= (ArrayList<Course>) getIntent().getExtras().get(AppConstants.DATA);
         }
         setTitle(CURRENT_MODULE_TITLE);
+        if (courses==null){
+            databaseHelper=new DatabaseHelper(this);
+            HashMap<String,String> progress=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),
+                    CurrentUserProgress.getInstance().getUserType());
+            Log.d("TAG",progress.toString());
 
-        for (Course course:courses){
-            if (course.getId().equalsIgnoreCase(CurrentUserProgress.getInstance().getCurrentUserCourseProgress())){
-                course.setStatus(Status.UNLOCKED);
-            }else if (Integer.valueOf(course.getId())<Integer.valueOf(CurrentUserProgress.getInstance().getCurrentUserCourseProgress())){
-                course.setStatus(Status.UNLOCKED);
+            String courseId=progress.get(AppConstants.KEY_COURSE_ID);
+            String moduleId=progress.get(AppConstants.KEY_MODULE_ID);
+
+            courses=databaseHelper.getAllCourses(moduleId);
+
+            if (courses==null){
+                // there are no courses for this module go back to module fragment or MainActivity
+                goBackToMainActivity();
             }else {
-                course.setStatus(Status.LOCKED);
+                for (Course course:courses){
+                    if (course.getId().equalsIgnoreCase(courseId)){
+                        course.setStatus(Status.UNLOCKED);
+                    }else if (Integer.valueOf(course.getId())<Integer.valueOf(courseId)){
+                        course.setStatus(Status.UNLOCKED);
+                    }else {
+                        course.setStatus(Status.LOCKED);
+                    }
+                }
+            }
+
+
+
+        }else {
+            for (Course course:courses){
+                if (course.getId().equalsIgnoreCase(CurrentUserProgress.getInstance().getCurrentUserCourseProgress())){
+                    course.setStatus(Status.UNLOCKED);
+                }else if (Integer.valueOf(course.getId())<Integer.valueOf(CurrentUserProgress.getInstance().getCurrentUserCourseProgress())){
+                    course.setStatus(Status.UNLOCKED);
+                }else {
+                    course.setStatus(Status.LOCKED);
+                }
             }
         }
 
 
+
+
+    }
+
+    private void goBackToMainActivity() {
+        Intent intent=new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

@@ -16,7 +16,7 @@
                 "type": "multiple-choice",
                 "image": "tuberculosis.jpg",
                 "audio": "",
-                "description_text": "what ?",
+                "description_text": "what is the answer ?",
                 "answer":[ "a","b","c","d" ],
                 "right_answer": "a",
                 "wrong_answer": ""
@@ -28,7 +28,7 @@
                 "type": "multiple-choice",
                 "image": "tuberculosis.jpg",
                 "audio": "",
-                "description_text": "what ?",
+                "description_text": "Is TB .. .... ?",
                 "answer":[ "a","b","c","d" ],
                 "right_answer": "a",
                 "wrong_answer": ""
@@ -50,7 +50,7 @@
                 "type": "multiple-choice",
                 "image": "tuberculosis.jpg",
                 "audio": "",
-                "description_text": "what ?",
+                "description_text": "TB is ........ ?",
                 "answer":[ "a","b","c","d" ],
                 "right_answer": "a",
                 "wrong_answer": ""
@@ -62,7 +62,7 @@
                 "type": "multiple-choice",
                 "image": "tuberculosis.jpg",
                 "audio": "",
-                "description_text": "what ?",
+                "description_text": "asdfdasjkfhllafsasd afagasfb ?",
                 "answer":[ "a","b","c","d" ],
                 "right_answer": "a",
                 "wrong_answer": ""

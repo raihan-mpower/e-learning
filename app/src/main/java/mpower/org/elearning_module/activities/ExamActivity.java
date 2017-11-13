@@ -14,6 +14,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.fragments.CourseContentActivityFragment;
 import mpower.org.elearning_module.fragments.CourseEndFragment;
+import mpower.org.elearning_module.fragments.ExamEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
 import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
@@ -102,7 +104,7 @@ public class ExamActivity extends BaseActivity {
             Fragment fragment;
 
             if (position==questions.size()){
-                fragment=new CourseEndFragment();
+                fragment=new ExamEndFragment();
                 return fragment;
             }else {
                 switch (questions.get(position).getType()) {
@@ -158,5 +160,13 @@ public class ExamActivity extends BaseActivity {
 
     public void stopMusicService(){
         if (isServiceBound()) unbindService(mServiceConnection);
+    }
+
+    public void jumpToPage(View view) {
+        mPager.setCurrentItem(mPager.getCurrentItem()+1,true);
+    }
+
+    public void jumpToPagePrev(View view) {
+        mPager.setCurrentItem(mPager.getCurrentItem()-1,true);
     }
 }
