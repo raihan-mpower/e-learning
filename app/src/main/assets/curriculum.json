@@ -13,11 +13,11 @@
             "icon_image": "icon1.png",
             "questions": [
               {
-                "title_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ",
+                "title_text": "",
                 "id": "1",
                 "type": "course-content",
                 "image": "1.jpg",
-                "audio": "",
+                "audio": "audio_1.mp3",
                 "description_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ। Mycobacterium tuberculosis নামের একটি ব্যাকটেরিয়া যক্ষ্মার জন্য দায়ী। এই ব্যাকটেরিয়া যক্ষ্মা রোগীর হাঁচি বা কাশি হতে বাতাসের মাধ্যমে ছড়িয়ে প্রাথমিকভাবে নিঃশ্বাসের মাধ্যমে ফুসফুসে প্রবেশ করে ও ফুসফুসকে আক্রান্ত করে।",
                 "answer": "",
                 "right_answer": "",
@@ -25,11 +25,11 @@
                 "true_false": ""
               },
               {
-                "title_text": "সঠিক চিকিৎসার",
+                "title_text": "",
                 "id": "2",
                 "type": "course-content",
                 "image": "3.jpg",
-                "audio": "",
+                "audio": "audio_2.mp3",
                 "description_text": "সঠিক চিকিৎসার অভাবে যক্ষ্মা শরীরের অন্যান্য অঙ্গ-প্রত্যঙ্গেও ছড়িয়ে পড়তে পারে যেমন: কিডনি, মরেুদন্ড, মস্তিষ্ক, হাড়, পাকস্থলি, লসিকা গ্রন্থি(Lymph node) ইত্যাদি।",
                 "answer": "",
                 "right_answer": "",
@@ -37,11 +37,11 @@
                 "true_false": ""
               },
               {
-                "title_text": "সঠিক চিকিৎসার",
+                "title_text": "",
                 "id": "3",
                 "type": "course-content",
                 "image": "",
-                "audio": "",
+                "audio": "audio_3.mp3",
                 "description_text": "সন্দেহ নেই যক্ষ্মা একটি মারাত্মক রোগ। তবে এটি দুরারোগ্য নয়। নিয়ম মেনে পূর্ণ মেয়াদে চিকিৎসা করালে যক্ষ্মা পুরোপুরি ভাল হয়ে যায়।",
                 "answer": "",
                 "right_answer": "",
@@ -61,7 +61,7 @@
                 "true_false": ""
               },
               {
-                "title_text": "যক্ষ্মা ",
+                "title_text": "",
                 "id": "5",
                 "type": "course-content",
                 "image": "5.jpg",
@@ -333,7 +333,7 @@
                 "description_text": "",
                 "answer": "সুপ্ত যক্ষ্মা (Latent TB) কি  সংক্রমিত ব্যক্তি থেকে অন্য ব্যক্তিতে যক্ষ্মার জীবাণু ছড়ায় না",
                 "right_answer": "না",
-                "wrong_answer": "হ্যা ",
+                "wrong_answer": "হ্যাঁ",
                 "true_false": "সুপ্ত যক্ষ্মা (Latent TB) সংক্রমিত ব্যক্তির মাধ্যমে যক্ষ্মা ছড়ায় না। "
               },
               {
@@ -417,7 +417,7 @@
                 "description_text": "",
                 "answer": "যেকোন বয়সী ব্যক্তিকে যক্ষ্মার ভ্যাকসিন BCG (Bacille Calmette-Guerin) দেয়া যায়",
                 "right_answer": "না",
-                "wrong_answer": "হ্যা ",
+                "wrong_answer": "হ্যাঁ",
                 "true_false": "সচরাচর নবজাতককে BCG (Bacille Calmette-Guerin) টিকা দেয়া হয়। "
               }
             ]
@@ -504,7 +504,7 @@
         "user_type": "DOT",
         "title": "সাধারণ যক্ষ্মা (ডিএস টিবি)",
         "id": "2",
-        "icon_image": "icon1.png",
+        "icon_image": "icon2.png",
         "courses": [
           {
             "title": "সাধারণ যক্ষ্মা (ডিএস টিবি)",
@@ -532,7 +532,7 @@
         "user_type": "DOT",
         "title": "ঔষধ প্রতিরোধী যক্ষ্মা (ডি আর টিবি)",
         "id": "3",
-        "icon_image": "icon1.png",
+        "icon_image": "icon3.png",
         "courses": [
           {
             "title": "ঔষধ প্রতিরোধী যক্ষ্মা (ডি আর টিবি)",
@@ -560,7 +560,7 @@
         "user_type": "DOT",
         "title": "যক্ষ্মা রোগীর অধিকার ও কর্তব্য",
         "id": "4",
-        "icon_image": "icon1.png",
+        "icon_image": "icon4.png",
         "courses": [
           {
             "title": "যক্ষ্মা রোগীর অধিকার ও কর্তব্য",

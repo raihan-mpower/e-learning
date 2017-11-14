@@ -24,6 +24,7 @@ public class TrueFalseFragment extends BaseFragment {
     TextView tvDescription;
     private RadioButton radioYes,radioNo;
     private TextView tvQuestionText,tvRightAnswer;
+
     private Question question;
 
     boolean isPlaying=false;

@@ -58,6 +58,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private static final String QUESTION_TYPE="question_type";
     private static final String QUESTION_DESCRIPTION="question_description";
     private static final String QUESTION_ANSWER="question_answer";
+    private static final String QUESTION_WRONG_ANSWER="question_wrong_answer";
     private static final String QUESTION_RIGHT_ANSWER="question_right_answer";
     private static final String QUESTION_TRUE_FALSE="question_true_false";
 
@@ -131,6 +132,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
         String questionTablesql= QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+QUESTION_ID+" TEXT, "+QUESTION_TITLE+" TEXT, "+
                 QUESTION_DESCRIPTION+" TEXT, "+QUESTION_TYPE+" INTEGER, "+QUESTION_IMAGE_NAME+" TEXT, "+
+                QUESTION_WRONG_ANSWER+" TEXT, "+
                 QUESTION_ANSWER+" TEXT, "+QUESTION_AUDIO_NAME+" TEXT, "+QUESTION_RIGHT_ANSWER+" TEXT, "+QUESTION_TRUE_FALSE+" TEXT "+
                 ");";
 
@@ -359,6 +361,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(QUESTION_AUDIO_NAME,question.getAudio());
         cv.put(QUESTION_DESCRIPTION,question.getDescriptionText());
         cv.put(QUESTION_RIGHT_ANSWER,question.getRightAnswer());
+        cv.put(QUESTION_WRONG_ANSWER,question.getWrongAnswer());
         cv.put(QUESTION_ID,question.getId());
         cv.put(QUESTION_TYPE,question.getType());
 
@@ -447,6 +450,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 question.setTitleText(cursor.getString(cursor.getColumnIndex(QUESTION_TITLE)));
                 question.setAnswer(cursor.getString(cursor.getColumnIndex(QUESTION_ANSWER)));
                 question.setRightAnswer(cursor.getString(cursor.getColumnIndex(QUESTION_RIGHT_ANSWER)));
+                question.setWrongAnswer(cursor.getString(cursor.getColumnIndex(QUESTION_WRONG_ANSWER)));
                 question.setImage(cursor.getString(cursor.getColumnIndex(QUESTION_IMAGE_NAME)));
                 question.setType(cursor.getString(cursor.getColumnIndex(QUESTION_TYPE)));
                 question.setAudio(cursor.getString(cursor.getColumnIndex(QUESTION_AUDIO_NAME)));

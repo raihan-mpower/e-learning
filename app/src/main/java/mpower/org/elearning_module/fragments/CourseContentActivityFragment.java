@@ -66,13 +66,12 @@ public class CourseContentActivityFragment extends BaseFragment {
         tvTitle.setText(question.getTitleText());
         String imageName=question.getImage();
         if (imageName!=null && !imageName.isEmpty()){
-           // contentImage.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),"images/"+question.getImage()));
             Glide.with(this).load(Uri.fromFile(new File(ELearningApp.IMAGES_FOLDER_NAME+ File.separator+imageName)))
                     .into(contentImage);
         }else {
             imageLayout.setVisibility(View.GONE);
         }
-        final String audioName=question.getAudio();
+        /*final String audioName=question.getAudio();
         if (audioName!=null && !audioName.isEmpty()){
             getAudioPlayerListener().playAudio(audioName);
             audiobutton.setImageResource(R.drawable.audio);
@@ -105,16 +104,91 @@ public class CourseContentActivityFragment extends BaseFragment {
 
 
             }
+        });*/
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        final String audioName=question.getAudio();
+        if (audioName!=null && !audioName.isEmpty()){
+           // getAudioPlayerListener().playAudio(audioName);
+            //audiobutton.setImageResource(R.drawable.audio);
+            //isPlaying=true;
+        }
+
+
+        /*audiobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (audioName!=null && !audioName.isEmpty()){
+                    if (isPlaying){
+                        if (isPaused){
+                            getAudioPlayerListener().resume();
+                            audiobutton.setImageResource(R.drawable.audio);
+                            isPaused=false;
+                        }else {
+                            getAudioPlayerListener().pausePlayer();
+                            audiobutton.setImageResource(R.drawable.mute_small);
+                            isPaused=true;
+                        }
+
+                    }else {
+                        getAudioPlayerListener().playAudio(question.getAudio());
+                        audiobutton.setImageResource(R.drawable.audio);
+                        isPlaying=true;
+                        isPaused=false;
+                    }
+                }
+
+
+            }
+        });*/
+
+        audiobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (audioName!=null && !audioName.isEmpty()){
+                    if (isPlaying){
+
+                            getAudioPlayerListener().stopPlayer();
+                            audiobutton.setImageResource(R.drawable.audio);
+                            isPlaying=false;
+
+                    }else {
+                        getAudioPlayerListener().playAudio(question.getAudio());
+                        audiobutton.setImageResource(R.drawable.mute_small);
+                        isPlaying=true;
+                        isPaused=false;
+                    }
+                }
+
+
+            }
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
+    }
 
     @Override
     public void onPause() {
         super.onPause();
         getAudioPlayerListener().stopPlayer();
     }
+
+
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+       // getAudioPlayerListener().stopPlayer();
+    }
+
 
     @Override
     public void onStop() {
@@ -127,12 +201,12 @@ public class CourseContentActivityFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
             if (question!=null){
-                String audioName=question.getAudio();
+               /* String audioName=question.getAudio();
                 if (audioName!=null && !audioName.isEmpty()){
                     getAudioPlayerListener().playAudio(audioName);
                     audiobutton.setImageResource(R.drawable.audio);
                     isPlaying=true;
-                }
+                }*/
             }
 
         }

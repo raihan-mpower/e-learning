@@ -7,6 +7,7 @@
     tools:context="mpower.org.elearning_module.activities.LogInActivity">
 
         <LinearLayout
+            android:id="@+id/login_layout"
             android:layout_centerInParent="true"
             android:padding="10dp"
             android:gravity="center"
@@ -92,4 +93,26 @@
                 android:layout_height="60dp" />
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_below="@+id/login_layout"
+        android:layout_margin="10dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+            <ImageView
+                android:layout_weight="1"
+                android:src="@drawable/usaid_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <ImageView
+                android:layout_weight="1"
+                android:src="@drawable/og_image_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <ImageView
+                android:layout_weight="1"
+                android:src="@drawable/challenge_tb_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+    </LinearLayout>
 </RelativeLayout>

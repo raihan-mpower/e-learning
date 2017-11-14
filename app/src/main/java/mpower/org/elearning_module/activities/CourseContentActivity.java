@@ -73,6 +73,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
                 if (position==questions.size()){
                     tvCounter.setText("Last Page");
                 }else {
+
                     tvCounter.setText(""+(position+1)+" of "+questions.size());
                 }
 
