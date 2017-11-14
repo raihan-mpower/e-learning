@@ -6,12 +6,8 @@
     android:layout_height="match_parent"
     tools:context="mpower.org.elearning_module.activities.LogInActivity">
 
-    <ScrollView
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <LinearLayout
+            android:layout_centerInParent="true"
             android:padding="10dp"
             android:gravity="center"
             android:orientation="vertical"
@@ -42,8 +38,10 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:hint="Mobile No."
+                android:background="@drawable/edittext_rounded_corner"
                 android:layout_height="70dp">
                 <EditText
+
                     android:inputType="phone"
                     android:id="@+id/login_username"
                     android:layout_width="match_parent"
@@ -53,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:hint="Password"
                 app:hintEnabled="true"
+                android:background="@drawable/edittext_rounded_corner"
                 app:hintAnimationEnabled="true"
                 android:layout_height="70dp">
                 <EditText
@@ -85,13 +84,12 @@
             <Button
                 android:layout_marginTop="15dp"
                 android:textColor="@color/white_background"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_rounded_corner"
                 android:id="@+id/login_button"
                 android:onClick="checkLogIn"
                 android:text="LogIn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="60dp" />
         </LinearLayout>
-    </ScrollView>
 
 </RelativeLayout>

@@ -16,7 +16,7 @@
             android:onClick="callLogin"
             android:layout_margin="2dp"
             android:textColor="@color/white_background"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/button_rounded_corner"
             android:text="LOGIN"
             android:layout_width="match_parent"
             android:layout_height="60dp" />
@@ -24,7 +24,7 @@
             android:onClick="callSignUp"
             android:layout_margin="2dp"
             android:textColor="@color/white_background"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/button_rounded_corner"
             android:text="Sign Up"
             android:layout_width="match_parent"
             android:layout_height="60dp" />

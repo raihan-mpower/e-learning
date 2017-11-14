@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
@@ -41,6 +42,8 @@ public class ExamActivity extends BaseActivity {
     private MediaPlayerService mediaPlayerService;
     boolean isServiceBound;
     private PagerAdapter mPagerAdapter;
+
+    public static HashMap<Integer,Integer> sExamAnswerMap;
 
 
 

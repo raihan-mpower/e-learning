@@ -115,9 +115,10 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 +" );";
 
         String examQuestionAnswerTablesql=EXAM_QUESTION_ANSWER_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "
+                +EXAM_ID+" TEXT, "
                 +EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_ANSWER+" TEXT"+" );";
 
-        String examQuestionTablesql=EXAM_QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+COURSE_ID+" TEXT, "+EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_TITLE+" TEXT, "+
+        String examQuestionTablesql=EXAM_QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+EXAM_ID+" TEXT, "+EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_TITLE+" TEXT, "+
                 EXAM_QUESTION_DESCRIPTION+" TEXT, "+EXAM_QUESTION_TYPE+" INTEGER, "+EXAM_QUESTION_IMAGE_NAME+" TEXT, "+
                 EXAM_QUESTION_ANSWER+" TEXT, "+EXAM_QUESTION_AUDIO_NAME+" TEXT, "+EXAM_QUESTION_RIGHT_ANSWER+" TEXT, "+EXAM_QUESTION_TRUE_FALSE+" TEXT "+
                 ");";
@@ -163,13 +164,14 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     private void createExamQuestionAnswerTable(SQLiteDatabase db) {
        String sql="CREATE TABLE IF NOT EXISTS "+EXAM_QUESTION_ANSWER_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "
+               +EXAM_ID+" TEXT, "
                +EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_ANSWER+" TEXT"+" );";
 
        db.execSQL(sql);
     }
 
     private void createExamQuestionTable(SQLiteDatabase db) {
-        String sql="CREATE TABLE "+EXAM_QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+COURSE_ID+" TEXT, "+EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_TITLE+" TEXT, "+
+        String sql="CREATE TABLE "+EXAM_QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+EXAM_ID+" TEXT, "+EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_TITLE+" TEXT, "+
                 EXAM_QUESTION_DESCRIPTION+" TEXT, "+EXAM_QUESTION_TYPE+" INTEGER, "+EXAM_QUESTION_IMAGE_NAME+" TEXT, "+
                 EXAM_QUESTION_ANSWER+" TEXT, "+EXAM_QUESTION_AUDIO_NAME+" TEXT, "+EXAM_QUESTION_RIGHT_ANSWER+" TEXT, "+EXAM_QUESTION_TRUE_FALSE+" TEXT "+
                 ");";
@@ -282,7 +284,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     private void insertExamQuestion(String id, ExamQuestion question) {
         ContentValues cv =new ContentValues();
-        cv.put(COURSE_ID,id);
+        cv.put(EXAM_ID,id);
         cv.put(EXAM_QUESTION_ID,question.getId());
         cv.put(EXAM_QUESTION_IMAGE_NAME,question.getImage());
         cv.put(EXAM_QUESTION_TITLE,question.getTitleText());
@@ -292,16 +294,17 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(EXAM_QUESTION_TYPE,question.getType());
 
         for (String s:question.getAnswer()){
-            insertQuestionAnswer(question.getId(),s);
+            insertQuestionAnswer(id,question.getId(),s);
         }
 
         SQLiteDatabase db=this.getWritableDatabase();
         db.insert(EXAM_QUESTION_TABLE,null,cv);
     }
 
-    private void insertQuestionAnswer(String id, String s) {
+    private void insertQuestionAnswer(String examId,String questionId, String s) {
         ContentValues cv=new ContentValues();
-        cv.put(EXAM_QUESTION_ID,id);
+        cv.put(EXAM_ID,examId);
+        cv.put(EXAM_QUESTION_ID,questionId);
         cv.put(EXAM_QUESTION_ANSWER,s);
 
         this.getWritableDatabase().insert(EXAM_QUESTION_ANSWER_TABLE,null,cv);
@@ -557,8 +560,8 @@ public class DatabaseHelper extends CustomDbOpenHelper {
        return null;
    }
 
-    private List<ExamQuestion> getExamQuestions(String id) {
-        String sql = "SELECT * FROM " + EXAM_QUESTION_TABLE + " WHERE " + EXAM_QUESTION_ID + " = '" + id + "'";
+    private List<ExamQuestion> getExamQuestions(String examId) {
+        String sql = "SELECT * FROM " + EXAM_QUESTION_TABLE + " WHERE " + EXAM_ID + " = '" + examId + "'";
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         if (cursor!=null && cursor.getCount()>0){
             List<ExamQuestion> questions=new ArrayList<>();
@@ -572,7 +575,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 question.setRightAnswer(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_RIGHT_ANSWER)));
                 question.setType(cursor.getString(cursor.getColumnIndex(EXAM_QUESTION_TYPE)));
 
-                question.setAnswer(getExamQuestionAnswer(question.getId()));
+                question.setAnswer(getExamQuestionAnswer(examId,question.getId()));
                 questions.add(question);
                 cursor.moveToNext();
 
@@ -585,8 +588,9 @@ public class DatabaseHelper extends CustomDbOpenHelper {
        return null;
    }
 
-    private List<String> getExamQuestionAnswer(String id) {
-       String sql="SELECT * FROM "+EXAM_QUESTION_ANSWER_TABLE+" WHERE "+EXAM_QUESTION_ID+" = '"+id+"'";
+    private List<String> getExamQuestionAnswer(String examId,String courseId) {
+       String sql="SELECT * FROM "+EXAM_QUESTION_ANSWER_TABLE+" WHERE "+EXAM_ID+" = '"+examId+"' AND "
+               +EXAM_QUESTION_ID+" = '"+courseId+"'";
 
        Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
 
@@ -607,9 +611,17 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     public boolean isExamAvailableForCourse(String currentUserCourseProgress) {
        String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+COURSE_ID+" = '"+currentUserCourseProgress+"'";
        Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
-        return cursor != null && cursor.getCount() > 0;
+        if (cursor==null){
+            return false;
+        }else {
+            if (cursor.getCount()>0){
+                cursor.close();
+                return true;
+            }else {
+                return false;
+            }
+        }
     }
-
 
 
 }

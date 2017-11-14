@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
@@ -20,8 +21,16 @@ import mpower.org.elearning_module.utils.UserType;
  */
 
 public class ExamEndFragment extends BaseFragment {
+
     @BindView(R.id.button_start__next_course)
     Button startNewCurse;
+    @BindView(R.id.textView2)
+    TextView headerTv;
+    @BindView(R.id.textView4)
+    TextView tottalQTV;
+    @BindView(R.id.textView5)
+    TextView correctAnsTv;
+
     ProgressDialog progressDialog;
     DatabaseHelper databaseHelper;
 

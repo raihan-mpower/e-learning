@@ -56,7 +56,7 @@ public class CourseEndFragment extends BaseFragment {
                 }
                 progressDialog.dismiss();
                 startExamActivity();
-                showLongToast("Exam will Start here");
+               // showLongToast("Exam will Start here");
             }
         });
     }

@@ -8,7 +8,7 @@
         "icon_image": "icon1.png",
         "courses": [
           {
-            "title": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ",
+            "title": "যক্ষ্মা সম্পর্কে সাধারণ জ্ঞান",
             "id": "1",
             "icon_image": "icon1.png",
             "questions": [
@@ -153,7 +153,7 @@
                 "description_text": "",
                 "answer": "কিডনি, মেরুদ-, মস্তিষ্ক, হাড়, পাকস্থলি, লসিকা গ্রন্থি ইত্যাদি অঙ্গ-প্রত্যঙ্গেও যক্ষ্মা ছড়িয়ে পরতে পারে।",
                 "right_answer": "না ",
-                "wrong_answer": "হ্যা ",
+                "wrong_answer": "হ্যাঁ",
                 "true_false": "যক্ষ্মা শুধুমাত্র ফুসফুস আক্রান্ত করে "
               },
               {
@@ -333,7 +333,7 @@
                 "description_text": "",
                 "answer": "সুপ্ত যক্ষ্মা (Latent TB) কি  সংক্রমিত ব্যক্তি থেকে অন্য ব্যক্তিতে যক্ষ্মার জীবাণু ছড়ায় না",
                 "right_answer": "না",
-                "wrong_answer": "হ্যা",
+                "wrong_answer": "হ্যা ",
                 "true_false": "সুপ্ত যক্ষ্মা (Latent TB) সংক্রমিত ব্যক্তির মাধ্যমে যক্ষ্মা ছড়ায় না। "
               },
               {
@@ -402,7 +402,7 @@
                 "type": "course-content",
                 "image": "",
                 "audio": "",
-                "description_text": "যক্ষ্মার ভ্যাকসিন হচ্ছে BCG (Bacille Calmette-Guerin)। সচরাচর নবজাতককে এই টিকা দেয়া হয়। তবে এই টিকা সবসময় যক্ষ্মা থেকে সুরক্ষা দিতে পারে না। জীবনের ঝুঁকি রয়েছে এমন যক্ষ্মা হওয়া এড়ানোর জন্যই BCG wUKv †`qvi mycvwik Kiv nq|",
+                "description_text": "যক্ষ্মার ভ্যাকসিন হচ্ছে BCG (Bacille Calmette-Guerin)। সচরাচর নবজাতককে এই টিকা দেয়া হয়। তবে এই টিকা সবসময় যক্ষ্মা থেকে সুরক্ষা দিতে পারে না। জীবনের ঝুঁকি রয়েছে এমন যক্ষ্মা হওয়া এড়ানোর জন্যই  BCG টিকা দেয়ার সুপারিশ করা হয়।",
                 "answer": "",
                 "right_answer": "",
                 "wrong_answer": "",
@@ -421,9 +421,169 @@
                 "true_false": "সচরাচর নবজাতককে BCG (Bacille Calmette-Guerin) টিকা দেয়া হয়। "
               }
             ]
-          }
+          },
+		  {
+            "title": "যক্ষ্মা রোগনির্ণয়",
+            "id": "2",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "যক্ষ্মা রোগনির্ণয়",
+                "id": "1",
+                "type": "course-content",
+                "image": "1.jpg",
+                "audio": "",
+                "description_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ। Mycobacterium tuberculosis নামের একটি ব্যাকটেরিয়া যক্ষ্মার জন্য দায়ী। এই ব্যাকটেরিয়া যক্ষ্মা রোগীর হাঁচি বা কাশি হতে বাতাসের মাধ্যমে ছড়িয়ে প্রাথমিকভাবে নিঃশ্বাসের মাধ্যমে ফুসফুসে প্রবেশ করে ও ফুসফুসকে আক্রান্ত করে।",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+					}
+				]
+			},
+			{
+            "title": "শিশুদের যক্ষ্মা",
+            "id": "3",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "শিশুদের যক্ষ্মা",
+                "id": "1",
+                "type": "course-content",
+                "image": "1.jpg",
+                "audio": "",
+                "description_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ। Mycobacterium tuberculosis নামের একটি ব্যাকটেরিয়া যক্ষ্মার জন্য দায়ী। এই ব্যাকটেরিয়া যক্ষ্মা রোগীর হাঁচি বা কাশি হতে বাতাসের মাধ্যমে ছড়িয়ে প্রাথমিকভাবে নিঃশ্বাসের মাধ্যমে ফুসফুসে প্রবেশ করে ও ফুসফুসকে আক্রান্ত করে।",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+					}
+				]
+			},
+			{
+            "title": "যক্ষ্মার সংক্রমণ নিয়ন্ত্রণ",
+            "id": "4",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "যক্ষ্মার সংক্রমণ নিয়ন্ত্রণ",
+                "id": "1",
+                "type": "course-content",
+                "image": "1.jpg",
+                "audio": "",
+                "description_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ। Mycobacterium tuberculosis নামের একটি ব্যাকটেরিয়া যক্ষ্মার জন্য দায়ী। এই ব্যাকটেরিয়া যক্ষ্মা রোগীর হাঁচি বা কাশি হতে বাতাসের মাধ্যমে ছড়িয়ে প্রাথমিকভাবে নিঃশ্বাসের মাধ্যমে ফুসফুসে প্রবেশ করে ও ফুসফুসকে আক্রান্ত করে।",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+					}
+				]
+			},
+			{
+            "title": "যক্ষ্মার চিকিৎসা",
+            "id": "5",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "যক্ষ্মার চিকিৎসা",
+                "id": "1",
+                "type": "course-content",
+                "image": "1.jpg",
+                "audio": "",
+                "description_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ। Mycobacterium tuberculosis নামের একটি ব্যাকটেরিয়া যক্ষ্মার জন্য দায়ী। এই ব্যাকটেরিয়া যক্ষ্মা রোগীর হাঁচি বা কাশি হতে বাতাসের মাধ্যমে ছড়িয়ে প্রাথমিকভাবে নিঃশ্বাসের মাধ্যমে ফুসফুসে প্রবেশ করে ও ফুসফুসকে আক্রান্ত করে।",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+					}
+				]
+			}
         ]
-      }
-    ]
+      },
+	{
+        "user_type": "DOT",
+        "title": "সাধারণ যক্ষ্মা (ডিএস টিবি)",
+        "id": "2",
+        "icon_image": "icon1.png",
+        "courses": [
+          {
+            "title": "সাধারণ যক্ষ্মা (ডিএস টিবি)",
+            "id": "1",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "সাধারণ যক্ষ্মা (ডিএস টিবি)",
+                "id": "1",
+                "type": "course-content",
+                "image": "1.jpg",
+                "audio": "",
+                "description_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ। Mycobacterium tuberculosis নামের একটি ব্যাকটেরিয়া যক্ষ্মার জন্য দায়ী। এই ব্যাকটেরিয়া যক্ষ্মা রোগীর হাঁচি বা কাশি হতে বাতাসের মাধ্যমে ছড়িয়ে প্রাথমিকভাবে নিঃশ্বাসের মাধ্যমে ফুসফুসে প্রবেশ করে ও ফুসফুসকে আক্রান্ত করে।",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+					}
+				]
+			}
+      
+		]
+	},
+	{
+        "user_type": "DOT",
+        "title": "ঔষধ প্রতিরোধী যক্ষ্মা (ডি আর টিবি)",
+        "id": "3",
+        "icon_image": "icon1.png",
+        "courses": [
+          {
+            "title": "ঔষধ প্রতিরোধী যক্ষ্মা (ডি আর টিবি)",
+            "id": "1",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "ঔষধ প্রতিরোধী যক্ষ্মা (ডি আর টিবি)",
+                "id": "1",
+                "type": "course-content",
+                "image": "1.jpg",
+                "audio": "",
+                "description_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ। Mycobacterium tuberculosis নামের একটি ব্যাকটেরিয়া যক্ষ্মার জন্য দায়ী। এই ব্যাকটেরিয়া যক্ষ্মা রোগীর হাঁচি বা কাশি হতে বাতাসের মাধ্যমে ছড়িয়ে প্রাথমিকভাবে নিঃশ্বাসের মাধ্যমে ফুসফুসে প্রবেশ করে ও ফুসফুসকে আক্রান্ত করে।",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+					}
+				]
+			}
+      
+		]
+	},
+	{
+        "user_type": "DOT",
+        "title": "যক্ষ্মা রোগীর অধিকার ও কর্তব্য",
+        "id": "4",
+        "icon_image": "icon1.png",
+        "courses": [
+          {
+            "title": "যক্ষ্মা রোগীর অধিকার ও কর্তব্য",
+            "id": "1",
+            "icon_image": "icon1.png",
+            "questions": [
+              {
+                "title_text": "যক্ষ্মা রোগীর অধিকার ও কর্তব্য",
+                "id": "1",
+                "type": "course-content",
+                "image": "1.jpg",
+                "audio": "",
+                "description_text": "যক্ষ্মা একটি জীবাণুঘটিত সংক্রামক  রোগ। Mycobacterium tuberculosis নামের একটি ব্যাকটেরিয়া যক্ষ্মার জন্য দায়ী। এই ব্যাকটেরিয়া যক্ষ্মা রোগীর হাঁচি বা কাশি হতে বাতাসের মাধ্যমে ছড়িয়ে প্রাথমিকভাবে নিঃশ্বাসের মাধ্যমে ফুসফুসে প্রবেশ করে ও ফুসফুসকে আক্রান্ত করে।",
+                "answer": "",
+                "right_answer": "",
+                "wrong_answer": "",
+                "true_false": ""
+					}
+				]
+			}
+      
+		]
+	}
+	]
   }
 }

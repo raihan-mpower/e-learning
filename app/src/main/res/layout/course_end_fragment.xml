@@ -17,7 +17,7 @@
     <Button
         android:layout_margin="20dp"
         android:textColor="@color/white_background"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/button_rounded_corner"
         android:id="@+id/btn_start_exam"
         android:text="Start Exam"
         android:layout_width="200dp"
