@@ -71,16 +71,16 @@ public class HomeFragment extends Fragment{
 
     private void pickImageForProfilePic() {
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity())
-                .setTitle("Add Profile Photo")
+                .setTitle(R.string.add_profile_photo)
                 .setMessage("Pick an image for profile picture?")
                 .setCancelable(true)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         pickImageAnother();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

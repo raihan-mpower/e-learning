@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity
 
 
         progressDialog=new ProgressDialog(this);
-        progressDialog.setMessage("Loading..Please Wait");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);
         progressDialog.show();
 
@@ -300,7 +300,7 @@ public class MainActivity extends BaseActivity
 
         dialogBuilder.setTitle(getResources().getString(R.string.lang_dialog_title));
         dialogBuilder.setMessage(getResources().getString(R.string.lang_dialog_message));
-        dialogBuilder.setPositiveButton("Change", new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton(R.string.change, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 int langpos = spinner1.getSelectedItemPosition();
                 switch(langpos) {
@@ -318,7 +318,7 @@ public class MainActivity extends BaseActivity
                 }
             }
         });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //pass
                 dialog.cancel();

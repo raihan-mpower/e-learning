@@ -44,6 +44,15 @@
     <string name="dot_id">DOT ID</string>
     <string name="your_answer_is">Your Answer is</string>
     <string name="confirm_answer">Confirm Answer</string>
+    <string name="right">Right</string>
+    <string name="wrong">Wrong</string>
+    <string name="please_select_answer">Please select any answer</string>
+    <string name="change">Change</string>
+    <string name="cancel">Cancel</string>
+    <string name="loading">Loading..Please Wait</string>
+    <string name="last_page">Last Page</string>
+    <string name="add_profile_photo">Add Profile Photo</string>
+    <string name="complete_other_modules">Complete other modules first</string>
     <string-array name="lang_select">
         <item>English</item>
         <item>Bangla</item>

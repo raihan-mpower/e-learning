@@ -30,7 +30,7 @@ import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
 
-public class ModuleFragment extends Fragment {
+public class ModuleFragment extends BaseFragment {
 
     boolean firstTime=false;
     GridView gridView;
@@ -117,7 +117,7 @@ public class ModuleFragment extends Fragment {
         }
     }
 
-    @Override
+    /*@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -153,12 +153,50 @@ public class ModuleFragment extends Fragment {
         }
         firstTime=true;
         return view;
+    }*/
+
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_module;
+    }
+
+    @Override
+    protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
+        progressDialog=new ProgressDialog(getContext());
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.show();
+        gridView = view.findViewById(R.id.gridView1);
+
+        HashMap<String,String> progressMap=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),userType);
+        Log.d("TAG",progressMap.toString());
+
+        String progressMId = progressMap.get(AppConstants.KEY_MODULE_ID);
+
+        UserType userType=CurrentUserProgress.getInstance().getUserType();
+
+        moduleArrayList=databaseHelper.getAllModules(null,userType);
+
+
+        for (Module module:moduleArrayList){
+            if (module.getId().equalsIgnoreCase(progressMId)){
+                module.setStatus(Status.UNLOCKED);
+            }else if (Integer.valueOf(module.getId())<Integer.valueOf(progressMId)){
+                module.setStatus(Status.UNLOCKED);
+            }else {
+                module.setStatus(Status.LOCKED);
+            }
+        }
+
+        progressDialog.dismiss();
+        if (moduleArrayList==null){
+
+        }
+        firstTime=true;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     private void setUpAdapter() {
@@ -168,7 +206,8 @@ public class ModuleFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (moduleArrayList.get(i).isLocked()){
-                    Helper.showToast(getContext(),"Complete other modules first", Toast.LENGTH_LONG);
+                   // Helper.showToast(getContext(),getString(R.string.complete_other_modules), Toast.LENGTH_LONG);
+                    showToast(getString(R.string.complete_other_modules));
                     return;
 
                 }

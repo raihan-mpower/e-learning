@@ -45,53 +45,6 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
      * The pager adapter, which provides the pages to the view pager widget.
      */
 
-
-   /* @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getIntent().getExtras()!=null){
-            questions= (ArrayList<Question>) getIntent().getExtras().get(AppConstants.DATA);
-        }
-        startMusicSercive();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        tvCounter=toolbar.findViewById(R.id.toolbar_title);
-        mPager = findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-
-        setTitle(CURRENT_COURSE_TITLE);
-
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position==questions.size()){
-                    tvCounter.setText("Last Page");
-                }else {
-
-                    tvCounter.setText(""+(position+1)+" of "+questions.size());
-                }
-
-               if (getMediaPlayerService().isPlaying()){
-                   getMediaPlayerService().stopMedia();
-               }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-
-
-    }*/
-
    private void playMusic(String media){
         if (!isServiceBound){
             Intent playerIntet=new Intent(this,MediaPlayerService.class);
@@ -132,7 +85,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
             @Override
             public void onPageSelected(int position) {
                 if (position==questions.size()){
-                    tvCounter.setText("Last Page");
+                    tvCounter.setText(R.string.last_page);
                 }else {
 
                     tvCounter.setText(""+(position+1)+" of "+questions.size());

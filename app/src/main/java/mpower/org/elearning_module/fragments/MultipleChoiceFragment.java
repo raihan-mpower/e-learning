@@ -130,16 +130,16 @@ public class MultipleChoiceFragment extends BaseFragment {
                    RadioButton radioButton=getActivity().findViewById(selectedId);
                    if (radioButton!=null){
                        if (radioButton.getText().toString().equalsIgnoreCase(question.getRightAnswer())){
-                           answerStatus.setText(" Right ");
+                           answerStatus.setText(R.string.right);
                        }else {
-                           answerStatus.setText( " Wrong ");
+                           answerStatus.setText( R.string.wrong);
                        }
                        tvAnswer.setText(question.getRightAnswer());
                    }else {
                        showToast("Invalid Answer");
                    }
                }else {
-                   showLongToast("Please select any answer");
+                   showLongToast(getString(R.string.please_select_answer));
                }
            }
        });
