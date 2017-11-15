@@ -37,7 +37,7 @@
             android:layout_margin="5dp"
             android:textColor="@color/white_background"
             android:background="@drawable/button_rounded_corner"
-            android:text="Confirm Answer"
+            android:text="@string/confirm_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <ImageButton
@@ -69,7 +69,7 @@
         android:id="@+id/answer_tv_status"
         android:textSize="20sp"
         android:textColor="@color/black"
-        android:text="Your Answer is "
+        android:text="@string/your_answer_is"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView

@@ -14,11 +14,12 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.Helper;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends BaseActivity {
 
     boolean isDotProvider=false;
     @BindView(R.id.linear_layout_DOT)
@@ -37,20 +38,20 @@ public class SignUpActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-        ButterKnife.bind(this);
-       progressDialog=new ProgressDialog(this);
-       progressDialog.setMessage("Signing Up...Please wait");
+    protected int getResourceLayout() {
+        return R.layout.activity_sign_up;
+    }
+
+    @Override
+    protected void onViewReady(Bundle savedInstanceState) {
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Signing Up...Please wait");
         if (getIntent().getExtras()!=null){
             isDotProvider=getIntent().getBooleanExtra(AppConstants.USER_TYPE,false);
         }
         if (isDotProvider){
             linearLayoutDOT.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     public void signUp(View view) {
@@ -59,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
         }else {
 
         }
-        Helper.showToast(this,"Sign Up", Toast.LENGTH_LONG);
+        showToast("Sign Up");
     }
 
     private boolean checkDataValidation() {

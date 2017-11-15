@@ -66,9 +66,9 @@ public class TrueFalseFragment extends BaseFragment {
             String audioName=question.getAudio();
             if (audioName!=null && !audioName.isEmpty()){
                 this.audioName=audioName;
-                getAudioPlayerListener().playAudio(audioName);
+               /* getAudioPlayerListener().playAudio(audioName);
                 audiobutton.setImageResource(R.drawable.mute_small);
-                isPlaying=true;
+                isPlaying=true;*/
             }
 
             radioYes.setText(question.getRightAnswer());
@@ -155,12 +155,12 @@ public class TrueFalseFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
             if (question!=null){
-                String audioName=question.getAudio();
+                /*String audioName=question.getAudio();
                 if (audioName!=null && !audioName.isEmpty()){
                     getAudioPlayerListener().playAudio(audioName);
                     audiobutton.setImageResource(R.drawable.audio);
                     isPlaying=true;
-                }
+                }*/
             }
 
         }

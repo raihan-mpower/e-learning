@@ -1,26 +1,29 @@
 package mpower.org.elearning_module.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
+import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.utils.AppConstants;
 
-public class UserTypeSelectionActivity extends AppCompatActivity {
+public class UserTypeSelectionActivity extends BaseActivity {
+
     private boolean isDotProvider=false;
     private RadioGroup userTypeGroup;
     private String userType=null;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_type_selection);
+    protected int getResourceLayout() {
+        return R.layout.activity_user_type_selection;
+    }
+
+    @Override
+    protected void onViewReady(Bundle savedInstanceState) {
         userTypeGroup=findViewById(R.id.user_group);
         int selectedRadioId=userTypeGroup.getCheckedRadioButtonId();
         if (selectedRadioId!=-1){

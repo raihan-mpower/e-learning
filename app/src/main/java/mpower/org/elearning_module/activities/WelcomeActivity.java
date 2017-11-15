@@ -14,18 +14,21 @@ import android.widget.Spinner;
 
 import java.util.Locale;
 
+import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.utils.LocaleHelper;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
     private Locale locale;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+    protected int getResourceLayout() {
+        return R.layout.activity_welcome;
+    }
 
+    @Override
+    protected void onViewReady(Bundle savedInstanceState) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         Configuration config = getBaseContext().getResources().getConfiguration();
 
@@ -38,7 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-//individual onclick handler for buttons ,using just to not use button ids and other view referencing
+    //individual onclick handler for buttons ,using just to not use button ids and other view referencing
     public void callLogin(View view) {
         Intent intent=new Intent(this,LogInActivity.class);
         startActivity(intent);

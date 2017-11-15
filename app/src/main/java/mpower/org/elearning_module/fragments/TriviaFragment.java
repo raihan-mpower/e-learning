@@ -22,9 +22,9 @@ import mpower.org.elearning_module.model.Question;
 
 
 public class TriviaFragment extends BaseFragment {
+
     @BindView(R.id.content_description)
     TextView tvTrivia;
-    Question question;
     @BindView(R.id.audio)
     ImageButton audiobutton;
     @BindView(R.id.content_image)
@@ -33,9 +33,11 @@ public class TriviaFragment extends BaseFragment {
     LinearLayout imageLayout;
     @BindView(R.id.tv_q_title)
             TextView tvTitle;
+
     boolean isPlaying=false;
     private boolean isPaused;
     String audioName;
+    Question question;
 
     public TriviaFragment() {
         // Required empty public constructor
@@ -82,11 +84,11 @@ public class TriviaFragment extends BaseFragment {
             }
 
             audioName=question.getAudio();
-            if (audioName!=null && !audioName.isEmpty()){
+            /*if (audioName!=null && !audioName.isEmpty()){
                 getAudioPlayerListener().playAudio(audioName);
                 audiobutton.setImageResource(R.drawable.mute_small);
                 isPlaying=true;
-            }
+            }*/
         }
 
 
@@ -133,14 +135,14 @@ public class TriviaFragment extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
-            if (question!=null){
+            /*if (question!=null){
                 String audioName=question.getAudio();
                 if (audioName!=null && !audioName.isEmpty()){
                     getAudioPlayerListener().playAudio(audioName);
                     audiobutton.setImageResource(R.drawable.audio);
                     isPlaying=true;
                 }
-            }
+            }*/
 
         }
 

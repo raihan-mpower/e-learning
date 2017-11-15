@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.MainActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.adapter.CourseGridViewAdapter;
@@ -27,7 +28,7 @@ import mpower.org.elearning_module.utils.Helper;
 import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 
-public class CourseActivity extends AppCompatActivity {
+public class CourseActivity extends BaseActivity {
 
     public static String CURRENT_MODULE_TITLE="";
     private GridView gridView;
@@ -36,11 +37,7 @@ public class CourseActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course);
-        //TODO forcing activity to load locale
-      /*  new LocaleHelper().updateLocale(this,"bn");*/
+    protected void onViewReady(Bundle savedInstanceState) {
         Toolbar toolbar=findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,10 +86,11 @@ public class CourseActivity extends AppCompatActivity {
                 }
             }
         }
+    }
 
-
-
-
+    @Override
+    protected int getResourceLayout() {
+        return R.layout.activity_course;
     }
 
     private void goBackToMainActivity() {
@@ -162,7 +160,6 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.course, menu);
         return true;
     }
 
@@ -180,4 +177,6 @@ public class CourseActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

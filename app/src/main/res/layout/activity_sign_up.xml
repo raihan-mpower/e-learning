@@ -15,18 +15,18 @@
         <TextView
             android:padding="10dp"
             android:textSize="30sp"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
             android:visibility="gone"
-            android:text="Name"
+            android:text="@string/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/et_name"
-            android:hint="Name"
+            android:hint="@string/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <LinearLayout
@@ -37,12 +37,12 @@
             android:layout_height="wrap_content">
             <TextView
                 android:visibility="gone"
-                android:text="DOT ID"
+                android:text="@string/dot_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/et_dot_id"
-                android:hint="DOT ID"
+                android:hint="@string/dot_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:visibility="gone"
-                android:text="Mobile No."
+                android:text="@string/mobile_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -67,7 +67,7 @@
         <EditText
             android:id="@+id/et_phone"
             android:inputType="phone"
-            android:hint="Mobile No."
+            android:hint="@string/mobile_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <LinearLayout
@@ -82,14 +82,14 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:visibility="gone"
-                android:text="Password"
+                android:text="@string/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <EditText
             android:id="@+id/et_password"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -99,7 +99,7 @@
             android:id="@+id/btn_sign_up"
             android:textColor="@color/white_background"
             android:background="@drawable/button_rounded_corner"
-            android:text="SIGN UP"
+            android:text="@string/sign_up"
             android:layout_width="match_parent"
             android:layout_height="50dp" />
     </LinearLayout>

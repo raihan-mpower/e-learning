@@ -17,7 +17,7 @@
             android:layout_margin="2dp"
             android:textColor="@color/white_background"
             android:background="@drawable/button_rounded_corner"
-            android:text="LOGIN"
+            android:text="@string/login"
             android:layout_width="match_parent"
             android:layout_height="60dp" />
         <Button
@@ -25,7 +25,7 @@
             android:layout_margin="2dp"
             android:textColor="@color/white_background"
             android:background="@drawable/button_rounded_corner"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
             android:layout_width="match_parent"
             android:layout_height="60dp" />
         <TextView

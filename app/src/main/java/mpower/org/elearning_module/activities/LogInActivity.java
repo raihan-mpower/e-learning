@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
@@ -32,6 +31,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.MainActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.utils.AppConstants;
@@ -40,7 +40,7 @@ import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserDataCollection;
 import mpower.org.elearning_module.utils.UserType;
 
-public class LogInActivity extends AppCompatActivity {
+public class LogInActivity extends BaseActivity {
 
     private EditText usernameEditText, passwordEditText;
     private Button loginButton;
@@ -53,10 +53,12 @@ public class LogInActivity extends AppCompatActivity {
     private String userType=null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in);
+    protected int getResourceLayout() {
+        return R.layout.activity_log_in;
+    }
 
+    @Override
+    protected void onViewReady(Bundle savedInstanceState) {
         // FIX: Initial back button from homescreen causes problem logging in
         UserCollection.getInstance().logOff("");
 

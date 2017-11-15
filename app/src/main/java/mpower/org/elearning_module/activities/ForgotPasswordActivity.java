@@ -1,15 +1,19 @@
 package mpower.org.elearning_module.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_password);
+    protected int getResourceLayout() {
+        return R.layout.activity_forgot_password;
+    }
+
+    @Override
+    protected void onViewReady(Bundle savedInstanceState) {
+
     }
 }

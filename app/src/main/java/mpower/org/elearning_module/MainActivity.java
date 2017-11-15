@@ -57,7 +57,7 @@ import mpower.org.elearning_module.utils.Utils;
  * @author sabbir
  * */
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private UserType userType;
@@ -65,9 +65,12 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog progressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getResourceLayout() {
+        return R.layout.activity_main;
+    }
 
+    @Override
+    protected void onViewReady(Bundle savedInstanceState) {
         userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor=sharedPreferences.edit();
@@ -78,7 +81,6 @@ public class MainActivity extends AppCompatActivity
             CurrentUserProgress.getInstance().setUserType(userType);
         }
 
-        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -111,8 +113,8 @@ public class MainActivity extends AppCompatActivity
                 langTv.setText(getResources().getText(R.string.english));
                 break;
             default:
-                    langTv.setText(getResources().getText(R.string.english));
-                    break;
+                langTv.setText(getResources().getText(R.string.english));
+                break;
         }
         langTv.setGravity(Gravity.CENTER_VERTICAL);
 
@@ -123,10 +125,7 @@ public class MainActivity extends AppCompatActivity
                 logOutButtonClicked();
             }
         });
-
     }
-
-
 
     private void logOutButtonClicked() {
         Intent logoutIntent = new Intent(this, LogInActivity.class);

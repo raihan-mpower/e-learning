@@ -19,7 +19,7 @@
                 android:layout_marginBottom="30dp"
                 android:textSize="30sp"
                 android:textColor="@color/black"
-                android:text="TB E Learning"
+                android:text="@string/tb_e_learning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <RadioGroup
@@ -38,22 +38,19 @@
             </RadioGroup>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:hint="Mobile No."
+                android:hint="@string/mobile_no"
                 android:background="@drawable/edittext_rounded_corner"
                 android:layout_height="70dp">
                 <EditText
-
-                    android:inputType="phone"
+                    android:inputType="number"
                     android:id="@+id/login_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:hint="Password"
-                app:hintEnabled="true"
+                android:hint="@string/password"
                 android:background="@drawable/edittext_rounded_corner"
-                app:hintAnimationEnabled="true"
                 android:layout_height="70dp">
                 <EditText
                     android:inputType="textPassword"
@@ -73,13 +70,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:focusable="true"
                 android:visibility="gone"
                 android:onClick="gotoSignUp"
                 android:clickable="true"
                 android:padding="5dp"
                 android:textSize="15sp"
                 android:textColor="@color/colorPrimaryDark"
-                android:text="Sign Up"
+                android:text="@string/sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Button
@@ -88,7 +86,7 @@
                 android:background="@drawable/button_rounded_corner"
                 android:id="@+id/login_button"
                 android:onClick="checkLogIn"
-                android:text="LogIn"
+                android:text="@string/log_in"
                 android:layout_width="match_parent"
                 android:layout_height="60dp" />
         </LinearLayout>

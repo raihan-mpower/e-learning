@@ -23,4 +23,24 @@
     <string name="no">না</string>
     <string name="bangla">Bangla</string>
     <string name="english">English</string>
+    <string name="start_exam">Start Exam</string>
+    <string name="course_end_message">You completed the course.\\nNow appear in the exam.</string>
+    <string name="detail_result">Detail Result</string>
+    <string name="result">Result</string>
+    <string name="total_question">Total Question :</string>
+    <string name="correct_answer">Correct Answer :</string>
+    <string name="course_end">Course End</string>
+    <string name="dot_provider">DOT Provider</string>
+    <string name="other">Other</string>
+    <string name="already_registered_login">ALREADY REGISTERED ? LOGIN</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="tb_e_learning">TB E Learning</string>
+    <string name="log_in">LogIN</string>
+    <string name="mobile_no">Mobile No.</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="dot_id">DOT ID</string>
+    <string name="your_answer_is">Your Answer is</string>
+    <string name="confirm_answer">Confirm Answer</string>
 </resources>
