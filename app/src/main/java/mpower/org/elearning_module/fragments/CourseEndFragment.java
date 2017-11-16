@@ -64,6 +64,7 @@ public class CourseEndFragment extends BaseFragment {
     private void startExamActivity() {
         //TODO
         if (exam!=null){
+            CurrentUserProgress.getInstance().setCurrentExamId(exam.getId());
             Intent intent=new Intent(getContext(),ExamActivity.class);
             intent.putExtra(AppConstants.DATA,(ArrayList<ExamQuestion>)exam.getExamQuestions());
             startActivity(intent);

@@ -8,9 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Map;
+
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.activities.CourseActivity;
+import mpower.org.elearning_module.activities.ExamActivity;
+import mpower.org.elearning_module.activities.ExamResultActivity;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.UserCollection;
@@ -30,9 +34,13 @@ public class ExamEndFragment extends BaseFragment {
     TextView tottalQTV;
     @BindView(R.id.textView5)
     TextView correctAnsTv;
+    @BindView(R.id.button)
+    Button detailResultButton;
 
     ProgressDialog progressDialog;
     DatabaseHelper databaseHelper;
+
+    boolean isUserDumb=false;
 
     @Override
     protected int getFragmentLayout() {
@@ -44,14 +52,46 @@ public class ExamEndFragment extends BaseFragment {
         progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Saving Progress...Please Wait");
         databaseHelper=new DatabaseHelper(getContext());
+
+        int totalQuestions= ExamActivity.sExamAnswerMap.size();
+
+        int rightAnswer=0;
+        for (Map.Entry<String,String> entry:ExamActivity.sExamAnswerMap.entrySet()){
+            if (entry.getValue().equalsIgnoreCase("Correct")){
+                rightAnswer++;
+            }
+        }
+
+
+        isUserDumb=totalQuestions!=rightAnswer;
+
+
+
         startNewCurse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.show();
-                saveCurrentProgress();
-                startCourseActivity();
+                if (isUserDumb){
+                    showSimpleDialog(getString(R.string.failed),getString(R.string.failed_try_again));
+                }else {
+                    progressDialog.show();
+                    saveCurrentProgress();
+                    startCourseActivity();
+                }
+
             }
         });
+
+        detailResultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callExamResultDetailActivity();
+            }
+        });
+    }
+
+    private void callExamResultDetailActivity() {
+        Intent intent=new Intent(getContext(), ExamResultActivity.class);
+        startActivity(intent);
     }
 
     private void startCourseActivity() {

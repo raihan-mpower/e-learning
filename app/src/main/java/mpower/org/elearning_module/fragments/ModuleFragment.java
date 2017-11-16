@@ -94,6 +94,7 @@ public class ModuleFragment extends BaseFragment {
 
             HashMap<String,String> updatedProgress=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),
                     CurrentUserProgress.getInstance().getUserType());
+
             Helper.MakeLog(this.getClass(),updatedProgress.toString());
 
 
@@ -105,9 +106,9 @@ public class ModuleFragment extends BaseFragment {
                     module.setStatus(Status.UNLOCKED);
                 }else if (Integer.valueOf(module.getId())<Integer.valueOf(updatedProgress.get(AppConstants.KEY_MODULE_ID))){
                     module.setStatus(Status.UNLOCKED);
-                }else if(Integer.valueOf(updatedProgress.get(AppConstants.KEY_COURSE_ID))>=module.getCourses().size()){
+                }/*else if(Integer.valueOf(updatedProgress.get(AppConstants.KEY_COURSE_ID))>=module.getCourses().size()){
                     module.setStatus(Status.UNLOCKED);
-                }else {
+                }*/else {
                     module.setStatus(Status.LOCKED);
                 }
             }
@@ -207,7 +208,8 @@ public class ModuleFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (moduleArrayList.get(i).isLocked()){
                    // Helper.showToast(getContext(),getString(R.string.complete_other_modules), Toast.LENGTH_LONG);
-                    showToast(getString(R.string.complete_other_modules));
+                    //showToast(getString(R.string.complete_other_modules));
+                    showSimpleDialog(getString(R.string.locked),getString(R.string.complete_other_modules));
                     return;
 
                 }

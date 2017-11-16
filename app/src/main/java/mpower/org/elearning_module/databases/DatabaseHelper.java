@@ -520,6 +520,26 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     }
 
 
+    public Exam getExambyId(String examId){
+        String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+COURSE_ID+" = '"+examId+"'";
+        Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
+        if (cursor!=null && cursor.getCount()>0){
+            cursor.moveToFirst();
+            Exam exam=new Exam();
+            while (!cursor.isAfterLast()){
+                exam.setCourseId(cursor.getString(cursor.getColumnIndex(COURSE_ID)));
+                exam.setId(cursor.getString(cursor.getColumnIndex(EXAM_ID)));
+                exam.setTitle(cursor.getString(cursor.getColumnIndex(EXAM_TITLE)));
+                cursor.moveToNext();
+            }
+            cursor.close();
+            exam.setExamQuestions(getExamQuestions(exam.getId()));
+            return exam;
+        }
+
+        return null;
+    }
+
     public Exam getExam(String courseId){
         String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+COURSE_ID+" = '"+courseId+"'";
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);

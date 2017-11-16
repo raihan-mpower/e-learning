@@ -14,7 +14,9 @@ public class CurrentUserProgress {
     private UserType userType;
     private static CurrentUserProgress instance=null;
 
-    /*public static CurrentUserProgress getInstance(){
+    private String currentExamId;
+
+   /* public static CurrentUserProgress getInstance(){
         if (instance==null){
             synchronized (CurrentUserProgress.class){
                 if (instance==null){
@@ -40,7 +42,7 @@ public class CurrentUserProgress {
         sCURRENT_COURSE_QUESTION_IN_PROGRESS=null;
         sCURRENT_MODULE_COURSE_IN_PROGRESS=null;
         sCURRENT_MODULE_IN_PROGRESS=null;
-
+        currentExamId=null;
         userType=null;
     }
 
@@ -75,5 +77,13 @@ public class CurrentUserProgress {
 
     public UserType getUserType(){
         return userType;
+    }
+
+    public void setCurrentExamId(String currentExamId){
+        this.currentExamId=currentExamId;
+    }
+
+    public String getCurrentExamId(){
+        return this.currentExamId;
     }
 }

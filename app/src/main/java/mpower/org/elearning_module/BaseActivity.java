@@ -3,6 +3,7 @@ package mpower.org.elearning_module;
 import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -108,6 +110,22 @@ public abstract class BaseActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+   public void showSimpleDialog(String title,String message){
+       AlertDialog.Builder builder=new AlertDialog.Builder(this)
+               .setTitle(title)
+               .setMessage(message)
+               .setCancelable(true)
+               .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       dialog.dismiss();
+                   }
+               });
+
+       AlertDialog alertDialog=builder.create();
+       alertDialog.show();
     }
 
 

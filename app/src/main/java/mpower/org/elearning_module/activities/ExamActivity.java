@@ -43,7 +43,7 @@ public class ExamActivity extends BaseActivity {
     boolean isServiceBound;
     private PagerAdapter mPagerAdapter;
 
-    public static HashMap<Integer,Integer> sExamAnswerMap;
+    public static HashMap<String,String> sExamAnswerMap;
 
 
 
@@ -59,6 +59,9 @@ public class ExamActivity extends BaseActivity {
             questions= (ArrayList<ExamQuestion>) getIntent().getExtras().get(AppConstants.DATA);
         }
       //  startMusicSercive();
+
+        sExamAnswerMap=new HashMap<>();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

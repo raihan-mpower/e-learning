@@ -138,7 +138,8 @@ public class CourseActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (courses.get(position).isLocked()){
-                    Helper.showToast(getApplicationContext(),getResources().getString(R.string.complete_other_courses), Toast.LENGTH_LONG);
+                    //Helper.showToast(getApplicationContext(),getResources().getString(R.string.complete_other_courses), Toast.LENGTH_LONG);
+                    showSimpleDialog(getString(R.string.locked),getString(R.string.complete_other_courses));
                     return;
                 }
                 Intent intent = new Intent(CourseActivity.this,CourseContentActivity.class);

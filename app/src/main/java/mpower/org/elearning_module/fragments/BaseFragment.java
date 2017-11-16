@@ -2,10 +2,12 @@ package mpower.org.elearning_module.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import mpower.org.elearning_module.BaseActivity;
+import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.interfaces.AudioPlayerListener;
 
 /**
@@ -97,11 +100,27 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected Activity getBaseActivity() {
-        return getActivity();
+        return getBaseActivity();
     }
 
     protected void showLongToast(String message){
         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+    }
+
+    public void showSimpleDialog(String title,String message){
+        AlertDialog.Builder builder=new AlertDialog.Builder(mContext)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
     }
 
 }

@@ -53,6 +53,9 @@
     <string name="last_page">Last Page</string>
     <string name="add_profile_photo">Add Profile Photo</string>
     <string name="complete_other_modules">Complete other modules first</string>
+    <string name="locked">Locked</string>
+    <string name="failed">You\'ve failed</string>
+    <string name="failed_try_again">See detail Result and try again</string>
     <string-array name="lang_select">
         <item>English</item>
         <item>Bangla</item>

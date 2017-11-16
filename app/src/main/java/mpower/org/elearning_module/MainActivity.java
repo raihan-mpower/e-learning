@@ -71,7 +71,9 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onViewReady(Bundle savedInstanceState) {
+
         userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
+
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor=sharedPreferences.edit();
 
@@ -134,7 +136,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void getUserData(){
-        if (databaseHelper!=null){
+        if (databaseHelper!=null && userType!=null){
             HashMap<String,String> progressMap= databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(), CurrentUserProgress.getInstance().getUserType());
             Log.d("TAG",progressMap.toString());
             if (progressMap.size() > 0){

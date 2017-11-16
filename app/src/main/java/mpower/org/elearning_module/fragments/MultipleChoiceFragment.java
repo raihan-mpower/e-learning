@@ -21,6 +21,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.activities.ExamActivity;
 import mpower.org.elearning_module.model.ExamQuestion;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.AppConstants;
@@ -131,8 +132,10 @@ public class MultipleChoiceFragment extends BaseFragment {
                    if (radioButton!=null){
                        if (radioButton.getText().toString().equalsIgnoreCase(question.getRightAnswer())){
                            answerStatus.setText(R.string.right);
+                           ExamActivity.sExamAnswerMap.put(question.getDescriptionText(),"Correct");
                        }else {
                            answerStatus.setText( R.string.wrong);
+                           ExamActivity.sExamAnswerMap.put(question.getDescriptionText(),"Wrong");
                        }
                        tvAnswer.setText(question.getRightAnswer());
                    }else {
