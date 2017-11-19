@@ -4,6 +4,7 @@ package mpower.org.elearning_module.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageButton;
@@ -72,7 +73,13 @@ public class TriviaFragment extends BaseFragment {
             /*Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
             tvTrivia.setTypeface(typeface);*/
             tvTitle.setText(question.getTitleText());
-            tvTrivia.setText(question.getDescriptionText());
+            String desc=question.getDescriptionText();
+            if (desc.contains("-")){
+                tvTrivia.setText(Html.fromHtml(desc));
+            }else {
+                tvTrivia.setText(desc);
+            }
+            //tvTrivia.setText(question.getDescriptionText());
             tvTrivia.setMovementMethod(new ScrollingMovementMethod());
             String imageName=question.getImage();
             if (imageName!=null && !imageName.equalsIgnoreCase("")){

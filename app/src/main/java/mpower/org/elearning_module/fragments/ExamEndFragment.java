@@ -53,24 +53,20 @@ public class ExamEndFragment extends BaseFragment {
         progressDialog.setMessage("Saving Progress...Please Wait");
         databaseHelper=new DatabaseHelper(getContext());
 
-        int totalQuestions= ExamActivity.sExamAnswerMap.size();
-
+        final int totalQuestions= ExamActivity.sExamAnswerMap.size();
+        tottalQTV.append(String.valueOf(totalQuestions));
         int rightAnswer=0;
         for (Map.Entry<String,String> entry:ExamActivity.sExamAnswerMap.entrySet()){
             if (entry.getValue().equalsIgnoreCase("Correct")){
                 rightAnswer++;
             }
         }
-
-
-        isUserDumb=totalQuestions!=rightAnswer;
-
-
-
+        correctAnsTv.append(String.valueOf(rightAnswer));
+        final int finalRightAnswer = rightAnswer;
         startNewCurse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isUserDumb){
+                if (isUserDumb(totalQuestions, finalRightAnswer)){
                     showSimpleDialog(getString(R.string.failed),getString(R.string.failed_try_again));
                 }else {
                     progressDialog.show();
@@ -87,6 +83,10 @@ public class ExamEndFragment extends BaseFragment {
                 callExamResultDetailActivity();
             }
         });
+    }
+
+    private boolean isUserDumb(int totalQuestions, int totalRightAns) {
+        return totalQuestions == totalRightAns;
     }
 
     private void callExamResultDetailActivity() {

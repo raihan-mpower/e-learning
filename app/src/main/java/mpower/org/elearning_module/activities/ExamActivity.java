@@ -72,6 +72,8 @@ public class ExamActivity extends BaseActivity {
 
         setTitle(CURRENT_COURSE_TITLE);
 
+        final int totalQues=questions.size();
+
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -79,10 +81,13 @@ public class ExamActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
+
                 if (position==questions.size()){
-                    tvCounter.setText("Last Page");
+                    tvCounter.setText(R.string.last_page);
                 }else {
-                    tvCounter.setText(""+(position+1)+" of "+questions.size());
+                    int p=position+1;
+                    String text=getString(R.string.of_page,p,totalQues);
+                    tvCounter.setText(text);
                 }
 
                 /*if (getMediaPlayerService().isPlaying()){

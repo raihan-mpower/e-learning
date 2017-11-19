@@ -48,10 +48,10 @@ public class ExamResultActivity extends BaseActivity {
         if (getIntent().getExtras()!=null){
             isUserDumb=getIntent().getBooleanExtra(AppConstants.IS_USER_DUMB,false);
         }
-
+        TextView tvEmpty = findViewById(android.R.id.empty);
         databaseHelper=new DatabaseHelper(this);
         LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        listView.setEmptyView(tvEmpty);
         final ArrayList<String> qustionList=new ArrayList<>();
         final ArrayList<String> answerList=new ArrayList<>();
         for (Map.Entry<String ,String> entry:ExamActivity.sExamAnswerMap.entrySet()){

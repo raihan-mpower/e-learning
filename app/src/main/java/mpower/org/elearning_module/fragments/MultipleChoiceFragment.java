@@ -81,46 +81,19 @@ public class MultipleChoiceFragment extends BaseFragment {
     @Override
     protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         tvQuestion.setText(question.getDescriptionText());
-
-        /*String answer=question.();
-        ArrayList<CheckBox> checkBoxes;
-        if (answer.contains(",")){
-            String[] answers=answer.split(",");
-            if (answers.length>0) {
-
-                checkBoxes=new ArrayList<>();
-                for (String a : answers) {
-                    CheckBox checkBox = new CheckBox(getActivity());
-                    checkBox.setText(a);
-                    checkBox.setId(new Random().nextInt());
-                    checkBoxes.add(checkBox);
-
-                }
-                ViewGroup viewGroup= (ViewGroup) view;
-                for (CheckBox checkBox:checkBoxes){
-                    viewGroup.addView(checkBox);
-                }
-            }
-        }*/
         final RadioGroup radioGroup=new RadioGroup(getContext());
 
-        RadioGroup.LayoutParams rprms;
-
+        RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
         for (String answer:question.getAnswer()){
             RadioButton radioButton=new RadioButton(getContext());
             radioButton.setText(answer);
             radioButton.setTextSize(17);
             radioButton.setId(new Random().nextInt(Integer.SIZE-1));
             radioButton.setTag(answer);
-            rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
             radioGroup.addView(radioButton,rprms);
         }
 
         layoutForRadiogroup.addView(radioGroup);
-       /* ViewGroup viewGroup= (ViewGroup) view;
-        for (RadioButton radioButton:radioButtons){
-            viewGroup.addView(radioButton);
-        }*/
 
        answerButton.setOnClickListener(new View.OnClickListener() {
            @Override

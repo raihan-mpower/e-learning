@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,7 +61,13 @@ public class CourseContentActivityFragment extends BaseFragment {
     protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         question = (Question) getArguments().getSerializable("question");
         TextView description = view.findViewById(R.id.content_description);
-        description.setText(question.getDescriptionText());
+        String desc=question.getDescriptionText();
+        if (desc.contains("-")){
+            description.setText(Html.fromHtml(desc));
+        }else {
+            description.setText(desc);
+        }
+
         description.setMovementMethod(new ScrollingMovementMethod());
         ImageView contentImage = view.findViewById(R.id.content_image);
         tvTitle.setText(question.getTitleText());

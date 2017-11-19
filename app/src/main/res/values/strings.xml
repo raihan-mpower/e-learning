@@ -25,7 +25,7 @@
     <string name="bangla">Bangla</string>
     <string name="english">English</string>
     <string name="start_exam">Start Exam</string>
-    <string name="course_end_message">You completed the course.\\nNow appear in the exam.</string>
+    <string name="course_end_message">You completed the course.\nNow appear in the exam.</string>
     <string name="detail_result">Detail Result</string>
     <string name="result">Result</string>
     <string name="total_question">Total Question :</string>
@@ -56,6 +56,8 @@
     <string name="locked">Locked</string>
     <string name="failed">You\'ve failed</string>
     <string name="failed_try_again">See detail Result and try again</string>
+    <string name="of_page">At page %1$d of %2$d</string>
+    <string name="no_data">No questions answered</string>
     <string-array name="lang_select">
         <item>English</item>
         <item>Bangla</item>

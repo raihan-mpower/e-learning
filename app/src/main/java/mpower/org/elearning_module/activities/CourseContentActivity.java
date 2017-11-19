@@ -76,7 +76,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
         mPager.setAdapter(mPagerAdapter);
 
         setTitle(CURRENT_COURSE_TITLE);
-
+        final int totalQues=questions.size();
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -86,9 +86,14 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
             public void onPageSelected(int position) {
                 if (position==questions.size()){
                     tvCounter.setText(R.string.last_page);
-                }else {
-
-                    tvCounter.setText(""+(position+1)+" of "+questions.size());
+                }else if (position==0){
+                    String text=getString(R.string.of_page,1,totalQues);
+                    tvCounter.setText(text);
+                }
+                else {
+                    int p=position+1;
+                    String text=getString(R.string.of_page,p,totalQues);
+                    tvCounter.setText(text);
                 }
 
                 if (getMediaPlayerService().isPlaying()){
