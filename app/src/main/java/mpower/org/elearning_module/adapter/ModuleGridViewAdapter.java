@@ -2,11 +2,11 @@ package mpower.org.elearning_module.adapter;
 
 /**
  * Created by raihan on 8/20/17.
+ * @author sabbir
  */
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +20,9 @@ import com.bumptech.glide.Glide;
 import java.io.File;
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.activities.CourseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.application.ELearningApp;
-import mpower.org.elearning_module.databases.DatabaseHelper;
-import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
-import mpower.org.elearning_module.utils.Utils;
 
 public class ModuleGridViewAdapter extends BaseAdapter {
 

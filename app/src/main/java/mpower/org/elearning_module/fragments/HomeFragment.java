@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment{
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickImageForProfilePic();
+              //  pickImageForProfilePic();
               //  pickImageAnother();
             }
         });

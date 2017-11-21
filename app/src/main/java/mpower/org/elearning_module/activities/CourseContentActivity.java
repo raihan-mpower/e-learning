@@ -61,6 +61,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
         return R.layout.activity_course_content;
     }
 
+
     @Override
     protected void onViewReady(Bundle savedInstanceState) {
         if (getIntent().getExtras()!=null){
@@ -194,7 +195,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
 
             return fragment;
         }
-        //plus one is for detecting the last fragment
+        //plus one is for detecting the last fragment ,Sabbir
 
         @Override
         public int getCount() {

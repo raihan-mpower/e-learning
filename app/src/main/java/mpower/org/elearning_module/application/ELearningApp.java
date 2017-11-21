@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.databases.DatabaseHelper;
+import mpower.org.elearning_module.handlers.MyExceptionHandler;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.LocaleHelper;
 
@@ -32,10 +33,10 @@ public class ELearningApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         defaultSysLanguage = Locale.getDefault().getLanguage();
         new LocaleHelper().updateLocale(this);
         instance=this;
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
@@ -22,17 +21,11 @@ import java.util.HashMap;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
-import mpower.org.elearning_module.fragments.CourseContentActivityFragment;
-import mpower.org.elearning_module.fragments.CourseEndFragment;
 import mpower.org.elearning_module.fragments.ExamEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
-import mpower.org.elearning_module.fragments.TriviaFragment;
-import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.model.ExamQuestion;
-import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
-import mpower.org.elearning_module.utils.CurrentUserProgress;
 
 public class ExamActivity extends BaseActivity {
     public static String CURRENT_COURSE_TITLE = "ExamName";

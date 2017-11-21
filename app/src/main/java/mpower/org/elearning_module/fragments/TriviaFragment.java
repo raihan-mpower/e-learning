@@ -73,13 +73,7 @@ public class TriviaFragment extends BaseFragment {
             /*Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
             tvTrivia.setTypeface(typeface);*/
             tvTitle.setText(question.getTitleText());
-            String desc=question.getDescriptionText();
-            if (desc.contains("-")){
-                tvTrivia.setText(Html.fromHtml(desc));
-            }else {
-                tvTrivia.setText(desc);
-            }
-            //tvTrivia.setText(question.getDescriptionText());
+            tvTrivia.setText(question.getDescriptionText());
             tvTrivia.setMovementMethod(new ScrollingMovementMethod());
             String imageName=question.getImage();
             if (imageName!=null && !imageName.equalsIgnoreCase("")){

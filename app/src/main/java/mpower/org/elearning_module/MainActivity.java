@@ -41,6 +41,7 @@ import mpower.org.elearning_module.activities.LogInActivity;
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.fragments.HomeFragment;
+import mpower.org.elearning_module.handlers.MyExceptionHandler;
 import mpower.org.elearning_module.model.Exam;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
@@ -71,6 +72,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onViewReady(Bundle savedInstanceState) {
+
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
 
@@ -133,6 +136,11 @@ public class MainActivity extends BaseActivity
         Intent logoutIntent = new Intent(this, LogInActivity.class);
         startActivity(logoutIntent);
         finish();
+    }
+
+
+    public void crashMe(View view){
+        throw new NullPointerException();
     }
 
     private void getUserData(){

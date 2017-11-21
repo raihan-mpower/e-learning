@@ -19,6 +19,7 @@ public class AppConstants {
     public static final String DATA_COPIED = "image_copied";
     public static final String KEY_APP_LANGUAGE = "app_lang";
     public static final String IS_USER_DUMB = "a_dumb_user";
+    public static final String KEY_CRAHSED = "crashed";
 
     public static String USER_PROGRESS_MODULE_ID="";
     public static  String USER_PROGRESS_COURSE_ID="";

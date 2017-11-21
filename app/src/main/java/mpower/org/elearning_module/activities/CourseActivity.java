@@ -2,7 +2,6 @@ package mpower.org.elearning_module.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +22,6 @@ import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
-import mpower.org.elearning_module.utils.Helper;
 import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 

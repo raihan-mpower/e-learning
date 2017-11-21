@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import java.util.List;
 
 import mpower.org.elearning_module.model.Exam;
-import mpower.org.elearning_module.model.ExamCurriculum;
 import mpower.org.elearning_module.parser.ExamCurriculumParser;
 import mpower.org.elearning_module.utils.Utils;
 
@@ -20,14 +19,14 @@ public class ExamCurriculamParserTask extends AsyncTask<String,Void,List<Exam>> 
 
     @Override
     protected List<Exam> doInBackground(String... strings) {
-        return ExamCurriculumParser.returnCurriculum(Utils.readAssetContents("exam_json_2.json",context)).getExams();
+        return ExamCurriculumParser.returnCurriculum(Utils.readAssetContents("exam_json.json",context)).getExams();
     }
 
     public interface ExamCurriculamParserTaskListener{
         void onParsingComplete(List<Exam> exams);
     }
 
-    ExamCurriculamParserTaskListener listener;
+    private ExamCurriculamParserTaskListener listener;
     ProgressDialog progressDialog;
 
  public ExamCurriculamParserTask(Context context,ExamCurriculamParserTaskListener listener){

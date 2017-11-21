@@ -7,7 +7,6 @@ package mpower.org.elearning_module.adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +20,9 @@ import com.bumptech.glide.Glide;
 import java.io.File;
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.activities.CourseContentActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.application.ELearningApp;
-import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
-import mpower.org.elearning_module.model.Question;
-import mpower.org.elearning_module.utils.Utils;
 
 public class CourseGridViewAdapter extends BaseAdapter {
     private Context context;
