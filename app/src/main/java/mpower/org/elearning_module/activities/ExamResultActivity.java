@@ -82,7 +82,7 @@ public class ExamResultActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                //callExamActivity(true,position);
 
             }
         });
@@ -90,17 +90,19 @@ public class ExamResultActivity extends BaseActivity {
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exam=databaseHelper.getExambyId(CurrentUserProgress.getInstance().getCurrentExamId());
-                callExamActivity();
+                callExamActivity(false,0);
             }
         });
 
     }
 
-    private void callExamActivity() {
+    private void callExamActivity(boolean wantsToReview,int questionPos) {
+        exam=databaseHelper.getExambyId(CurrentUserProgress.getInstance().getCurrentExamId());
         Intent intent=new Intent(this,ExamActivity.class);
         intent.putExtra(AppConstants.DATA,(ArrayList<ExamQuestion>)exam.getExamQuestions());
         intent.putExtra(AppConstants.IS_USER_DUMB,isUserDumb);
+        intent.putExtra(AppConstants.IS_BACK_FROM_RESULT,wantsToReview);
+        if (wantsToReview) intent.putExtra(AppConstants.REVIEW_QUESTION_POSITION,questionPos);
         startActivity(intent);
         finish();
     }

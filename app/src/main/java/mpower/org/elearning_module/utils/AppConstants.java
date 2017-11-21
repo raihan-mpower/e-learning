@@ -4,7 +4,7 @@ package mpower.org.elearning_module.utils;
  * Created by sabbir on 10/12/17.
  */
 
-public class AppConstants {
+public final class AppConstants {
     public static final String KEY_SERVER_URL = "";
     public static final String URL_PART_LOGIN = "";
     public static final int CONNECTION_TIMEOUT =30 ;
@@ -20,6 +20,8 @@ public class AppConstants {
     public static final String KEY_APP_LANGUAGE = "app_lang";
     public static final String IS_USER_DUMB = "a_dumb_user";
     public static final String KEY_CRAHSED = "crashed";
+    public static final java.lang.String IS_BACK_FROM_RESULT ="back_from_result" ;
+    public static final String REVIEW_QUESTION_POSITION = "review_position";
 
     public static String USER_PROGRESS_MODULE_ID="";
     public static  String USER_PROGRESS_COURSE_ID="";

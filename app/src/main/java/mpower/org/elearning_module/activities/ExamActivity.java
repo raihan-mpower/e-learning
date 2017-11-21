@@ -26,10 +26,12 @@ import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
 import mpower.org.elearning_module.model.ExamQuestion;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
+import mpower.org.elearning_module.view.LockableViewPager;
 
-public class ExamActivity extends BaseActivity {
+public class ExamActivity extends BaseActivity implements MultipleChoiceFragment.CallBack{
+
     public static String CURRENT_COURSE_TITLE = "ExamName";
-    private ViewPager mPager;
+    private LockableViewPager mPager;
     private ArrayList<ExamQuestion> questions;
     private TextView tvCounter;
     private MediaPlayerService mediaPlayerService;
@@ -37,8 +39,10 @@ public class ExamActivity extends BaseActivity {
     private PagerAdapter mPagerAdapter;
 
     public static HashMap<String,String> sExamAnswerMap;
+    boolean isBackFromExamResult;
+    private int reviewPosition=0;
 
-
+    boolean skippedQuestion=false;
 
     @Override
     protected int getResourceLayout() {
@@ -48,8 +52,13 @@ public class ExamActivity extends BaseActivity {
     @Override
     protected void onViewReady(Bundle savedInstanceState) {
         Log.d("TAG","******");
-        if (getIntent().getExtras()!=null){
-            questions= (ArrayList<ExamQuestion>) getIntent().getExtras().get(AppConstants.DATA);
+        Bundle bundle=getIntent().getExtras();
+        if (bundle!=null){
+            isBackFromExamResult=bundle.getBoolean(AppConstants.IS_BACK_FROM_RESULT,false);
+            if (isBackFromExamResult){
+                reviewPosition=bundle.getInt(AppConstants.REVIEW_QUESTION_POSITION);
+            }
+            questions= (ArrayList<ExamQuestion>) bundle.get(AppConstants.DATA);
         }
       //  startMusicSercive();
 
@@ -60,6 +69,7 @@ public class ExamActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tvCounter=toolbar.findViewById(R.id.toolbar_title);
         mPager = findViewById(R.id.pager);
+        mPager.setSwipeAble(false);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
@@ -95,6 +105,16 @@ public class ExamActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void skippied(boolean skipped) {
+        if (skipped) {
+            Log.d("TAG","Skipped");
+            mPager.setSwipeAble(false);
+        }else {
+            mPager.setSwipeAble(true);
+        }
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
 
@@ -111,6 +131,7 @@ public class ExamActivity extends BaseActivity {
                 fragment=new ExamEndFragment();
                 return fragment;
             }else {
+                if (isBackFromExamResult) position=reviewPosition;
                 switch (questions.get(position).getType()) {
                     case "multiple-choice":
                         fragment=MultipleChoiceFragment.newInstance(questions.get(position));
@@ -131,7 +152,6 @@ public class ExamActivity extends BaseActivity {
             return questions.size()+1;
         }
     }
-
 
 
     public MediaPlayerService getMediaPlayerService() {

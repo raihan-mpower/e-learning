@@ -1,6 +1,7 @@
 package mpower.org.elearning_module.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,10 @@ import mpower.org.elearning_module.utils.AppConstants;
  */
 public class MultipleChoiceFragment extends BaseFragment {
 
+    public interface CallBack{
+        void skippied(boolean skipped);
+    }
+
     ExamQuestion question;
 
     @BindView(R.id.tv_question)
@@ -48,6 +53,9 @@ public class MultipleChoiceFragment extends BaseFragment {
 
     boolean isPlaying=false;
     private boolean isPaused;
+    private boolean skipped=true;
+
+    private CallBack listener;
 
     private boolean isPlaying(){
         return isPlaying;
@@ -58,7 +66,7 @@ public class MultipleChoiceFragment extends BaseFragment {
     }
 
  public static  MultipleChoiceFragment newInstance(ExamQuestion question){
-        MultipleChoiceFragment fragment=new MultipleChoiceFragment();
+     MultipleChoiceFragment fragment=new MultipleChoiceFragment();
      Bundle bundle = new Bundle();
      bundle.putSerializable(AppConstants.DATA, question);
      fragment.setArguments(bundle);
@@ -70,6 +78,16 @@ public class MultipleChoiceFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments()!=null){
             question = (ExamQuestion) getArguments().getSerializable(AppConstants.DATA);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CallBack){
+            listener= (CallBack) context;
+        }else {
+            throw new RuntimeException("Have to implement CallBack interface");
         }
     }
 
@@ -110,6 +128,8 @@ public class MultipleChoiceFragment extends BaseFragment {
                            answerStatus.setText( R.string.wrong);
                            ExamActivity.sExamAnswerMap.put(question.getDescriptionText(),"Wrong");
                        }
+                       skipped=false;
+                       listener.skippied(false);
                        tvAnswer.setText(question.getRightAnswer());
                    }else {
                        showToast("Invalid Answer");
@@ -159,6 +179,12 @@ public class MultipleChoiceFragment extends BaseFragment {
             }
         });
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        listener.skippied(skipped);
     }
 
     @Override

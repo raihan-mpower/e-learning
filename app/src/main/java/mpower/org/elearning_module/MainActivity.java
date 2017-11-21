@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onViewReady(Bundle savedInstanceState) {
 
-        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+       // Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         userType = (UserType) getIntent().getSerializableExtra(AppConstants.USER_TYPE);
 

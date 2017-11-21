@@ -62,6 +62,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:launchMode="standard"
             android:name=".activities.ExamActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">

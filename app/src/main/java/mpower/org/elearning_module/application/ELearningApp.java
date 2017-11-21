@@ -36,7 +36,7 @@ public class ELearningApp extends Application {
         defaultSysLanguage = Locale.getDefault().getLanguage();
         new LocaleHelper().updateLocale(this);
         instance=this;
-        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+       // Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
     }
 
     @Override

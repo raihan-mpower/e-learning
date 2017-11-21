@@ -1,6 +1,8 @@
 package mpower.org.elearning_module.services;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -199,4 +201,30 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     }
 
+
+    private void callStateListener(){
+        mTelephonyManager= (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        mPhoneStateListener=new PhoneStateListener(){
+
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                super.onCallStateChanged(state, incomingNumber);
+
+                switch (state){
+                    case TelephonyManager.CALL_STATE_OFFHOOK:
+                    case TelephonyManager.CALL_STATE_RINGING:
+                        if (mMediaPlayer!=null && mMediaPlayer.isPlaying()) mMediaPlayer.stop();
+                }
+            }
+        };
+
+        mTelephonyManager.listen(mPhoneStateListener,PhoneStateListener.LISTEN_CALL_STATE);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        callStateListener();
+    }
 }
