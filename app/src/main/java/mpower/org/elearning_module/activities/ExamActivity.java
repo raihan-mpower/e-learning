@@ -21,8 +21,10 @@ import java.util.HashMap;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.adapter.MyFragmentPagerAdapter;
 import mpower.org.elearning_module.fragments.ExamEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
+import mpower.org.elearning_module.interfaces.FragmentLifecycle;
 import mpower.org.elearning_module.model.ExamQuestion;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
@@ -38,11 +40,14 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
     boolean isServiceBound;
     private PagerAdapter mPagerAdapter;
 
+    private ScreenSlidePagerAdapter adapter;
+
     public static HashMap<String,String> sExamAnswerMap;
     boolean isBackFromExamResult;
     private int reviewPosition=0;
 
     boolean skippedQuestion=false;
+    private Fragment examEndFragment;
 
     @Override
     protected int getResourceLayout() {
@@ -69,15 +74,21 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tvCounter=toolbar.findViewById(R.id.toolbar_title);
         mPager = findViewById(R.id.pager);
-        mPager.setSwipeAble(false);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        mPager.setSwipeAble(true);
+        adapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(adapter);
+
+       /* MyFragmentPagerAdapter adapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),questions);
+        mPager.setAdapter(adapter);*/
+
 
         setTitle(CURRENT_COURSE_TITLE);
 
         final int totalQues=questions.size();
 
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            int currentPosition = 0;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -85,8 +96,17 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
             @Override
             public void onPageSelected(int position) {
 
+                /*FragmentLifecycle fragmentToShow = (FragmentLifecycle)adapter.getItem(position);
+                fragmentToShow.onResumeFragment();
+
+                FragmentLifecycle fragmentToHide = (FragmentLifecycle)adapter.getItem(currentPosition);
+                fragmentToHide.onPauseFragment();*/
+
+                currentPosition = position;
+
                 if (position==questions.size()){
                     tvCounter.setText(R.string.last_page);
+                    ((ExamEndFragment)examEndFragment).showresults();
                 }else {
                     int p=position+1;
                     String text=getString(R.string.of_page,p,totalQues);
@@ -105,11 +125,13 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
         });
     }
 
+    //TODO ,need more work so disabling it for now ,i.e setSwipeAble(true) ,is always true.
     @Override
     public void skippied(boolean skipped) {
+        skippedQuestion=skipped;
         if (skipped) {
             Log.d("TAG","Skipped");
-            mPager.setSwipeAble(false);
+            mPager.setSwipeAble(true);
         }else {
             mPager.setSwipeAble(true);
         }
@@ -129,6 +151,7 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
 
             if (position==questions.size()){
                 fragment=new ExamEndFragment();
+                examEndFragment = fragment;
                 return fragment;
             }else {
                 if (isBackFromExamResult) position=reviewPosition;
@@ -187,7 +210,10 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
     }
 
     public void jumpToPage(View view) {
-        mPager.setCurrentItem(mPager.getCurrentItem()+1,true);
+        if (!skippedQuestion){
+            mPager.setCurrentItem(mPager.getCurrentItem()+1,true);
+        }
+
     }
 
     public void jumpToPagePrev(View view) {

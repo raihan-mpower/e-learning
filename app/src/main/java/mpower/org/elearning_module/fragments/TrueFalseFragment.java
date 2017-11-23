@@ -80,7 +80,7 @@ public class TrueFalseFragment extends BaseFragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                tvRightAnswer.setText("Correct Answer !! "+question.getAnswer());
+                tvRightAnswer.setText(getString(R.string.right)+question.getAnswer());
             }
         });
 
@@ -88,7 +88,7 @@ public class TrueFalseFragment extends BaseFragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                tvRightAnswer.setText("Wrong Answer !! "+question.getAnswer());
+                tvRightAnswer.setText(getString(R.string.wrong)+question.getAnswer());
             }
         });
 

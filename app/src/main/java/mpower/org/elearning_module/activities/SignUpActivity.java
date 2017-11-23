@@ -4,17 +4,21 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.Helper;
+import mpower.org.elearning_module.utils.NetUtils;
 
 public class SignUpActivity extends BaseActivity {
 
@@ -32,7 +36,7 @@ public class SignUpActivity extends BaseActivity {
 
     private String name,phone,dotId,password;
 
-    private ProgressDialog progressDialog;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected int getResourceLayout() {
@@ -41,8 +45,8 @@ public class SignUpActivity extends BaseActivity {
 
     @Override
     protected void onViewReady(Bundle savedInstanceState) {
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setMessage("Signing Up...Please wait");
+        mProgressDialog=new ProgressDialog(this);
+        mProgressDialog.setMessage("Signing Up...Please wait");
         if (getIntent().getExtras()!=null){
             isDotProvider=getIntent().getBooleanExtra(AppConstants.USER_TYPE,false);
         }
@@ -52,10 +56,13 @@ public class SignUpActivity extends BaseActivity {
     }
 
     public void signUp(View view) {
+        if(!NetUtils.isConnected(this)){
+            return;
+        }
         if (checkDataValidation()){
-
+            new SignUpTask(this).execute();
         }else {
-
+            new SignUpTask(this).execute();
         }
         showToast("Sign Up");
     }
@@ -83,19 +90,28 @@ public class SignUpActivity extends BaseActivity {
         return true;
     }
 
-    private class SignUpTask extends AsyncTask<Void,Void,Boolean>{
+    private static class SignUpTask extends AsyncTask<Void,Void,Boolean>{
 
+        private WeakReference<SignUpActivity> activityReference;
+
+
+        private ProgressDialog progressDialog;
+
+        SignUpTask(SignUpActivity signUpActivity) {
+            activityReference= new WeakReference<>(signUpActivity);
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog=new ProgressDialog(activityReference.get());
             progressDialog.show();
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
 
-            return null;
+            return true;
         }
 
         @Override
@@ -103,12 +119,12 @@ public class SignUpActivity extends BaseActivity {
             super.onPostExecute(aBoolean);
             if (aBoolean){
                 progressDialog.dismiss();
-                Helper.showToast(SignUpActivity.this,"Successfully Signed Up,Now Log In",Toast.LENGTH_LONG);
-                callLogin();
+                Helper.showToast(activityReference.get(),"Successfully Signed Up,Now Log In",Toast.LENGTH_LONG);
+                activityReference.get().callLogin();
             }else {
                 progressDialog.dismiss();
                 //TODO have to handle the errors later
-                Helper.showToast(SignUpActivity.this,"Failed,Try again later",Toast.LENGTH_LONG);
+                Helper.showToast(activityReference.get(),"Failed,Try again later",Toast.LENGTH_LONG);
             }
 
         }

@@ -34,8 +34,9 @@ public class ELearningApp extends Application {
     public void onCreate() {
         super.onCreate();
         defaultSysLanguage = Locale.getDefault().getLanguage();
-        new LocaleHelper().updateLocale(this);
+        new LocaleHelper().updateLocale(this,"bn");
         instance=this;
+        //TODO DISABLE it ,for crash handling but for testing enable it
        // Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
     }
 

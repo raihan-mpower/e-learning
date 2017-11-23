@@ -22,6 +22,7 @@ import mpower.org.elearning_module.utils.UserType;
 
 /**
  * Created by sabbir on 10/17/17.
+ * @author sabbir
  */
 
 public class DatabaseHelper extends CustomDbOpenHelper {
@@ -84,6 +85,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private static final String EXAM_PROGRESS_TABLE="exam_progress_table";
     private static final String PREVEIOUS_EXAM_QUESTIONS="prev_exam_questions";
     private static final String EXAM_SCORE="exam_score";
+    private static final String EXAM_TOTAL_QUESTIONS="exam_total_ques";
 
 
 
@@ -112,7 +114,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
        List<String> sqlList=new ArrayList<>();
 
         String examProgresssql=EXAM_PROGRESS_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY,"
-                +USER_NAME+" TEXT, "+EXAM_SCORE+" INTEGER, "+EXAM_ID+" TEXT, "+PREVEIOUS_EXAM_QUESTIONS+" TEXT "
+                +USER_NAME+" TEXT, "+EXAM_TOTAL_QUESTIONS+" INTEGER, "+EXAM_SCORE+" INTEGER, "+EXAM_ID+" TEXT, "+PREVEIOUS_EXAM_QUESTIONS+" TEXT "
                 +" );";
 
         String examQuestionAnswerTablesql=EXAM_QUESTION_ANSWER_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "
@@ -645,6 +647,46 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 return false;
             }
         }
+    }
+
+    public void saveExamProgress(String userName,String examId,int totalQues,int score,
+                                 @Nullable String[] qIds){
+       ContentValues cv=new ContentValues();
+       cv.put(EXAM_ID,examId);
+       cv.put(EXAM_SCORE,score);
+       cv.put(USER_NAME,userName);
+       cv.put(EXAM_TOTAL_QUESTIONS,totalQues);
+       StringBuilder builder=new StringBuilder();
+        if (qIds != null) {
+            for (String q:qIds){
+                builder.append(q).append(",");
+            }
+            cv.put(PREVEIOUS_EXAM_QUESTIONS,builder.toString());
+        }
+
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        sqLiteDatabase.insert(EXAM_PROGRESS_TABLE,null,cv);
+    }
+
+    public  String[] getPreviusQuestions(String userName,String examId){
+        List<String> qList=new ArrayList<>();
+        String [] qArr = new String[0];
+        String sql="SELECT * FROM "+EXAM_PROGRESS_TABLE+" WHERE "+USER_NAME+" = '"+userName+"'"
+                +" AND "+EXAM_ID+" = '"+examId+"'";
+
+        Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
+        if (cursor!=null && cursor.getCount()>0){
+            cursor.moveToFirst();
+            while (cursor.moveToNext()){
+                String s=cursor.getString(cursor.getColumnIndex(PREVEIOUS_EXAM_QUESTIONS));
+                 qArr=s.split(",");
+            }
+
+            cursor.close();
+            return qArr;
+        }
+
+        return null;
     }
 
 

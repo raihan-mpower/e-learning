@@ -8,7 +8,7 @@ import java.util.List;
  * Created by sabbir on 11/13/17.
  */
 
-public class TableCreator {
+public final class TableCreator {
 
 
     /**

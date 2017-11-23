@@ -42,8 +42,8 @@
     <string name="dot_id">DOT ID</string>
     <string name="your_answer_is">Your Answer is</string>
     <string name="confirm_answer">Confirm Answer</string>
-    <string name="right">Right</string>
-    <string name="wrong">Wrong</string>
+    <string name="right">সঠিক হয়েছে!</string>
+    <string name="wrong">সঠিক হয়নি।</string>
     <string name="please_select_answer">Please select any answer</string>
     <string name="change">Change</string>
     <string name="cancel">Cancel</string>
@@ -57,4 +57,6 @@
     <string name="failed_try_again">See detail Result and try again</string>
     <string name="of_page">At page %1$d of %2$d</string>
     <string name="no_data">No questions answered</string>
+    <string name="trivia">তথ্যকণিকা</string>
+    <string name="log_out">LOGOUT</string>
 </resources>

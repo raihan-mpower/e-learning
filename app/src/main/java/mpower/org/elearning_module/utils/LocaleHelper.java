@@ -1,6 +1,7 @@
 package mpower.org.elearning_module.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -28,6 +29,10 @@ public class LocaleHelper {
         } else {
             configuration.locale = locale;
         }
+        SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor=prefs.edit();
+        editor.putString(AppConstants.KEY_APP_LANGUAGE,localeCode);
+        editor.commit();
         context.getResources().updateConfiguration(configuration, displayMetrics);
         context.getApplicationContext().getResources().updateConfiguration(configuration, displayMetrics);
     }

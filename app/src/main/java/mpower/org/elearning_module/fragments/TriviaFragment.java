@@ -28,10 +28,10 @@ public class TriviaFragment extends BaseFragment {
     TextView tvTrivia;
     @BindView(R.id.audio)
     ImageButton audiobutton;
-    @BindView(R.id.content_image)
-    ImageView imageView;
-    @BindView(R.id.linear_image_container)
-    LinearLayout imageLayout;
+    /*@BindView(R.id.content_image)
+    ImageView imageView;*/
+   /* @BindView(R.id.linear_image_container)
+    LinearLayout imageLayout;*/
     @BindView(R.id.tv_q_title)
             TextView tvTitle;
 
@@ -64,7 +64,7 @@ public class TriviaFragment extends BaseFragment {
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_trivia;
+        return R.layout.trivia_layout;
     }
 
     @Override
@@ -75,14 +75,15 @@ public class TriviaFragment extends BaseFragment {
             tvTitle.setText(question.getTitleText());
             tvTrivia.setText(question.getDescriptionText());
             tvTrivia.setMovementMethod(new ScrollingMovementMethod());
-            String imageName=question.getImage();
+            /*String imageName=question.getImage();
             if (imageName!=null && !imageName.equalsIgnoreCase("")){
                 Glide.with(this).load(Uri.fromFile(new File(ELearningApp.IMAGES_FOLDER_NAME+ File.separator+imageName)))
                         .into(imageView);
                // imageView.setImageDrawable(Utils.loadDrawableFromAssets(getContext(),imageName));
             }else {
+                if (imageLayout!=null)
                 imageLayout.setVisibility(View.GONE);
-            }
+            }*/
 
             audioName=question.getAudio();
             /*if (audioName!=null && !audioName.isEmpty()){

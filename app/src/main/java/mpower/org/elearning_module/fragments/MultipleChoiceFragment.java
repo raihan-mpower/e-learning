@@ -4,12 +4,9 @@ package mpower.org.elearning_module.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -17,20 +14,31 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.activities.ExamActivity;
+import mpower.org.elearning_module.interfaces.FragmentLifecycle;
 import mpower.org.elearning_module.model.ExamQuestion;
-import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.utils.AppConstants;
 
 /**
  * @author sabbir
  */
-public class MultipleChoiceFragment extends BaseFragment {
+public class MultipleChoiceFragment extends BaseFragment implements FragmentLifecycle {
+
+    @Override
+    public void onPauseFragment() {
+        Log.i("TAG", "MultipleChoiceFragment+onPauseFragment()");
+        //Toast.makeText(getContext(), "onPauseFragment():" + "TAG", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResumeFragment() {
+        Log.i("TAG", "MultipleChoiceFragment+onResumedFragment()");
+       // Toast.makeText(getContext(), "onResumedFragment():" + "TAG", Toast.LENGTH_SHORT).show();
+    }
 
     public interface CallBack{
         void skippied(boolean skipped);
@@ -56,6 +64,8 @@ public class MultipleChoiceFragment extends BaseFragment {
     private boolean skipped=true;
 
     private CallBack listener;
+
+    private boolean isInitialized;
 
     private boolean isPlaying(){
         return isPlaying;
@@ -179,12 +189,14 @@ public class MultipleChoiceFragment extends BaseFragment {
             }
         });
 
+        isInitialized=true;
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        listener.skippied(skipped);
+       // listener.skippied(skipped);
     }
 
     @Override
@@ -192,4 +204,14 @@ public class MultipleChoiceFragment extends BaseFragment {
         super.onDestroy();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isInitialized){
+            return;
+        }
+        if (!isVisibleToUser){
+            listener.skippied(true);
+        }
+    }
 }

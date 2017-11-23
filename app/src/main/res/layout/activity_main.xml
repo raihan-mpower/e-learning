@@ -33,7 +33,7 @@
                     android:textColor="@color/white_background"
                     android:background="#e22f26"
                     android:id="@+id/btn_logout"
-                    android:text="LogOUT"
+                    android:text="@string/log_out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <!--Here is a container at the bottom of navigation drawer. Place your images here-->

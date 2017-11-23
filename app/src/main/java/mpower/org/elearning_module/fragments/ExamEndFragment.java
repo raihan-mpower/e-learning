@@ -4,9 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import mpower.org.elearning_module.activities.CourseActivity;
 import mpower.org.elearning_module.activities.ExamActivity;
 import mpower.org.elearning_module.activities.ExamResultActivity;
 import mpower.org.elearning_module.databases.DatabaseHelper;
+import mpower.org.elearning_module.interfaces.FragmentLifecycle;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
@@ -24,7 +27,7 @@ import mpower.org.elearning_module.utils.UserType;
  * Created by sabbir on 11/13/17.
  */
 
-public class ExamEndFragment extends BaseFragment {
+public class ExamEndFragment extends BaseFragment implements FragmentLifecycle{
 
     @BindView(R.id.button_start__next_course)
     Button startNewCurse;
@@ -41,6 +44,8 @@ public class ExamEndFragment extends BaseFragment {
     DatabaseHelper databaseHelper;
 
     boolean isUserDumb=false;
+    private int totalNoOfQuestion;
+    private int score;
 
     @Override
     protected int getFragmentLayout() {
@@ -53,7 +58,12 @@ public class ExamEndFragment extends BaseFragment {
         progressDialog.setMessage("Saving Progress...Please Wait");
         databaseHelper=new DatabaseHelper(getContext());
 
+
+    }
+
+    public void showresults(){
         final int totalQuestions= ExamActivity.sExamAnswerMap.size();
+        totalNoOfQuestion=totalQuestions;
         tottalQTV.append(String.valueOf(totalQuestions));
         int rightAnswer=0;
         for (Map.Entry<String,String> entry:ExamActivity.sExamAnswerMap.entrySet()){
@@ -61,8 +71,10 @@ public class ExamEndFragment extends BaseFragment {
                 rightAnswer++;
             }
         }
-        correctAnsTv.append(String.valueOf(rightAnswer));
+
         final int finalRightAnswer = rightAnswer;
+        correctAnsTv.append(String.valueOf(finalRightAnswer));
+        score=rightAnswer;
         startNewCurse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +129,28 @@ public class ExamEndFragment extends BaseFragment {
             module+=1;
             //  course=1;
         }
-
+        String examId=CurrentUserProgress.getInstance().getCurrentExamId();
+        databaseHelper.saveExamProgress(userName,examId,totalNoOfQuestion,score,null);
         databaseHelper.updateProgressTable(userName, String.valueOf(module), String.valueOf(course),questionId,userType);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        showresults();
+    }
+
+    @Override
+    public void onPauseFragment() {
+        Log.i("TAG", "ExamEndFragment+onPauseFragment()");
+       // Toast.makeText(getActivity(), "onPauseFragment():" + "TAG", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResumeFragment() {
+        Log.i("TAG", "ExamEndFragment+onResumedFragment()");
+       // tottalQTV.setText(totalNoOfQuestion);
+       // correctAnsTv.setText(score);
+       // Toast.makeText(getActivity(), "onResumedFragment():" + "TAG", Toast.LENGTH_SHORT).show();
     }
 }
