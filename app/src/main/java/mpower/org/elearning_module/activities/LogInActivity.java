@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -49,7 +48,6 @@ public class LogInActivity extends BaseActivity {
 
     private UserCollection user;
 
-    private RadioGroup userTypeGroup;
     private String userType=null;
 
     @Override
@@ -78,7 +76,6 @@ public class LogInActivity extends BaseActivity {
         passwordEditText = findViewById(R.id.login_password);
         usernameEditText.setFilters(new InputFilter[] { getReturnFilter(), getWhitespaceFilter() });
         passwordEditText.setFilters(new InputFilter[] { getReturnFilter(), getWhitespaceFilter() });
-        userTypeGroup=findViewById(R.id.user_group);
         loginButton = findViewById(R.id.login_button);
     }
 

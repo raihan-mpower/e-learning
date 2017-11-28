@@ -14,12 +14,14 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.List;
 import java.util.Locale;
@@ -147,6 +149,27 @@ public class Helper {
             return cityName;
         }
 
+    }
+
+    public static boolean isNumeric(String s){
+        return s!=null && s.matches("[-+]?\\d*\\.?\\d+");
+    }
+
+    public static void downLoadFileWithJavaIO(String fileName,String url) throws Exception{
+        BufferedInputStream in;
+        FileOutputStream out;
+        URL url1=new URL(url);
+        in=new BufferedInputStream(url1.openStream());
+        out=new FileOutputStream(fileName);
+
+        byte data[] =new byte[1024];
+        int count;
+
+        while ((count=in.read(data,0,1024))!=-1){
+            out.write(data,0,count);
+        }
+        in.close();
+        out.close();
     }
 
     public Bitmap getCroppedBitmap(Bitmap bitmap) {

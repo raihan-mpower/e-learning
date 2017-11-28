@@ -98,7 +98,7 @@ public class ExamEndFragment extends BaseFragment implements FragmentLifecycle{
     }
 
     private boolean isUserDumb(int totalQuestions, int totalRightAns) {
-        return totalQuestions == totalRightAns;
+        return totalQuestions != totalRightAns;
     }
 
     private void callExamResultDetailActivity() {

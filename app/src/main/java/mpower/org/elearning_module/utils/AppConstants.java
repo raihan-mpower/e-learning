@@ -22,6 +22,7 @@ public final class AppConstants {
     public static final String KEY_CRAHSED = "crashed";
     public static final java.lang.String IS_BACK_FROM_RESULT ="back_from_result" ;
     public static final String REVIEW_QUESTION_POSITION = "review_position";
+    public static final String FILES_DOWNLOADED ="files_downloaded" ;
 
     public static String USER_PROGRESS_MODULE_ID="";
     public static  String USER_PROGRESS_COURSE_ID="";

@@ -14,7 +14,13 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageView
+                android:layout_margin="10dp"
+                android:src="@drawable/tb_logo"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
             <TextView
+                android:visibility="gone"
                 android:fontFamily="sans-serif-condensed"
                 android:layout_marginBottom="30dp"
                 android:textSize="30sp"
@@ -22,20 +28,6 @@
                 android:text="@string/tb_e_learning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <RadioGroup
-                android:visibility="gone"
-                android:id="@+id/user_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <RadioButton
-                    android:text="DOT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:text="Other"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RadioGroup>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:hint="@string/mobile_no"
