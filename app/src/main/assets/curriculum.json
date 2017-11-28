@@ -1,12 +1,12 @@
 {
   "curriculum": {
-    "modules": [
+    "courses": [
       {
         "user_type": "DOT",
         "title": "যক্ষ্মা সম্পর্কে সাধারণ জ্ঞান",
         "id": "1",
         "icon_image": "icon1.png",
-        "courses": [
+        "modules": [
           {
             "title": "যক্ষ্মা সম্পর্কে সাধারণ জ্ঞান",
             "id": "1",

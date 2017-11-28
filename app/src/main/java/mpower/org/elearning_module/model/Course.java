@@ -8,9 +8,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import mpower.org.elearning_module.utils.Status;
+import mpower.org.elearning_module.utils.UserType;
 
 public class Course implements Serializable {
 
+    @SerializedName("user_type")
+    private String userType;
     @SerializedName("title")
     @Expose
     private String title;
@@ -20,12 +23,39 @@ public class Course implements Serializable {
     @SerializedName("icon_image")
     @Expose
     private String iconImage;
-    @SerializedName("questions")
+    @SerializedName("modules")
     @Expose
-    private List<Question> questions = new ArrayList<Question>();
 
+    private List<Module> modules=new ArrayList<>();
+
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+    public void setModules(List<Module> modules) {
+        this.modules = modules;
+    }
 
     private Status status= Status.LOCKED;
+
+    public UserType getUserTypeEnum() {
+        switch (getUserType()){
+            case "":
+                return UserType.OTHER;
+            case "DOT":
+                return UserType.DOT;
+            default:
+                return UserType.PUBLIC;
+        }
+
+    }
 
      ;
     /**
@@ -42,12 +72,12 @@ public class Course implements Serializable {
      * @param iconImage
      * @param questions
      */
-    public Course(String title, String id, String iconImage, List<Question> questions,Status status) {
+    public Course(String title, String id, String iconImage, List<Module> questions,Status status) {
         super();
         this.title = title;
         this.id = id;
         this.iconImage = iconImage;
-        this.questions = questions;
+        this.modules = questions;
         this.status = status;
     }
 
@@ -75,12 +105,12 @@ public class Course implements Serializable {
         this.iconImage = iconImage;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public List<Module> getQuestions() {
+        return modules;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setQuestions(List<Module> questions) {
+        this.modules = questions;
     }
 
     public boolean isLocked(){
@@ -100,7 +130,7 @@ public class Course implements Serializable {
                 "title='" + title + '\'' +
                 ", id='" + id + '\'' +
                 ", iconImage='" + iconImage + '\'' +
-                ", questions=" + questions +
+                ", questions=" + modules +
                 ", status=" + status +
                 '}';
     }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,17 +16,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.application.ELearningApp;
+import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.tasks.DownloaderTask;
 import mpower.org.elearning_module.tasks.FileListParserTask;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.LocaleHelper;
 import mpower.org.elearning_module.utils.NetUtils;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class WelcomeActivity extends BaseActivity implements FileListParserTask.FileListParserTaskListener, DownloaderTask.DownloaderTaskListener {
 
@@ -43,7 +52,7 @@ public class WelcomeActivity extends BaseActivity implements FileListParserTask.
 
         setLocale();
 
-
+      new MediaFileDownLoaderTask().execute();
 
 
     }
@@ -73,7 +82,7 @@ public class WelcomeActivity extends BaseActivity implements FileListParserTask.
             if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 ELearningApp.createDirectory();
                 if (NetUtils.isConnected(this) && !isFilesAlreadyDownloaded()){
-                    getFileUrlList();
+                   // getFileUrlList();
                 }
             }else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -181,5 +190,49 @@ public class WelcomeActivity extends BaseActivity implements FileListParserTask.
             showToast("Error while downloading files from server");
         }
         showToast("Files Downloaded from Server");
+    }
+
+
+    class MediaFileDownLoaderTask extends AsyncTask<String,Void,ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String> doInBackground(String... strings) {
+            String url="http://192.168.22.114:3000/files";
+            String json=getJson(url);
+            try {
+                ArrayList<String > list=new ArrayList<>();
+                JSONArray jsonArray=new JSONArray(json);
+                for(int i=0;i<jsonArray.length();i++){
+                    list.add(jsonArray.getString(i));
+                }
+                return list;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> arrayList) {
+            super.onPostExecute(arrayList);
+
+            DownloaderTask downloaderTask=new DownloaderTask(WelcomeActivity.this,arrayList,WelcomeActivity.this);
+            downloaderTask.execute();
+        }
+    }
+
+    private String getJson(String url) {
+        OkHttpClient okHttpClient=new OkHttpClient();
+
+        Request request=new Request.Builder().url(url).build();
+
+        try {
+            Response response=okHttpClient.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

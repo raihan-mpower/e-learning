@@ -11,7 +11,16 @@ public class Curriculum implements Serializable {
 
     @SerializedName("modules")
     @Expose
-    private List<Module> modules = new ArrayList<Module>();
+    private List<Module> modules = new ArrayList<>();
+    private List<Course> courses=new ArrayList<>();
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
 
     /**
      * No args constructor for use in serialization

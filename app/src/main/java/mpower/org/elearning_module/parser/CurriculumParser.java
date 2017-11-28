@@ -20,13 +20,20 @@ import mpower.org.elearning_module.model.Question;
 
 public class CurriculumParser {
 
-    public static Curriculum returnCurriculum (String toParse){
+    public static Curriculum returnCurriculum (String toParse,boolean isApi){
         Gson gson = new Gson();
         Curriculum curriculum = gson.fromJson(toParse,Curriculum.class);
         try {
             JSONObject curriculumjson = new JSONObject(toParse);
-            curriculumjson = curriculumjson.getJSONObject("curriculum");
-            JSONArray moduleArray = curriculumjson.getJSONArray("modules");
+            //curriculumjson = curriculumjson.getJSONObject("curriculum");
+            JSONArray moduleArray;
+            if (isApi){
+                moduleArray=curriculumjson.getJSONArray("modules");
+            }else {
+                curriculumjson = curriculumjson.getJSONObject("curriculum");
+                moduleArray = curriculumjson.getJSONArray("modules");
+            }
+
 
             ArrayList<Module> modules = getModules(gson,moduleArray);
 

@@ -1,15 +1,10 @@
 package mpower.org.elearning_module;
 
 import android.annotation.TargetApi;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -21,7 +16,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
-import mpower.org.elearning_module.services.MediaPlayerService;
 
 /**
  * Created by sabbir on 10/22/17.

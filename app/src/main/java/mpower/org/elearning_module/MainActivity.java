@@ -28,6 +28,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,9 +41,11 @@ import mpower.org.elearning_module.activities.LogInActivity;
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.fragments.HomeFragment;
+import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Exam;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.parser.CurriculumParser;
+import mpower.org.elearning_module.tasks.DownloaderTask;
 import mpower.org.elearning_module.tasks.ExamCurriculamParserTask;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
@@ -47,6 +54,9 @@ import mpower.org.elearning_module.utils.LocaleHelper;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
 import mpower.org.elearning_module.utils.Utils;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * @author sabbir
@@ -366,14 +376,19 @@ public class MainActivity extends BaseActivity
 
        @Override
        protected Void doInBackground(Void... voids) {
-           ArrayList<Module> moduleArrayList = (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json", MainActivity.this)).getModules();
-           if (moduleArrayList !=null && moduleArrayList.size()>0){
-               for (Module module: moduleArrayList){
-                   databaseHelper.insertModule(module,userType);
+         //  ArrayList<Module> moduleArrayList = (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json", MainActivity.this),false).getModules();
+           String url="http://192.168.22.114:3000/curriculum";
+
+           ArrayList<Course> courseArrayList = (ArrayList<Course>) CurriculumParser.returnCurriculum(getJson(url),true).getCourses();
+           if (courseArrayList !=null && courseArrayList.size()>0){
+               for (Course course: courseArrayList){
+                   databaseHelper.insertCourse(course,userType);
                }
            }
            return null;
        }
+
+
 
        @Override
        protected void onPostExecute(Void aVoid) {
@@ -388,6 +403,7 @@ public class MainActivity extends BaseActivity
                            databaseHelper.insertExam(exam,userType);
                        }
                    }
+
 
                    callModuleFragment();
                }
@@ -404,5 +420,46 @@ public class MainActivity extends BaseActivity
 
     private void callModuleFragment() {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+    }
+
+     class MediaFileDownLoaderTask extends AsyncTask<String,Void,ArrayList<String>>{
+
+        @Override
+        protected ArrayList<String> doInBackground(String... strings) {
+            String url="http://192.168.22.114:3000/files";
+            String json=getJson(url);
+            try {
+                ArrayList<String > list=new ArrayList<>();
+                JSONArray jsonArray=new JSONArray(json);
+                for(int i=0;i<jsonArray.length();i++){
+                    list.add(jsonArray.getString(i));
+                }
+                return list;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+         @Override
+         protected void onPostExecute(ArrayList<String> arrayList) {
+             super.onPostExecute(arrayList);
+
+         }
+     }
+
+    private String getJson(String url) {
+        OkHttpClient okHttpClient=new OkHttpClient();
+
+        Request request=new Request.Builder().url(url).build();
+
+        try {
+            Response response=okHttpClient.newCall(request).execute();
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

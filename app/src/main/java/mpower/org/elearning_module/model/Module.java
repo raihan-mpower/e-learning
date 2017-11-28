@@ -12,16 +12,6 @@ import mpower.org.elearning_module.utils.UserType;
 
 public class Module implements Serializable {
 
-    @SerializedName("user_type")
-    private String userType;
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
 
     @SerializedName("title")
     @Expose
@@ -32,22 +22,20 @@ public class Module implements Serializable {
     @SerializedName("icon_image")
     @Expose
     private String iconImage;
-    @SerializedName("courses")
+    @SerializedName("questions")
     @Expose
-    private List<Course> courses = new ArrayList<Course>();
 
+    private List<Question> questions=new ArrayList<>();
 
-    public UserType getUserTypeEnum() {
-        switch (getUserType()){
-            case "":
-                return UserType.OTHER;
-            case "DOT":
-                return UserType.DOT;
-            default:
-                return UserType.PUBLIC;
-        }
-
+    public List<Question> getQuestions() {
+        return questions;
     }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+
 
     public void setUserTypeEnum(UserType userTypeEnum) {
         this.userTypeEnum = userTypeEnum;
@@ -66,15 +54,15 @@ public class Module implements Serializable {
      * 
      * @param id
      * @param title
-     * @param courses
+     * @param questions
      * @param iconImage
      */
-    public Module(String title, String id, String iconImage, List<Course> courses) {
+    public Module(String title, String id, String iconImage, List<Question> questions) {
         super();
         this.title = title;
         this.id = id;
         this.iconImage = iconImage;
-        this.courses = courses;
+        this.questions = questions;
     }
 
     public String getTitle() {
@@ -101,12 +89,12 @@ public class Module implements Serializable {
         this.iconImage = iconImage;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<Question> getCourses() {
+        return questions;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setCourses(List<Question> courses) {
+        this.questions = courses;
     }
 
     public boolean isLocked(){

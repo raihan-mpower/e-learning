@@ -314,27 +314,25 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         this.getWritableDatabase().insert(EXAM_QUESTION_ANSWER_TABLE,null,cv);
     }
 
-    public void insertModule(Module module, UserType userType) {
-        if (checkIsDataAlreadyInDBorNot(MODULE_TABLE,MODULE_ID,module.getId())){
-            return;
-        }
+    public void insertModule(String id,Module module) {
+
         ContentValues cv=new ContentValues();
+        cv.put(COURSE_ID,id);
         cv.put(MODULE_ID,module.getId());
         cv.put(MODULE_TITLE,module.getTitle());
         cv.put(MODULE_ICON_IMAGE_NAME,module.getIconImage());
-        cv.put(USER_TYPE,userType.ordinal());
         cv.put(TOTAL_COURSES_FOR_THIS_MODULE,module.getCourses().size());
 
-        for (Course course:module.getCourses()){
-            Log.d(TAG,course.toString());
-            insertCourses(module.getId(),course);
+        for (Question question:module.getQuestions()){
+            Log.d(TAG,question.toString());
+            insertQuestion(id,module.getId(),question);
         }
 
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
         sqLiteDatabase.insert(MODULE_TABLE,null,cv);
     }
 
-    private void insertCourses(String id, Course course) {
+    /*private void insertCourses(String id, Course course) {
         ContentValues cv=new ContentValues();
         cv.put(MODULE_ID,id);
         cv.put(COURSE_ID,course.getId());
@@ -349,12 +347,12 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
         SQLiteDatabase db=this.getWritableDatabase();
         db.insert(COURSE_TABLE,null,cv);
-    }
+    }*/
 
-    private void insertQuestion(String moduleId,String id, Question question) {
+    private void insertQuestion(String cId,String moduleId, Question question) {
         ContentValues cv =new ContentValues();
         cv.put(MODULE_ID,moduleId);
-        cv.put(COURSE_ID,id);
+        cv.put(COURSE_ID,cId);
         cv.put(QUESTION_ID,question.getId());
         cv.put(QUESTION_IMAGE_NAME,question.getImage());
         cv.put(QUESTION_TRUE_FALSE,question.getTrueFalse());
@@ -384,17 +382,17 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         return true;
     }
 
-    public ArrayList<Module> getAllModules(@Nullable String userName, @Nullable UserType userType){
+    public ArrayList<Module> getAllModules(String courseId){
         String sql="SELECT * FROM "+MODULE_TABLE;
 
-        if (userName!=null && userType!=null){
+        /*if (userName!=null && userType!=null){
             sql+=" WHERE "+USER_NAME+" = '"+userName+"'"+" AND "+USER_TYPE+" = '"+userType.ordinal()+"'";
         }else if (userName!=null && userType==null){
             sql+=" WHERE "+USER_NAME+" = '"+userName+"'";
         }else if (userType!=null && userName==null){
             sql+=" WHERE "+USER_TYPE+" = '"+userType.ordinal()+"'";
         }
-
+*/
         ArrayList<Module> modules;
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         if (cursor!=null && cursor.getCount()>0){
@@ -405,7 +403,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 module.setId(cursor.getString(cursor.getColumnIndex(MODULE_ID)));
                 module.setTitle(cursor.getString(cursor.getColumnIndex(MODULE_TITLE)));
                 module.setIconImage(cursor.getString(cursor.getColumnIndex(MODULE_ICON_IMAGE_NAME)));
-                module.setCourses(getAllCourses(module.getId()));
+                module.setQuestions(getAllQuestions(courseId,module.getId()));
 
                 modules.add(module);
             }while (cursor.moveToNext());
@@ -416,8 +414,18 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         return null;
     }
 
-    public ArrayList<Course> getAllCourses(String id) {
-        String sql="SELECT * FROM "+COURSE_TABLE+" WHERE "+MODULE_ID+" = '"+id+"'";
+    public ArrayList<Course> getAllCourses(@Nullable String userName, @Nullable UserType userType) {
+
+        String sql="SELECT * FROM "+COURSE_TABLE;
+
+        if (userName!=null && userType!=null){
+            sql+=" WHERE "+USER_NAME+" = '"+userName+"'"+" AND "+USER_TYPE+" = '"+userType.ordinal()+"'";
+        }else if (userName!=null && userType==null){
+            sql+=" WHERE "+USER_NAME+" = '"+userName+"'";
+        }else if (userType!=null && userName==null){
+            sql+=" WHERE "+USER_TYPE+" = '"+userType.ordinal()+"'";
+        }
+
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         ArrayList<Course> courses;
         if (cursor!=null && cursor.getCount()>0){
@@ -428,7 +436,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 course.setId(cursor.getString(cursor.getColumnIndex(COURSE_ID)));
                 course.setTitle(cursor.getString(cursor.getColumnIndex(COURSE_TITLE)));
                 course.setIconImage(cursor.getString(cursor.getColumnIndex(COURSE_ICON_IMAGE_NAME)));
-                course.setQuestions(getAllQuestions(id,course.getId()));
+                course.setModules(getModules(course.getId()));
 
                 courses.add(course);
             }while (cursor.moveToNext());
@@ -469,8 +477,8 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         return null;
     }
 
-    public ArrayList<Module> getModules(String moduleId) {
-        String sql="SELECT * FROM "+MODULE_TABLE+" WHERE "+MODULE_ID+" = '"+moduleId+"'";
+    public ArrayList<Module> getModules(String courseId) {
+        String sql="SELECT * FROM "+MODULE_TABLE+" WHERE "+COURSE_ID+" = '"+courseId+"'";
         ArrayList<Module> modules;
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         if (cursor!=null && cursor.getCount()>0){
@@ -481,7 +489,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 module.setId(cursor.getString(cursor.getColumnIndex(MODULE_ID)));
                 module.setTitle(cursor.getString(cursor.getColumnIndex(MODULE_TITLE)));
                 module.setIconImage(cursor.getString(cursor.getColumnIndex(MODULE_ICON_IMAGE_NAME)));
-                module.setCourses(getAllCourses(module.getId()));
+                module.setQuestions(getAllQuestions(courseId,module.getId()));
 
                 modules.add(module);
             }while (cursor.moveToNext());
@@ -690,4 +698,20 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     }
 
 
+    public void insertCourse(Course course, UserType userType) {
+        ContentValues cv=new ContentValues();
+        cv.put(USER_TYPE,userType.ordinal());
+        cv.put(COURSE_ID,course.getId());
+        cv.put(COURSE_TITLE,course.getTitle());
+        cv.put(COURSE_ICON_IMAGE_NAME,course.getIconImage());
+        cv.put(COURSE_STATUS,course.getStatus().ordinal());
+
+        for (Module module:course.getModules()){
+            Log.d(TAG,module.toString());
+            insertModule(course.getId(),module);
+        }
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.insert(COURSE_TABLE,null,cv);
+    }
 }
