@@ -27,7 +27,7 @@
 
     <LinearLayout
         android:id="@+id/content_true_false"
-        android:layout_marginTop="5dp"
+        android:layout_margin="10dp"
         android:layout_below="@+id/true_false_factory"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
 
 
         <TextView
-            android:padding="5dp"
+            android:padding="10dp"
             android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/tv_question"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment" />
         <RadioGroup
-            android:padding="5dp"
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RadioButton

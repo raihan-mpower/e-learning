@@ -50,7 +50,7 @@ public class WelcomeActivity extends BaseActivity implements FileListParserTask.
 
         checkForPermission();
 
-        setLocale();
+      //  setLocale();
 
       //new MediaFileDownLoaderTask().execute();
 

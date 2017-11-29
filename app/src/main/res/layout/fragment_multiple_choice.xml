@@ -32,11 +32,15 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
         <Button
-            android:padding="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:layout_alignParentBottom="true"
-            android:id="@+id/btn_confirm_answer"
+            android:layout_marginBottom="30dp"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:id="@+id/btn_confirm_answer"
             android:textColor="@color/white_background"
             android:background="@drawable/button_rounded_corner"
             android:text="@string/confirm_answer"

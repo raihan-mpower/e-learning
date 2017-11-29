@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 public class Exam implements Serializable
 {
 
+    @SerializedName("module_id")
+    @Expose
     private String moduleId;
 
     @SerializedName("user_type")
