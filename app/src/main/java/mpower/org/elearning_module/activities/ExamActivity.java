@@ -21,10 +21,8 @@ import java.util.HashMap;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
-import mpower.org.elearning_module.adapter.MyFragmentPagerAdapter;
-import mpower.org.elearning_module.fragments.ExamEndFragment;
+import mpower.org.elearning_module.fragments.ModuleExamEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
-import mpower.org.elearning_module.interfaces.FragmentLifecycle;
 import mpower.org.elearning_module.model.ExamQuestion;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
@@ -106,7 +104,7 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
 
                 if (position==questions.size()){
                     tvCounter.setText(R.string.last_page);
-                    ((ExamEndFragment)examEndFragment).showresults();
+                    ((ModuleExamEndFragment)examEndFragment).showresults();
                 }else {
                     int p=position+1;
                     String text=getString(R.string.of_page,p,totalQues);
@@ -150,7 +148,7 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
             Fragment fragment;
 
             if (position==questions.size()){
-                fragment=new ExamEndFragment();
+                fragment=new ModuleExamEndFragment();
                 examEndFragment = fragment;
                 return fragment;
             }else {

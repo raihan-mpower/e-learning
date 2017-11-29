@@ -110,7 +110,14 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        checkForPermission();
+        databaseHelper=new DatabaseHelper(this);
+        databaseHelper.getWritableDatabase();
+        copyAssets();
+        //Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
+        getUserData();
+        new JsonParserTask().execute();
+
+        //checkForPermission();
 
        // TextView langTv= (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.nav_lang));
         TextView langTv= (TextView) navigationView.getMenu().findItem(R.id.nav_lang).getActionView();
@@ -180,10 +187,14 @@ public class MainActivity extends BaseActivity
 
             }
         }else {
-            checkForPermission();
+            //checkForPermission();
         }
     }
 
+
+    /**
+     * we will handle permission related tasks in the welcome activity
+     * */
 
     private void checkForPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
@@ -191,7 +202,6 @@ public class MainActivity extends BaseActivity
                 requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},23);
             }
         }else {
-            ELearningApp.createDirectory();
             databaseHelper=new DatabaseHelper(this);
             databaseHelper.getWritableDatabase();
             copyAssets();
@@ -233,7 +243,12 @@ public class MainActivity extends BaseActivity
 
     }
 
-    @Override
+
+    /**
+    * we will handle permission related tasks in the welcome activity
+    * */
+
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode==23){
@@ -255,7 +270,7 @@ public class MainActivity extends BaseActivity
                 }
             }
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -376,10 +391,12 @@ public class MainActivity extends BaseActivity
 
        @Override
        protected Void doInBackground(Void... voids) {
-         //  ArrayList<Module> moduleArrayList = (ArrayList<Module>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json", MainActivity.this),false).getModules();
+           ArrayList<Course> courseArrayList =
+                   (ArrayList<Course>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json", MainActivity.this),false)
+                           .getCourses();
            String url="http://192.168.22.114:3000/curriculum";
 
-           ArrayList<Course> courseArrayList = (ArrayList<Course>) CurriculumParser.returnCurriculum(getJson(url),true).getCourses();
+         //  ArrayList<Course> courseArrayList = (ArrayList<Course>) CurriculumParser.returnCurriculum(getJson(url),true).getCourses();
            if (courseArrayList !=null && courseArrayList.size()>0){
                for (Course course: courseArrayList){
                    databaseHelper.insertCourse(course,userType);

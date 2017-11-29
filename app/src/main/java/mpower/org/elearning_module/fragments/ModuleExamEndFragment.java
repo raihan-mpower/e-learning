@@ -8,13 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Map;
 
 import butterknife.BindView;
 import mpower.org.elearning_module.R;
-import mpower.org.elearning_module.activities.CourseActivity;
+import mpower.org.elearning_module.activities.ModuleActivity;
 import mpower.org.elearning_module.activities.ExamActivity;
 import mpower.org.elearning_module.activities.ExamResultActivity;
 import mpower.org.elearning_module.databases.DatabaseHelper;
@@ -27,7 +26,7 @@ import mpower.org.elearning_module.utils.UserType;
  * Created by sabbir on 11/13/17.
  */
 
-public class ExamEndFragment extends BaseFragment implements FragmentLifecycle{
+public class ModuleExamEndFragment extends BaseFragment implements FragmentLifecycle{
 
     @BindView(R.id.button_start__next_course)
     Button startNewCurse;
@@ -107,7 +106,7 @@ public class ExamEndFragment extends BaseFragment implements FragmentLifecycle{
     }
 
     private void startCourseActivity() {
-        Intent intent=new Intent(getContext(), CourseActivity.class);
+        Intent intent=new Intent(getContext(), ModuleActivity.class);
         progressDialog.dismiss();
         startActivity(intent);
     }
@@ -124,10 +123,12 @@ public class ExamEndFragment extends BaseFragment implements FragmentLifecycle{
 
         int course=Integer.valueOf(courseId)+1;
 
-        int noOfCourses=databaseHelper.getNoOfCoursesForThisModule(moduleId);
-        if (course>noOfCourses){
+        int noOfModules=databaseHelper.getNoOfModulesForThisCourse(courseId);
+        if (module>noOfModules){
+          //  module+=1;
+              course+=1;
+        }else {
             module+=1;
-            //  course=1;
         }
         String examId=CurrentUserProgress.getInstance().getCurrentExamId();
         databaseHelper.saveExamProgress(userName,examId,totalNoOfQuestion,score,null);
@@ -142,13 +143,13 @@ public class ExamEndFragment extends BaseFragment implements FragmentLifecycle{
 
     @Override
     public void onPauseFragment() {
-        Log.i("TAG", "ExamEndFragment+onPauseFragment()");
+        Log.i("TAG", "ModuleExamEndFragment+onPauseFragment()");
        // Toast.makeText(getActivity(), "onPauseFragment():" + "TAG", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResumeFragment() {
-        Log.i("TAG", "ExamEndFragment+onResumedFragment()");
+        Log.i("TAG", "ModuleExamEndFragment+onResumedFragment()");
        // tottalQTV.setText(totalNoOfQuestion);
        // correctAnsTv.setText(score);
        // Toast.makeText(getActivity(), "onResumedFragment():" + "TAG", Toast.LENGTH_SHORT).show();

@@ -2,14 +2,10 @@ package mpower.org.elearning_module.fragments;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,12 +19,11 @@ import butterknife.BindView;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.application.ELearningApp;
 import mpower.org.elearning_module.model.Question;
-import mpower.org.elearning_module.utils.Utils;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CourseContentActivityFragment extends BaseFragment {
+public class ModuleContentFragment extends BaseFragment {
 
     @BindView(R.id.audio)
     ImageButton audiobutton;
@@ -40,11 +35,11 @@ public class CourseContentActivityFragment extends BaseFragment {
     boolean isPlaying=false;
     private boolean isPaused;
 
-    public CourseContentActivityFragment() {
+    public ModuleContentFragment() {
     }
 
-    public static CourseContentActivityFragment newInstance(Question question) {
-        CourseContentActivityFragment fragment = new CourseContentActivityFragment();
+    public static ModuleContentFragment newInstance(Question question) {
+        ModuleContentFragment fragment = new ModuleContentFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("question", question);
         fragment.setArguments(bundle);

@@ -9,9 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Curriculum implements Serializable {
 
-    @SerializedName("modules")
+    @SerializedName("courses")
     @Expose
-    private List<Module> modules = new ArrayList<>();
     private List<Course> courses=new ArrayList<>();
 
     public List<Course> getCourses() {
@@ -33,17 +32,9 @@ public class Curriculum implements Serializable {
      * 
      * @param modules
      */
-    public Curriculum(List<Module> modules) {
+    public Curriculum(List<Course> modules) {
         super();
-        this.modules = modules;
-    }
-
-    public List<Module> getModules() {
-        return modules;
-    }
-
-    public void setModules(List<Module> modules) {
-        this.modules = modules;
+        this.courses = modules;
     }
 
 }

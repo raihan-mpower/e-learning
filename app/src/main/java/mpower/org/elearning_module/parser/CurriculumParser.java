@@ -26,18 +26,18 @@ public class CurriculumParser {
         try {
             JSONObject curriculumjson = new JSONObject(toParse);
             //curriculumjson = curriculumjson.getJSONObject("curriculum");
-            JSONArray moduleArray;
+            JSONArray courseArray;
             if (isApi){
-                moduleArray=curriculumjson.getJSONArray("modules");
+                courseArray=curriculumjson.getJSONArray("courses");
             }else {
                 curriculumjson = curriculumjson.getJSONObject("curriculum");
-                moduleArray = curriculumjson.getJSONArray("modules");
+                courseArray = curriculumjson.getJSONArray("courses");
             }
 
 
-            ArrayList<Module> modules = getModules(gson,moduleArray);
+            ArrayList<Course> courses = getCourses(gson,courseArray);
 
-            curriculum.setModules(modules);
+            curriculum.setCourses(courses);
         }catch (Exception e){
 
         }
@@ -49,7 +49,7 @@ public class CurriculumParser {
         for(int i = 0;i<moduleArray.length();i++){
             try {
                 Module module = gson.fromJson(moduleArray.getJSONObject(i).toString(), Module.class);
-                module.setCourses(getCourses(gson,moduleArray.getJSONObject(i).getJSONArray("courses")));
+                module.setQuestions(getQuestions(gson,moduleArray.getJSONObject(i).getJSONArray("questions")));
                 modules.add(module);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -63,7 +63,7 @@ public class CurriculumParser {
         for(int i = 0;i<courses.length();i++){
             try {
                 Course course = gson.fromJson(courses.getJSONObject(i).toString(), Course.class);
-                course.setQuestions(getQuestions(gson, courses.getJSONObject(i).getJSONArray("questions")));
+                course.setModules(getModules(gson, courses.getJSONObject(i).getJSONArray("modules")));
                 courseslist.add(course);
             } catch (JSONException e) {
                 e.printStackTrace();

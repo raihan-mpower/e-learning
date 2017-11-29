@@ -5,21 +5,17 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import mpower.org.elearning_module.R;
-import mpower.org.elearning_module.activities.CourseActivity;
-import mpower.org.elearning_module.adapter.ModuleGridViewAdapter;
+import mpower.org.elearning_module.activities.ModuleActivity;
+import mpower.org.elearning_module.adapter.CourseGridViewAdapter;
 import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Module;
@@ -30,24 +26,24 @@ import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
 
-public class ModuleFragment extends BaseFragment {
+public class CourseFragment extends BaseFragment {
 
     boolean firstTime=false;
     GridView gridView;
     private UserType userType;
-    ModuleGridViewAdapter moduleGridViewAdapter;
+    CourseGridViewAdapter courseAdapter;
     ProgressDialog progressDialog;
-    private ArrayList<Module> moduleArrayList;
+    private ArrayList<Course> courseArrayList;
     private DatabaseHelper databaseHelper;
     public static String sCURRENT_MODULE_ID="";
 
-    public ModuleFragment() {
+    public CourseFragment() {
         // Required empty public constructor
     }
 
 
-    public static ModuleFragment newInstance(UserType userType) {
-        ModuleFragment fragment = new ModuleFragment();
+    public static CourseFragment newInstance(UserType userType) {
+        CourseFragment fragment = new CourseFragment();
         Bundle args = new Bundle();
         args.putInt(AppConstants.USER_TYPE,userType.ordinal());
         fragment.setArguments(args);
@@ -83,10 +79,10 @@ public class ModuleFragment extends BaseFragment {
             String moduleId=progress.get(AppConstants.KEY_MODULE_ID);
             String questionId=progress.get(AppConstants.KEY_QUESTION_ID);
 
-            int noOfCourses=databaseHelper.getNoOfCoursesForThisModule(moduleId);
+            int noOfModules=databaseHelper.getNoOfModulesForThisCourse(courseId);
 
-            if (Integer.valueOf(courseId)>=noOfCourses){
-                courseId="1";
+            if (Integer.valueOf(moduleId)>=noOfModules){
+                moduleId="1";
                 databaseHelper.updateProgressTable(UserCollection.getInstance().getUserData().getUsername(),
                         moduleId,courseId,questionId,userType);
             }
@@ -98,18 +94,15 @@ public class ModuleFragment extends BaseFragment {
             Helper.MakeLog(this.getClass(),updatedProgress.toString());
 
 
-
-            int totalCourseOfThisModule;
-
-            for (Module module:moduleArrayList){
-                if (module.getId().equalsIgnoreCase(updatedProgress.get(AppConstants.KEY_MODULE_ID))){
-                    module.setStatus(Status.UNLOCKED);
-                }else if (Integer.valueOf(module.getId())<Integer.valueOf(updatedProgress.get(AppConstants.KEY_MODULE_ID))){
-                    module.setStatus(Status.UNLOCKED);
+            for (Course course:courseArrayList){
+                if (course.getId().equalsIgnoreCase(updatedProgress.get(AppConstants.KEY_COURSE_ID))){
+                    course.setStatus(Status.UNLOCKED);
+                }else if (Integer.valueOf(course.getId())<Integer.valueOf(updatedProgress.get(AppConstants.KEY_COURSE_ID))){
+                    course.setStatus(Status.UNLOCKED);
                 }/*else if(Integer.valueOf(updatedProgress.get(AppConstants.KEY_COURSE_ID))>=module.getCourses().size()){
                     module.setStatus(Status.UNLOCKED);
                 }*/else {
-                    module.setStatus(Status.LOCKED);
+                    course.setStatus(Status.LOCKED);
                 }
             }
 
@@ -171,25 +164,25 @@ public class ModuleFragment extends BaseFragment {
         HashMap<String,String> progressMap=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),userType);
         Log.d("TAG",progressMap.toString());
 
-        String progressMId = progressMap.get(AppConstants.KEY_MODULE_ID);
+        String progressCourseId = progressMap.get(AppConstants.KEY_COURSE_ID);
 
         UserType userType=CurrentUserProgress.getInstance().getUserType();
 
-        moduleArrayList=databaseHelper.getAllModules(null,userType);
+        courseArrayList=databaseHelper.getAllCourses(null,userType);
 
 
-        for (Module module:moduleArrayList){
-            if (module.getId().equalsIgnoreCase(progressMId)){
-                module.setStatus(Status.UNLOCKED);
-            }else if (Integer.valueOf(module.getId())<Integer.valueOf(progressMId)){
-                module.setStatus(Status.UNLOCKED);
+        for (Course course:courseArrayList){
+            if (course.getId().equalsIgnoreCase(progressCourseId)){
+                course.setStatus(Status.UNLOCKED);
+            }else if (Integer.valueOf(course.getId())<Integer.valueOf(progressCourseId)){
+                course.setStatus(Status.UNLOCKED);
             }else {
-                module.setStatus(Status.LOCKED);
+                course.setStatus(Status.LOCKED);
             }
         }
 
         progressDialog.dismiss();
-        if (moduleArrayList==null){
+        if (courseArrayList==null){
 
         }
         firstTime=true;
@@ -201,32 +194,32 @@ public class ModuleFragment extends BaseFragment {
     }
 
     private void setUpAdapter() {
-        moduleGridViewAdapter=new ModuleGridViewAdapter(getContext(),moduleArrayList);
-        gridView.setAdapter(moduleGridViewAdapter);
+        courseAdapter=new CourseGridViewAdapter(getContext(),courseArrayList);
+        gridView.setAdapter(courseAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (moduleArrayList.get(i).isLocked()){
+                if (courseArrayList.get(i).isLocked()){
                    // Helper.showToast(getContext(),getString(R.string.complete_other_modules), Toast.LENGTH_LONG);
                     //showToast(getString(R.string.complete_other_modules));
                     showSimpleDialog(getString(R.string.locked),getString(R.string.complete_other_modules));
                     return;
 
                 }
-                CourseActivity.CURRENT_MODULE_TITLE=moduleArrayList.get(i).getTitle();
-                Intent intent = new Intent(getActivity(),CourseActivity.class);
-                sCURRENT_MODULE_ID=moduleArrayList.get(i).getId();
-                CourseActivity.CURRENT_MODULE_ID=moduleArrayList.get(i).getId();
-                intent.putExtra(AppConstants.DATA,(ArrayList<Course>)moduleArrayList.get(i).getCourses());
-                CurrentUserProgress.getInstance().setProgressModule(moduleArrayList.get(i).getId());
+                ModuleActivity.CURRENT_MODULE_TITLE=courseArrayList.get(i).getTitle();
+                Intent intent = new Intent(getActivity(),ModuleActivity.class);
+                sCURRENT_MODULE_ID=courseArrayList.get(i).getId();
+                ModuleActivity.CURRENT_MODULE_ID=courseArrayList.get(i).getId();
+                intent.putExtra(AppConstants.DATA,(ArrayList<Module>)courseArrayList.get(i).getModules());
+                CurrentUserProgress.getInstance().setProgressModule(courseArrayList.get(i).getId());
                 startActivity(intent);
             }
         });
     }
 
-    private void insertIntoDb(ArrayList<Module> moduleArrayList) {
-        for (Module module:moduleArrayList){
-            databaseHelper.insertModule(module, userType);
+    private void insertIntoDb(ArrayList<Course> moduleArrayList) {
+        for (Course module:moduleArrayList){
+            databaseHelper.insertCourse(module, userType);
         }
     }
 

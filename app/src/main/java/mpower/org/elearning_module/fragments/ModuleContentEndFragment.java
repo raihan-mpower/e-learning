@@ -28,7 +28,7 @@ import mpower.org.elearning_module.utils.UserType;
  * Created by sabbir on 10/22/17.
  */
 
-public class CourseEndFragment extends BaseFragment {
+public class ModuleContentEndFragment extends BaseFragment {
     @BindView(R.id.btn_start_exam)
     Button btnStartExam;
     ProgressDialog progressDialog;
@@ -48,11 +48,11 @@ public class CourseEndFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                saveCurrentProgress();
-                String courseId=CurrentUserProgress.getInstance().getCurrentUserCourseProgress();
-                if (databaseHelper.isExamAvailableForCourse(courseId)){
+                //saveCurrentProgress();
+                String moduleId=CurrentUserProgress.getInstance().getCurrentUserModuleProgress();
+                if (databaseHelper.isExamAvailableForCourse(moduleId)){
                     Log.d("TAG","-------");
-                    exam=databaseHelper.getExam(courseId);
+                    exam=databaseHelper.getExam(moduleId);
                 }
                 progressDialog.dismiss();
                 startExamActivity();
@@ -83,8 +83,8 @@ public class CourseEndFragment extends BaseFragment {
 
         int course=Integer.valueOf(courseId)+1;
 
-        int noOfCourses=databaseHelper.getNoOfCoursesForThisModule(moduleId);
-        if (course>noOfCourses){
+        int noOfModules=databaseHelper.getNoOfModulesForThisCourse(courseId);
+        if (module>noOfModules){
             module+=1;
           //  course=1;
         }

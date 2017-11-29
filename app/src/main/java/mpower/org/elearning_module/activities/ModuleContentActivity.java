@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
-import mpower.org.elearning_module.fragments.CourseContentActivityFragment;
-import mpower.org.elearning_module.fragments.CourseEndFragment;
+import mpower.org.elearning_module.fragments.ModuleContentFragment;
+import mpower.org.elearning_module.fragments.ModuleContentEndFragment;
 import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.interfaces.AudioPlayerListener;
@@ -29,9 +29,9 @@ import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 
-public class CourseContentActivity extends BaseActivity implements AudioPlayerListener {
+public class ModuleContentActivity extends BaseActivity implements AudioPlayerListener {
 
-    public static String CURRENT_COURSE_TITLE = "CourseName";
+    public static String CURRENT_MODULE_TITLE = "ModuleName";
     private ViewPager mPager;
     private ArrayList<Question> questions;
     private TextView tvCounter;
@@ -76,7 +76,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        setTitle(CURRENT_COURSE_TITLE);
+        setTitle(CURRENT_MODULE_TITLE);
         final int totalQues=questions.size();
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -167,7 +167,7 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
             Fragment fragment;
 
             if (position==questions.size()){
-                    fragment=new CourseEndFragment();
+                    fragment=new ModuleContentEndFragment();
                 return fragment;
             }else {
                 switch (questions.get(position).getQuestionType()) {
@@ -176,16 +176,16 @@ public class CourseContentActivity extends BaseActivity implements AudioPlayerLi
                         fragment = TrueFalseFragment.newInstance(questions.get(position));
                         break;
                     case COURSE_CONTENT:
-                        fragment = CourseContentActivityFragment.newInstance(questions.get(position));
+                        fragment = ModuleContentFragment.newInstance(questions.get(position));
                         break;
                     case TRIVIA:
                         fragment = TriviaFragment.newInstance(questions.get(position));
                         break;
                     case NOT_DEFINED:
-                        fragment=CourseContentActivityFragment.newInstance(questions.get(position));
+                        fragment= ModuleContentFragment.newInstance(questions.get(position));
                         break;
                     default:
-                        return CourseContentActivityFragment.newInstance(questions.get(position));
+                        return ModuleContentFragment.newInstance(questions.get(position));
                 }
 
 

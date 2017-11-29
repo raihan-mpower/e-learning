@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.fragments.ExamEndFragment;
+import mpower.org.elearning_module.fragments.ModuleExamEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
 import mpower.org.elearning_module.model.ExamQuestion;
 
@@ -27,7 +27,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
 
         if (position==examQuestions.size()){
-            fragment=new ExamEndFragment();
+            fragment=new ModuleExamEndFragment();
             return fragment;
         }else {
             switch (examQuestions.get(position).getType()) {

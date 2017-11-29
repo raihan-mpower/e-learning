@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment{
         View view=inflater.inflate(R.layout.fragment_home,container,false);
         ButterKnife.bind(this,view);
 
-        Fragment fragment=ModuleFragment.newInstance(getUserType());
+        Fragment fragment= CourseFragment.newInstance(getUserType());
         getChildFragmentManager().beginTransaction().replace(R.id.module_fragment_container,fragment).commit();
 
         mProfileImage= view.findViewById(R.id.profile_image);

@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-import mpower.org.elearning_module.fragments.CourseContentActivityFragment;
-import mpower.org.elearning_module.fragments.CourseEndFragment;
+import mpower.org.elearning_module.fragments.ModuleContentEndFragment;
+import mpower.org.elearning_module.fragments.ModuleContentFragment;
 import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.model.Question;
@@ -36,7 +36,7 @@ public class CourseSlidingPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
 
         if (position==questions.size()){
-            fragment=new CourseEndFragment();
+            fragment=new ModuleContentEndFragment();
             return fragment;
         }else {
             switch (questions.get(position).getQuestionType()) {
@@ -45,16 +45,16 @@ public class CourseSlidingPagerAdapter extends FragmentPagerAdapter {
                     fragment = TrueFalseFragment.newInstance(questions.get(position));
                     break;
                 case COURSE_CONTENT:
-                    fragment = CourseContentActivityFragment.newInstance(questions.get(position));
+                    fragment = ModuleContentFragment.newInstance(questions.get(position));
                     break;
                 case TRIVIA:
                     fragment = TriviaFragment.newInstance(questions.get(position));
                     break;
                 case NOT_DEFINED:
-                    fragment=CourseContentActivityFragment.newInstance(questions.get(position));
+                    fragment= ModuleContentFragment.newInstance(questions.get(position));
                     break;
                 default:
-                    return CourseContentActivityFragment.newInstance(questions.get(position));
+                    return ModuleContentFragment.newInstance(questions.get(position));
             }
 
 

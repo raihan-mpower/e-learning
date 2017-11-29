@@ -80,7 +80,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     private static final String EXAM_QUESTION_ANSWER_TABLE="exam_question_answer_table";
 
-    private static final String TOTAL_COURSES_FOR_THIS_MODULE="total_module_courses";
+    private static final String TOTAL_MODULES_FOR_THIS_COURSE="total_module_courses";
 
     private static final String EXAM_PROGRESS_TABLE="exam_progress_table";
     private static final String PREVEIOUS_EXAM_QUESTIONS="prev_exam_questions";
@@ -121,9 +121,12 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 +EXAM_ID+" TEXT, "
                 +EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_ANSWER+" TEXT"+" );";
 
-        String examQuestionTablesql=EXAM_QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+EXAM_ID+" TEXT, "+EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_TITLE+" TEXT, "+
-                EXAM_QUESTION_DESCRIPTION+" TEXT, "+EXAM_QUESTION_TYPE+" INTEGER, "+EXAM_QUESTION_IMAGE_NAME+" TEXT, "+
-                EXAM_QUESTION_ANSWER+" TEXT, "+EXAM_QUESTION_AUDIO_NAME+" TEXT, "+EXAM_QUESTION_RIGHT_ANSWER+" TEXT, "+EXAM_QUESTION_TRUE_FALSE+" TEXT "+
+        String examQuestionTablesql=EXAM_QUESTION_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+EXAM_ID+" TEXT, "
+                +EXAM_QUESTION_ID+" TEXT, "+EXAM_QUESTION_TITLE+" TEXT, "+
+                EXAM_QUESTION_DESCRIPTION+" TEXT, "+EXAM_QUESTION_TYPE+" INTEGER, "
+                +EXAM_QUESTION_IMAGE_NAME+" TEXT, "+
+                EXAM_QUESTION_ANSWER+" TEXT, "+EXAM_QUESTION_AUDIO_NAME+" TEXT, "
+                +EXAM_QUESTION_RIGHT_ANSWER+" TEXT, "+EXAM_QUESTION_TRUE_FALSE+" TEXT "+
                 ");";
 
         String examTablesql=EXAM_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+EXAM_ID+" TEXT, "
@@ -138,12 +141,17 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 QUESTION_ANSWER+" TEXT, "+QUESTION_AUDIO_NAME+" TEXT, "+QUESTION_RIGHT_ANSWER+" TEXT, "+QUESTION_TRUE_FALSE+" TEXT "+
                 ");";
 
-        String coursesql=COURSE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+COURSE_ID+" TEXT, "+COURSE_TITLE+" TEXT, "+
-                COURSE_STATUS+" INTEGER ,"+COURSE_ICON_IMAGE_NAME+" TEXT "+QUESTION_ID+" TEXT "+
+        String coursesql=COURSE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+COURSE_ID+" TEXT, "
+                +COURSE_TITLE+" TEXT, "+USER_TYPE+" INTEGER, "+
+                COURSE_STATUS+" INTEGER ,"+COURSE_ICON_IMAGE_NAME+" TEXT, "
+                +TOTAL_MODULES_FOR_THIS_COURSE+" INTEGER, "
+                +QUESTION_ID+" TEXT "+
                 ");";
 
-        String modulesql=MODULE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+MODULE_TITLE+" TEXT, "+USER_TYPE+" INTEGER, "+
-                MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT, "+TOTAL_COURSES_FOR_THIS_MODULE+" INTEGER "+
+        String modulesql=MODULE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "
+                +COURSE_ID+" TEXT, "
+                +MODULE_TITLE+" TEXT, "+
+                MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT "+
                 ");";
 
         sqlList.add(modulesql);
@@ -216,7 +224,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     private void createModuleTable(SQLiteDatabase db) {
         String sql="CREATE TABLE "+MODULE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+MODULE_ID+" TEXT, "+MODULE_TITLE+" TEXT, "+USER_TYPE+" INTEGER, "+
-                MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT, "+TOTAL_COURSES_FOR_THIS_MODULE+" INTEGER "+
+                MODULE_STATUS+" TEXT, "+MODULE_ICON_IMAGE_NAME+" TEXT "+
                 ");";
         Log.d(TAG,sql);
         db.execSQL(sql);
@@ -276,6 +284,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(EXAM_ID,exam.getId());
         cv.put(EXAM_TITLE,exam.getTitle());
         cv.put(COURSE_ID,exam.getCourseId());
+        cv.put(MODULE_ID,exam.getModuleId());
         cv.put(USER_TYPE,userType.ordinal());
 
         for (ExamQuestion question:exam.getExamQuestions()){
@@ -321,7 +330,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(MODULE_ID,module.getId());
         cv.put(MODULE_TITLE,module.getTitle());
         cv.put(MODULE_ICON_IMAGE_NAME,module.getIconImage());
-        cv.put(TOTAL_COURSES_FOR_THIS_MODULE,module.getCourses().size());
+
 
         for (Question question:module.getQuestions()){
             Log.d(TAG,question.toString());
@@ -514,14 +523,15 @@ public class DatabaseHelper extends CustomDbOpenHelper {
        Log.d(TAG,""+i);
    }
 
-    public int getNoOfCoursesForThisModule(String moduleId) {
-        String where=MODULE_ID+" = ?";
+    public int getNoOfModulesForThisCourse(String courseID) {
+        String where=COURSE_ID+" = ?";
         SQLiteDatabase database=this.getWritableDatabase();
 
-        Cursor cursor=database.query(MODULE_TABLE, new String[]{TOTAL_COURSES_FOR_THIS_MODULE},where,new String[]{moduleId},null,null,null);
+        Cursor cursor=database.query(COURSE_TABLE, new String[]{TOTAL_MODULES_FOR_THIS_COURSE},
+                where,new String[]{courseID},null,null,null);
         if (cursor!=null && cursor.getCount()>0){
             cursor.moveToFirst();
-            int i=cursor.getInt(cursor.getColumnIndex(TOTAL_COURSES_FOR_THIS_MODULE));
+            int i=cursor.getInt(cursor.getColumnIndex(TOTAL_MODULES_FOR_THIS_COURSE));
             cursor.close();
             return i;
         }
@@ -531,7 +541,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
 
     public Exam getExambyId(String examId){
-        String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+COURSE_ID+" = '"+examId+"'";
+        String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+EXAM_ID+" = '"+examId+"'";
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         if (cursor!=null && cursor.getCount()>0){
             cursor.moveToFirst();
@@ -550,8 +560,8 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         return null;
     }
 
-    public Exam getExam(String courseId){
-        String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+COURSE_ID+" = '"+courseId+"'";
+    public Exam getExam(String moduleId){
+        String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+MODULE_ID+" = '"+moduleId+"'";
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         if (cursor!=null && cursor.getCount()>0){
             cursor.moveToFirst();
@@ -559,7 +569,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
             while (!cursor.isAfterLast()){
                 exam.setCourseId(cursor.getString(cursor.getColumnIndex(COURSE_ID)));
                 exam.setId(cursor.getString(cursor.getColumnIndex(EXAM_ID)));
-//                exam.setModuleId(cursor.getString(cursor.getColumnIndex(MODULE_ID)));
+                exam.setModuleId(cursor.getString(cursor.getColumnIndex(MODULE_ID)));
                 exam.setTitle(cursor.getString(cursor.getColumnIndex(EXAM_TITLE)));
                 cursor.moveToNext();
             }
@@ -642,8 +652,8 @@ public class DatabaseHelper extends CustomDbOpenHelper {
        return null;
     }
 
-    public boolean isExamAvailableForCourse(String currentUserCourseProgress) {
-       String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+COURSE_ID+" = '"+currentUserCourseProgress+"'";
+    public boolean isExamAvailableForCourse(String moduleId) {
+       String sql="SELECT * FROM "+EXAM_TABLE+" WHERE "+MODULE_ID+" = '"+moduleId+"'";
        Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         if (cursor==null){
             return false;
@@ -699,12 +709,17 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
 
     public void insertCourse(Course course, UserType userType) {
+        if (checkIsDataAlreadyInDBorNot(COURSE_TABLE,COURSE_ID,course.getId())){
+            return;
+        }
+
         ContentValues cv=new ContentValues();
         cv.put(USER_TYPE,userType.ordinal());
         cv.put(COURSE_ID,course.getId());
         cv.put(COURSE_TITLE,course.getTitle());
         cv.put(COURSE_ICON_IMAGE_NAME,course.getIconImage());
         cv.put(COURSE_STATUS,course.getStatus().ordinal());
+        cv.put(TOTAL_MODULES_FOR_THIS_COURSE,course.getModules().size());
 
         for (Module module:course.getModules()){
             Log.d(TAG,module.toString());

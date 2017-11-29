@@ -52,7 +52,7 @@ public class WelcomeActivity extends BaseActivity implements FileListParserTask.
 
         setLocale();
 
-      new MediaFileDownLoaderTask().execute();
+      //new MediaFileDownLoaderTask().execute();
 
 
     }

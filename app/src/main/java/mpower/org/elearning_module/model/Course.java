@@ -25,7 +25,6 @@ public class Course implements Serializable {
     private String iconImage;
     @SerializedName("modules")
     @Expose
-
     private List<Module> modules=new ArrayList<>();
 
     public List<Module> getModules() {
@@ -105,13 +104,6 @@ public class Course implements Serializable {
         this.iconImage = iconImage;
     }
 
-    public List<Module> getQuestions() {
-        return modules;
-    }
-
-    public void setQuestions(List<Module> questions) {
-        this.modules = questions;
-    }
 
     public boolean isLocked(){
         return (status == Status.LOCKED);

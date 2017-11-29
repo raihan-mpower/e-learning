@@ -89,13 +89,6 @@ public class Module implements Serializable {
         this.iconImage = iconImage;
     }
 
-    public List<Question> getCourses() {
-        return questions;
-    }
-
-    public void setCourses(List<Question> courses) {
-        this.questions = courses;
-    }
 
     public boolean isLocked(){
         return (status == Status.LOCKED);
