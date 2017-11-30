@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+
+<android.support.design.widget.AppBarLayout
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:fontFamily="sans-serif-thin"
+        app:contentScrim="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:id="@+id/colapssing_toolbar"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            app:layout_collapseMode="parallax"
+            android:fitsSystemWindows="true"
+            android:visibility="visible"
+            android:background="@drawable/ans_image"
+            android:id="@+id/linear_header"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:fitsSystemWindows="true"
+                android:layout_gravity="center"
+                android:id="@+id/frameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:fitsSystemWindows="true"
+                    android:id="@+id/profile_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/pro_image"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:fitsSystemWindows="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:id="@+id/layout_details"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:textColor="@color/white_background"
+                    android:id="@+id/tvName"
+                    android:text="Jon Doe"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp" />
+
+                <TextView
+                    android:textColor="@color/white_background"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/tvPhone"
+                    android:text="01234567891"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:textSize="15sp"
+                    android:id="@+id/tvGps"
+                    android:text="GPS: "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    android:visibility="gone"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="15sp"
+                    android:text=""
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvAddress" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.design.widget.CollapsingToolbarLayout>
+
+</android.support.design.widget.AppBarLayout>
+    <FrameLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:id="@+id/module_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

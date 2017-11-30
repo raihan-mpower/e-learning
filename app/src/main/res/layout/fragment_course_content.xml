@@ -37,6 +37,7 @@
                 android:layout_margin="10dp"
                  />
             <LinearLayout
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -94,7 +95,7 @@
                 android:id="@+id/content_description" />
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

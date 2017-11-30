@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_home,container,false);
+        View view=inflater.inflate(R.layout.fragment_home_modern,container,false);
         ButterKnife.bind(this,view);
 
         Fragment fragment= CourseFragment.newInstance(getUserType());

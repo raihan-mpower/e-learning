@@ -3,6 +3,7 @@ package mpower.org.elearning_module.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -51,7 +52,9 @@ public class ExamEndActivity extends BaseActivity {
     boolean isUserDumb=false;
     private int totalNoOfQuestion;
     private int score;
-    private boolean isRatingScreenShown=false;
+    private volatile boolean isRatingScreenShown=false;
+
+    private static final int RATING_SCREEN_SHOW_DELAY=2000;
 
     @Override
     protected int getResourceLayout() {
@@ -64,6 +67,16 @@ public class ExamEndActivity extends BaseActivity {
         progressDialog.setMessage("Saving Progress...Please Wait");
         databaseHelper=new DatabaseHelper(this);
        // showresults();
+
+        if (!isRatingScreenShown){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    callFeedbackActivity();
+                    isRatingScreenShown=true;
+                }
+            },RATING_SCREEN_SHOW_DELAY);
+        }
     }
 
     public void showresults(){
@@ -104,12 +117,12 @@ public class ExamEndActivity extends BaseActivity {
             }
         });
 
-        if (!isRatingScreenShown){
+        /*if (!isRatingScreenShown){
             //frameLayout.setVisibility(View.VISIBLE);
             //examLayout.setVisibility(View.GONE);
             callFeedbackActivity();
             isRatingScreenShown=true;
-        }
+        }*/
 
     }
 

@@ -111,14 +111,15 @@ public class MultipleChoiceFragment extends BaseFragment implements FragmentLife
         tvQuestion.setText(question.getDescriptionText());
         final RadioGroup radioGroup=new RadioGroup(getContext());
 
-        RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-        for (String answer:question.getAnswer()){
+        RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+        for (int i=0;i<question.getAnswer().size();i++){
+
+            String answer=question.getAnswer().get(i);
             RadioButton radioButton=new RadioButton(getContext());
             radioButton.setText(answer);
             radioButton.setPadding(5,5,5,5);
             radioButton.setTextSize(20);
-            radioButton.setId(new Random().nextInt(Integer.SIZE-1));
-            radioButton.setTag(answer);
+            radioButton.setId(i+1);
             radioGroup.addView(radioButton,rprms);
         }
 
