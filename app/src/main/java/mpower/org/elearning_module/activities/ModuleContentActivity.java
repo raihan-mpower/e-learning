@@ -28,6 +28,7 @@ import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
+import mpower.org.elearning_module.utils.UsageTime;
 
 public class ModuleContentActivity extends BaseActivity implements AudioPlayerListener {
 
@@ -75,6 +76,8 @@ public class ModuleContentActivity extends BaseActivity implements AudioPlayerLi
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        UsageTime.getInstance().start();
 
         setTitle(CURRENT_MODULE_TITLE);
         final int totalQues=questions.size();

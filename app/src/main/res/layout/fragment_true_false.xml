@@ -17,7 +17,7 @@
             android:id="@+id/tv_q_title"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/black"
             android:text="@string/true_false_factory_text"
             android:layout_width="wrap_content"
@@ -27,14 +27,14 @@
 
     <LinearLayout
         android:id="@+id/content_true_false"
-        android:layout_margin="10dp"
+        android:padding="2dp"
         android:layout_below="@+id/true_false_factory"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/tv_q_description"
@@ -44,7 +44,7 @@
 
 
         <TextView
-            android:padding="10dp"
+            android:padding="2dp"
             android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/tv_question"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="@string/hello_blank_fragment" />
         <RadioGroup
-            android:padding="10dp"
+            android:padding="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RadioButton

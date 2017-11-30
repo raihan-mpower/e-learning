@@ -1,36 +1,35 @@
-package mpower.org.elearning_module.fragments;
+package mpower.org.elearning_module.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Map;
 
 import butterknife.BindView;
+import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
-import mpower.org.elearning_module.activities.ExamEndActivity;
-import mpower.org.elearning_module.activities.FeedbackActivity;
-import mpower.org.elearning_module.activities.ModuleActivity;
-import mpower.org.elearning_module.activities.ExamActivity;
-import mpower.org.elearning_module.activities.ExamResultActivity;
 import mpower.org.elearning_module.databases.DatabaseHelper;
-import mpower.org.elearning_module.interfaces.FragmentLifecycle;
+import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.UsageTime;
 import mpower.org.elearning_module.utils.UserCollection;
 import mpower.org.elearning_module.utils.UserType;
 
 /**
- * Created by sabbir on 11/13/17.
+ * Created by sabbir on 11/30/17.
+ *
+ * @author sabbir (sabbir@mpowe-social.com)
  */
 
-public class ModuleExamEndFragment extends BaseFragment implements FragmentLifecycle{
+public class ExamEndActivity extends BaseActivity {
 
+    private static final int CODE_FEEDBACK =990 ;
     @BindView(R.id.button_start__next_course)
     Button startNewCurse;
     @BindView(R.id.textView2)
@@ -41,6 +40,10 @@ public class ModuleExamEndFragment extends BaseFragment implements FragmentLifec
     TextView correctAnsTv;
     @BindView(R.id.button)
     Button detailResultButton;
+    @BindView(R.id.exam_content)
+    LinearLayout examLayout;
+    @BindView(R.id.my_container)
+    FrameLayout frameLayout;
 
     ProgressDialog progressDialog;
     DatabaseHelper databaseHelper;
@@ -51,27 +54,22 @@ public class ModuleExamEndFragment extends BaseFragment implements FragmentLifec
     private boolean isRatingScreenShown=false;
 
     @Override
-    protected int getFragmentLayout() {
-        return R.layout.exam_end_fragment;
+    protected int getResourceLayout() {
+        return R.layout.exam_end_activity_alyout;
     }
 
     @Override
-    protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
-        progressDialog=new ProgressDialog(getActivity());
+    protected void onViewReady(Bundle savedInstanceState) {
+        progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Saving Progress...Please Wait");
-        databaseHelper=new DatabaseHelper(getContext());
-
-
-    }
-
-    public void callExamEndActivity(){
-        startActivity(new Intent(getContext(), ExamEndActivity.class));
+        databaseHelper=new DatabaseHelper(this);
+       // showresults();
     }
 
     public void showresults(){
         final int totalQuestions= ExamActivity.sExamAnswerMap.size();
         totalNoOfQuestion=totalQuestions;
-        tottalQTV.append(String.valueOf(totalQuestions));
+        tottalQTV.setText(String.valueOf(totalQuestions));
         int rightAnswer=0;
         for (Map.Entry<String,String> entry:ExamActivity.sExamAnswerMap.entrySet()){
             if (entry.getValue().equalsIgnoreCase("Correct")){
@@ -80,7 +78,7 @@ public class ModuleExamEndFragment extends BaseFragment implements FragmentLifec
         }
 
         final int finalRightAnswer = rightAnswer;
-        correctAnsTv.append(String.valueOf(finalRightAnswer));
+        correctAnsTv.setText(String.valueOf(finalRightAnswer));
         score=rightAnswer;
         startNewCurse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +88,7 @@ public class ModuleExamEndFragment extends BaseFragment implements FragmentLifec
                 }else {
                     progressDialog.show();
                     saveCurrentProgress();
-                    long time=UsageTime.getInstance().getUsageTime();
+                    long time= UsageTime.getInstance().getUsageTime();
                     Long t=time;
                     int seconds=t.intValue()/1000;
                     startCourseActivity();
@@ -107,10 +105,41 @@ public class ModuleExamEndFragment extends BaseFragment implements FragmentLifec
         });
 
         if (!isRatingScreenShown){
-           // getChildFragmentManager().beginTransaction().replace(R.id.fragment_container,new FeedbackActivity()).commit();
+            //frameLayout.setVisibility(View.VISIBLE);
+            //examLayout.setVisibility(View.GONE);
+            callFeedbackActivity();
             isRatingScreenShown=true;
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showresults();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        showresults();
+    }
+
+    private void callFeedbackActivity() {
+        Intent intent=new Intent(this,FeedbackActivity.class);
+        startActivityForResult(intent,CODE_FEEDBACK);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==CODE_FEEDBACK && resultCode==RESULT_OK){
+            Bundle bundle=data.getExtras();
+            if (bundle!=null){
+                int rating=bundle.getInt(AppConstants.FEEDBACK_RATING);
+                showToast(""+rating);
+            }
+        }
     }
 
     private boolean isUserDumb(int totalQuestions, int totalRightAns) {
@@ -118,12 +147,12 @@ public class ModuleExamEndFragment extends BaseFragment implements FragmentLifec
     }
 
     private void callExamResultDetailActivity() {
-        Intent intent=new Intent(getContext(), ExamResultActivity.class);
+        Intent intent=new Intent(this, ExamResultActivity.class);
         startActivity(intent);
     }
 
     private void startCourseActivity() {
-        Intent intent=new Intent(getContext(), ModuleActivity.class);
+        Intent intent=new Intent(this, ModuleActivity.class);
         progressDialog.dismiss();
         startActivity(intent);
     }
@@ -142,33 +171,13 @@ public class ModuleExamEndFragment extends BaseFragment implements FragmentLifec
 
         int noOfModules=databaseHelper.getNoOfModulesForThisCourse(courseId);
         if (module>noOfModules){
-          //  module+=1;
-              course+=1;
+            //  module+=1;
+            course+=1;
         }else {
             module+=1;
         }
         String examId=CurrentUserProgress.getInstance().getCurrentExamId();
         databaseHelper.saveExamProgress(userName,examId,totalNoOfQuestion,score,null);
         databaseHelper.updateProgressTable(userName, String.valueOf(module), String.valueOf(course),questionId,userType);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        showresults();
-    }
-
-    @Override
-    public void onPauseFragment() {
-        Log.i("TAG", "ModuleExamEndFragment+onPauseFragment()");
-       // Toast.makeText(getActivity(), "onPauseFragment():" + "TAG", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onResumeFragment() {
-        Log.i("TAG", "ModuleExamEndFragment+onResumedFragment()");
-       // tottalQTV.setText(totalNoOfQuestion);
-       // correctAnsTv.setText(score);
-       // Toast.makeText(getActivity(), "onResumedFragment():" + "TAG", Toast.LENGTH_SHORT).show();
     }
 }

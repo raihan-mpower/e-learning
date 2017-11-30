@@ -31,7 +31,6 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:hint="@string/mobile_no"
-                android:background="@drawable/edittext_rounded_corner"
                 android:layout_height="70dp">
                 <EditText
                     android:inputType="number"
@@ -42,7 +41,6 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:hint="@string/password"
-                android:background="@drawable/edittext_rounded_corner"
                 android:layout_height="70dp">
                 <EditText
                     android:inputType="textPassword"

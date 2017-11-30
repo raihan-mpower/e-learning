@@ -72,7 +72,11 @@ public class TriviaFragment extends BaseFragment {
         if (question!=null){
             /*Typeface typeface=Typeface.createFromAsset(getActivity().getAssets(),"SutonnyOMJ.ttf");
             tvTrivia.setTypeface(typeface);*/
-            tvTitle.setText(question.getTitleText());
+            String title=question.getTitleText();
+            if (title==null || title.isEmpty()){
+                tvTitle.setVisibility(View.GONE);
+            }else tvTitle.setText(question.getTitleText());
+
             tvTrivia.setText(question.getDescriptionText());
             tvTrivia.setMovementMethod(new ScrollingMovementMethod());
             /*String imageName=question.getImage();

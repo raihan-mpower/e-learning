@@ -26,7 +26,6 @@ import java.util.Locale;
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.application.ELearningApp;
-import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.tasks.DownloaderTask;
 import mpower.org.elearning_module.tasks.FileListParserTask;
 import mpower.org.elearning_module.utils.AppConstants;

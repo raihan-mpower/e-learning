@@ -57,15 +57,21 @@ public class ModuleContentFragment extends BaseFragment {
         question = (Question) getArguments().getSerializable("question");
         TextView description = view.findViewById(R.id.content_description);
         String desc=question.getDescriptionText();
-        if (desc.contains("-")){
+        /*if (desc.contains("-")){
             description.setText(Html.fromHtml(desc));
         }else {
             description.setText(desc);
-        }
+        }*/
+        description.setText(desc);
+        //description.setText(Html.fromHtml(desc));
 
         description.setMovementMethod(new ScrollingMovementMethod());
         ImageView contentImage = view.findViewById(R.id.content_image);
-        tvTitle.setText(question.getTitleText());
+        String title=question.getTitleText();
+        if (title==null || title.isEmpty()){
+            tvTitle.setVisibility(View.GONE);
+        }else tvTitle.setText(question.getTitleText());
+
         String imageName=question.getImage();
         if (imageName!=null && !imageName.isEmpty()){
             Glide.with(this).load(Uri.fromFile(new File(ELearningApp.IMAGES_FOLDER_NAME+ File.separator+imageName)))

@@ -104,7 +104,7 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
 
                 if (position==questions.size()){
                     tvCounter.setText(R.string.last_page);
-                    ((ModuleExamEndFragment)examEndFragment).showresults();
+                    ((ModuleExamEndFragment)examEndFragment).callExamEndActivity();
                 }else {
                     int p=position+1;
                     String text=getString(R.string.of_page,p,totalQues);

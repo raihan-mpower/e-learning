@@ -124,6 +124,7 @@ public class MultipleChoiceFragment extends BaseFragment implements FragmentLife
 
         layoutForRadiogroup.addView(radioGroup);
 
+
        answerButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {

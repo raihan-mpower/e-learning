@@ -62,7 +62,11 @@ public class TrueFalseFragment extends BaseFragment {
             tvQuestionText.setTypeface(typeface);*/
             tvQuestionText.setText(question.getTrueFalse());
             tvDescription.setText(question.getDescriptionText());
-            tvTitle.setText(question.getTitleText());
+            String title=question.getTitleText();
+            if (title==null || title.isEmpty()){
+                tvTitle.setVisibility(View.GONE);
+            }else tvTitle.setText(question.getTitleText());
+
             String audioName=question.getAudio();
             if (audioName!=null && !audioName.isEmpty()){
                 this.audioName=audioName;

@@ -78,6 +78,10 @@
         <activity android:name=".activities.ExamResultActivity">
 
         </activity>
+        <activity android:screenOrientation="landscape"
+            android:name=".activities.ExamEndActivity" />
+        <activity android:screenOrientation="landscape"
+            android:name=".activities.FeedbackActivity" />
     </application>
 
 </manifest>
