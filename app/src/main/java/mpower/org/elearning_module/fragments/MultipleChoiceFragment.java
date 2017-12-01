@@ -23,6 +23,8 @@ import mpower.org.elearning_module.interfaces.FragmentLifecycle;
 import mpower.org.elearning_module.model.ExamQuestion;
 import mpower.org.elearning_module.utils.AppConstants;
 
+import static android.text.TextUtils.isEmpty;
+
 /**
  * @author sabbir
  */
@@ -58,6 +60,8 @@ public class MultipleChoiceFragment extends BaseFragment implements FragmentLife
     Button answerButton;
     @BindView(R.id.answer_tv_status)
     TextView answerStatus;
+
+    RadioGroup radioGroup;
 
     boolean isPlaying=false;
     private boolean isPaused;
@@ -109,18 +113,26 @@ public class MultipleChoiceFragment extends BaseFragment implements FragmentLife
     @Override
     protected void onViewReady(View view, @Nullable Bundle savedInstanceState) {
         tvQuestion.setText(question.getDescriptionText());
-        final RadioGroup radioGroup=new RadioGroup(getContext());
+        radioGroup=new RadioGroup(getContext());
+        radioGroup.setTag(question.getId());
 
         RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
         for (int i=0;i<question.getAnswer().size();i++){
 
-            String answer=question.getAnswer().get(i);
+            final String answer=question.getAnswer().get(i);
             RadioButton radioButton=new RadioButton(getContext());
             radioButton.setText(answer);
             radioButton.setPadding(5,5,5,5);
             radioButton.setTextSize(20);
             radioButton.setId(i+1);
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.setTag(answer);
+                }
+            });
             radioGroup.addView(radioButton,rprms);
+
         }
 
         layoutForRadiogroup.addView(radioGroup);
@@ -133,8 +145,14 @@ public class MultipleChoiceFragment extends BaseFragment implements FragmentLife
                    int selectedId=radioGroup.getCheckedRadioButtonId();
                    Log.d("TAG",""+selectedId);
                    RadioButton radioButton=getActivity().findViewById(selectedId);
-                   if (radioButton!=null){
-                       if (radioButton.getText().toString().equalsIgnoreCase(question.getRightAnswer())){
+                   String selectedanswer = "";
+                   for(int i = 0;i<radioGroup.getChildCount();i++){
+                       if(radioGroup.getChildAt(i).getId() == selectedId){
+                           selectedanswer = (String)radioGroup.getChildAt(i).getTag();
+                       }
+                   }
+                   if (!isEmpty(selectedanswer)){
+                       if (selectedanswer.equalsIgnoreCase(question.getRightAnswer())){
                            answerStatus.setText(R.string.right);
                            ExamActivity.sExamAnswerMap.put(question.getDescriptionText(),"Correct");
                        }else {
@@ -144,9 +162,14 @@ public class MultipleChoiceFragment extends BaseFragment implements FragmentLife
                        skipped=false;
                        listener.skippied(false);
                        tvAnswer.setText(question.getRightAnswer());
+
+                       for(int i = 0;i<radioGroup.getChildCount();i++){
+                           radioGroup.getChildAt(i).setEnabled(false);
+                       }
                    }else {
                        showToast("Invalid Answer");
                    }
+                   radioGroup.setEnabled(false);
                }else {
                    showLongToast(getString(R.string.please_select_answer));
                }
