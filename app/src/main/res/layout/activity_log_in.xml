@@ -82,22 +82,25 @@
         </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@+id/login_layout"
-        android:layout_margin="10dp"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
             <ImageView
+                android:layout_margin="10dp"
+                android:visibility="visible"
                 android:layout_weight="1"
-                android:src="@drawable/usaid_logo"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:src="@drawable/all_logo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <ImageView
+                android:visibility="gone"
                 android:layout_weight="1"
                 android:src="@drawable/og_image_logo"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <ImageView
+                android:visibility="gone"
                 android:layout_weight="1"
                 android:src="@drawable/challenge_tb_logo"
                 android:layout_width="50dp"

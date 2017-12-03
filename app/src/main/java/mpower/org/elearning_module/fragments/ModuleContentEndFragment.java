@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,10 +50,18 @@ public class ModuleContentEndFragment extends BaseFragment {
             public void onClick(View view) {
                 progressDialog.show();
                 //saveCurrentProgress();
-                String moduleId=CurrentUserProgress.getInstance().getCurrentUserModuleProgress();
-                if (databaseHelper.isExamAvailableForCourse(moduleId)){
+                HashMap<String,String> progress=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),
+                        CurrentUserProgress.getInstance().getUserType());
+
+               /* String moduleId=CurrentUserProgress.getInstance().getCurrentUserModuleProgress();
+                String courseId=CurrentUserProgress.getInstance().getCurrentUserCourseProgress();*/
+               String moduleId=progress.get(AppConstants.KEY_MODULE_ID);
+               String courseId=progress.get(AppConstants.KEY_COURSE_ID);
+                if (databaseHelper.isExamAvailableForCourse(courseId,moduleId)){
                     Log.d("TAG","-------");
-                    exam=databaseHelper.getExam(moduleId);
+                    //exam=databaseHelper.getExam(courseId,moduleId);
+                    exam=databaseHelper.getExam(progress.get(AppConstants.KEY_COURSE_ID),progress.get(AppConstants.KEY_MODULE_ID));
+
                 }
                 progressDialog.dismiss();
                 startExamActivity();

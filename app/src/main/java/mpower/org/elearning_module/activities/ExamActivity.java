@@ -24,6 +24,7 @@ import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.fragments.ModuleExamEndFragment;
 import mpower.org.elearning_module.fragments.MultipleChoiceFragment;
 import mpower.org.elearning_module.model.ExamQuestion;
+import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.view.LockableViewPager;
@@ -41,6 +42,8 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
     private ScreenSlidePagerAdapter adapter;
 
     public static HashMap<String,String> sExamAnswerMap;
+    public static HashMap<String,String> sExamQuesAnsUserMap;
+    public static HashMap<String,String > sQuestionIdMap;
     boolean isBackFromExamResult;
     private int reviewPosition=0;
 
@@ -64,8 +67,15 @@ public class ExamActivity extends BaseActivity implements MultipleChoiceFragment
             questions= (ArrayList<ExamQuestion>) bundle.get(AppConstants.DATA);
         }
       //  startMusicSercive();
+        sQuestionIdMap=new HashMap<>();
+        for (ExamQuestion question:questions){
+            String id=question.getId();
+            String desc=question.getDescriptionText();
+            sQuestionIdMap.put(desc,id);
+        }
 
         sExamAnswerMap=new HashMap<>();
+        sExamQuesAnsUserMap=new HashMap<>();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

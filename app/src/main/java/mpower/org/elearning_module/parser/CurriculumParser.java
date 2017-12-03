@@ -1,5 +1,7 @@
 package mpower.org.elearning_module.parser;
 
+import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -13,12 +15,25 @@ import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Curriculum;
 import mpower.org.elearning_module.model.Module;
 import mpower.org.elearning_module.model.Question;
+import mpower.org.elearning_module.utils.AppConstants;
 
 /**
  * Created by raihan on 8/20/17.
  */
 
 public class CurriculumParser {
+
+    public static String getTimeStamp(String json) throws Exception{
+        JSONArray jsonArray=new JSONArray(json);
+        return jsonArray.getJSONObject(0).getString(AppConstants.KEY_TIME_STAMP);
+    }
+
+    public static void saveTimeStampInPrefs(SharedPreferences preferences,String timeStamp){
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString(AppConstants.KEY_TIME_STAMP,timeStamp);
+        editor.commit();
+    }
+    
 
     public static Curriculum returnCurriculum (String toParse,boolean isApi){
         Gson gson = new Gson();

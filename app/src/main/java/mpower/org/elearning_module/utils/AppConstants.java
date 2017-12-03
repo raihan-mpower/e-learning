@@ -24,6 +24,7 @@ public final class AppConstants {
     public static final String REVIEW_QUESTION_POSITION = "review_position";
     public static final String FILES_DOWNLOADED ="files_downloaded" ;
     public static final String FEEDBACK_RATING ="feedback_rating" ;
+    public static final String KEY_TIME_STAMP ="time_stamp" ;
 
     public static String USER_PROGRESS_MODULE_ID="";
     public static  String USER_PROGRESS_COURSE_ID="";

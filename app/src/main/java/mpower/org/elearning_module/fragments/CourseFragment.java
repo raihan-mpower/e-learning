@@ -208,6 +208,7 @@ public class CourseFragment extends BaseFragment {
                 }
                 ModuleActivity.CURRENT_MODULE_TITLE=courseArrayList.get(i).getTitle();
                 Intent intent = new Intent(getActivity(),ModuleActivity.class);
+                ModuleActivity.sModules= (ArrayList<Module>) courseArrayList.get(i).getModules();
                 sCURRENT_MODULE_ID=courseArrayList.get(i).getId();
                 ModuleActivity.CURRENT_MODULE_ID=courseArrayList.get(i).getId();
                 intent.putExtra(AppConstants.DATA,(ArrayList<Module>)courseArrayList.get(i).getModules());

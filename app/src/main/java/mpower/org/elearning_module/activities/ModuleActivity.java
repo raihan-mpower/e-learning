@@ -30,6 +30,7 @@ public class ModuleActivity extends BaseActivity {
     public static String CURRENT_MODULE_TITLE="";
     private GridView gridView;
     private ArrayList<Module> modules;
+    public static ArrayList<Module> sModules;
     public static String CURRENT_MODULE_ID="";
     DatabaseHelper databaseHelper;
 
@@ -130,6 +131,8 @@ public class ModuleActivity extends BaseActivity {
 
     private void setUpAdapter() {
 
+        setLockedUnlocked();
+
         gridView.setAdapter(new ModuleGridViewAdapter(this,modules));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -144,9 +147,31 @@ public class ModuleActivity extends BaseActivity {
                 intent.putExtra(AppConstants.DATA,(ArrayList<Question>)modules.get(position).getQuestions());
                 CurrentUserProgress.getInstance().setProgressCourse(modules.get(position).getId());
                // ModuleContentActivity.questions = (ArrayList<Question>) modules.get(position).getQuestions();
+                ModuleContentActivity.sQuestions= (ArrayList<Question>) sModules.get(position).getQuestions();
                 startActivity(intent);
+                finish();
             }
         });
+    }
+
+    private void setLockedUnlocked() {
+        databaseHelper=new DatabaseHelper(this);
+        HashMap<String,String> progress=databaseHelper.getProgressForUser(UserCollection.getInstance().getUserData().getUsername(),
+                CurrentUserProgress.getInstance().getUserType());
+        Log.d("TAG",progress.toString());
+
+        String courseId=progress.get(AppConstants.KEY_COURSE_ID);
+        String moduleId=progress.get(AppConstants.KEY_MODULE_ID);
+
+        for (Module module:sModules) {
+            if (module.getId().equalsIgnoreCase(moduleId)) {
+                module.setStatus(Status.UNLOCKED);
+            } else if (Integer.valueOf(module.getId()) < Integer.valueOf(moduleId)) {
+                module.setStatus(Status.UNLOCKED);
+            } else {
+                module.setStatus(Status.LOCKED);
+            }
+        }
     }
 
     @Override

@@ -394,7 +394,7 @@ public class MainActivity extends BaseActivity
            ArrayList<Course> courseArrayList =
                    (ArrayList<Course>) CurriculumParser.returnCurriculum(Utils.readAssetContents("curriculum.json", MainActivity.this),false)
                            .getCourses();
-           String url="http://192.168.22.114:3000/curriculum";
+           String url="";
 
          //  ArrayList<Course> courseArrayList = (ArrayList<Course>) CurriculumParser.returnCurriculum(getJson(url),true).getCourses();
            if (courseArrayList !=null && courseArrayList.size()>0){

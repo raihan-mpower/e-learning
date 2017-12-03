@@ -12,23 +12,31 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
+import mpower.org.elearning_module.databases.DatabaseHelper;
 import mpower.org.elearning_module.fragments.ModuleContentFragment;
 import mpower.org.elearning_module.fragments.ModuleContentEndFragment;
 import mpower.org.elearning_module.fragments.TriviaFragment;
 import mpower.org.elearning_module.fragments.TrueFalseFragment;
 import mpower.org.elearning_module.interfaces.AudioPlayerListener;
+import mpower.org.elearning_module.model.Course;
 import mpower.org.elearning_module.model.Question;
 import mpower.org.elearning_module.services.MediaPlayerService;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
+import mpower.org.elearning_module.utils.Helper;
+import mpower.org.elearning_module.utils.Status;
 import mpower.org.elearning_module.utils.UsageTime;
+import mpower.org.elearning_module.utils.UserCollection;
+import mpower.org.elearning_module.utils.UserType;
 
 public class ModuleContentActivity extends BaseActivity implements AudioPlayerListener {
 
@@ -39,6 +47,8 @@ public class ModuleContentActivity extends BaseActivity implements AudioPlayerLi
     private MediaPlayerService mediaPlayerService;
     boolean isServiceBound;
     private PagerAdapter mPagerAdapter;
+
+    public static ArrayList<Question> sQuestions;
 
     public static final String Broadcast_PLAY_NEW_AUDIO = "com.sabbir.android.music.PlayNewAudio";
 
@@ -65,16 +75,73 @@ public class ModuleContentActivity extends BaseActivity implements AudioPlayerLi
 
     @Override
     protected void onViewReady(Bundle savedInstanceState) {
-        if (getIntent().getExtras()!=null){
-            questions= (ArrayList<Question>) getIntent().getExtras().get(AppConstants.DATA);
-        }
-        startMusicSercive();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tvCounter=toolbar.findViewById(R.id.toolbar_title);
         mPager = findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        startMusicSercive();
+        if (getIntent().getExtras()!=null){
+            questions= (ArrayList<Question>) getIntent().getExtras().get(AppConstants.DATA);
+        }
+
+        setUpPagerAdapter();
+
+       /* if (questions==null){
+            //setUpPagerAdapter();
+        }else {
+            showToast("Something Wrong,Please Restart the app");
+
+            setUpStaticPagerAdapter();
+        }*/
+
+      //  setUpStaticPagerAdapter();
+
+
+    }
+
+    private void setUpStaticPagerAdapter() {
+
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(),sQuestions);
+        mPager.setAdapter(mPagerAdapter);
+        mPagerAdapter.notifyDataSetChanged();
+        UsageTime.getInstance().start();
+
+        setTitle(CURRENT_MODULE_TITLE);
+        final int totalQues=sQuestions.size();
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position==sQuestions.size()){
+                    tvCounter.setText(R.string.last_page);
+                }else if (position==0){
+                    String text=getString(R.string.of_page,1,totalQues);
+                    tvCounter.setText(text);
+                }
+                else {
+                    int p=position+1;
+                    String text=getString(R.string.of_page,p,totalQues);
+                    tvCounter.setText(text);
+                }
+
+                if (getMediaPlayerService().isPlaying()){
+                    getMediaPlayerService().stopMedia();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void setUpPagerAdapter() {
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(),questions);
         mPager.setAdapter(mPagerAdapter);
 
         UsageTime.getInstance().start();
@@ -159,9 +226,11 @@ public class ModuleContentActivity extends BaseActivity implements AudioPlayerLi
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter{
 
+       private ArrayList<Question> questions;
 
-        ScreenSlidePagerAdapter(FragmentManager fm) {
+        ScreenSlidePagerAdapter(FragmentManager fm,ArrayList<Question> questions) {
             super(fm);
+            this.questions=questions;
         }
 
         @Override
@@ -205,7 +274,6 @@ public class ModuleContentActivity extends BaseActivity implements AudioPlayerLi
             return questions.size()+1;
         }
     }
-
 
 
     public MediaPlayerService getMediaPlayerService() {

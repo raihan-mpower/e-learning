@@ -97,7 +97,9 @@ public class ExamResultActivity extends BaseActivity {
     }
 
     private void callExamActivity(boolean wantsToReview,int questionPos) {
-        exam=databaseHelper.getExambyId(CurrentUserProgress.getInstance().getCurrentExamId());
+        exam=databaseHelper.getExambyId(CurrentUserProgress.getInstance().getCurrentUserCourseProgress()
+                ,CurrentUserProgress.getInstance().getCurrentUserModuleProgress()
+                ,CurrentUserProgress.getInstance().getCurrentExamId());
         Intent intent=new Intent(this,ExamActivity.class);
         intent.putExtra(AppConstants.DATA,(ArrayList<ExamQuestion>)exam.getExamQuestions());
         intent.putExtra(AppConstants.IS_USER_DUMB,isUserDumb);

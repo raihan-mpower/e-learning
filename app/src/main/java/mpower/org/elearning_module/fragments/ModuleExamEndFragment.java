@@ -66,6 +66,7 @@ public class ModuleExamEndFragment extends BaseFragment implements FragmentLifec
 
     public void callExamEndActivity(){
         startActivity(new Intent(getContext(), ExamEndActivity.class));
+        getActivity().finish();
     }
 
     public void showresults(){

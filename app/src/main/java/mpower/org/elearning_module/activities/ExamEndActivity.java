@@ -4,11 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.Map;
 
@@ -16,10 +19,12 @@ import butterknife.BindView;
 import mpower.org.elearning_module.BaseActivity;
 import mpower.org.elearning_module.R;
 import mpower.org.elearning_module.databases.DatabaseHelper;
+import mpower.org.elearning_module.model.PostData;
 import mpower.org.elearning_module.utils.AppConstants;
 import mpower.org.elearning_module.utils.CurrentUserProgress;
 import mpower.org.elearning_module.utils.UsageTime;
 import mpower.org.elearning_module.utils.UserCollection;
+import mpower.org.elearning_module.utils.UserDataCollection;
 import mpower.org.elearning_module.utils.UserType;
 
 /**
@@ -55,6 +60,7 @@ public class ExamEndActivity extends BaseActivity {
     private volatile boolean isRatingScreenShown=false;
 
     private static final int RATING_SCREEN_SHOW_DELAY=2000;
+    private int mCourseRating;
 
     @Override
     protected int getResourceLayout() {
@@ -80,7 +86,22 @@ public class ExamEndActivity extends BaseActivity {
     }
 
     public void showresults(){
+        String json=new Gson().toJson(ExamActivity.sExamAnswerMap);
+        Log.d("TAG",json);
+        String json2=new Gson().toJson(ExamActivity.sExamQuesAnsUserMap);
+        Log.d("TAG",json2);
+        long time= UsageTime.getInstance().getUsageTime();
+        Long t=time;
+        int seconds=t.intValue();
+        Log.d("TAG",""+seconds);
+        Log.d("TAG","S "+UsageTime.getInstance().getStartTime()+" E : "+UsageTime.getInstance().getEndTime());
+        Log.d("TAG",UsageTime.getInstance().getStartDateTime());
+
         final int totalQuestions= ExamActivity.sExamAnswerMap.size();
+
+
+
+
         totalNoOfQuestion=totalQuestions;
         tottalQTV.setText(String.valueOf(totalQuestions));
         int rightAnswer=0;
@@ -124,6 +145,18 @@ public class ExamEndActivity extends BaseActivity {
             isRatingScreenShown=true;
         }*/
 
+        PostData postData=new PostData();
+
+        postData.setCourseRating(String.valueOf(mCourseRating));
+        postData.setCourseId(CurrentUserProgress.getInstance().getCurrentUserCourseProgress());
+        postData.setModuleId(CurrentUserProgress.getInstance().getCurrentUserModuleProgress());
+        postData.setEndTime(UsageTime.getInstance().getEndDateTime());
+        postData.setStartTime(UsageTime.getInstance().getStartDateTime());
+        postData.setExamInfo(ExamActivity.sExamQuesAnsUserMap);
+        postData.setUserName(UserCollection.getInstance().getUserData().getUsername());
+
+        databaseHelper.saveDataForPost(postData);
+
     }
 
     @Override
@@ -150,6 +183,7 @@ public class ExamEndActivity extends BaseActivity {
             Bundle bundle=data.getExtras();
             if (bundle!=null){
                 int rating=bundle.getInt(AppConstants.FEEDBACK_RATING);
+                mCourseRating=rating;
                 showToast(""+rating);
             }
         }
@@ -168,6 +202,7 @@ public class ExamEndActivity extends BaseActivity {
         Intent intent=new Intent(this, ModuleActivity.class);
         progressDialog.dismiss();
         startActivity(intent);
+        finish();
     }
 
     private void saveCurrentProgress() {
@@ -180,7 +215,7 @@ public class ExamEndActivity extends BaseActivity {
 
         int module=Integer.valueOf(moduleId);
 
-        int course=Integer.valueOf(courseId)+1;
+        int course=Integer.valueOf(courseId);
 
         int noOfModules=databaseHelper.getNoOfModulesForThisCourse(courseId);
         if (module>noOfModules){
@@ -189,8 +224,11 @@ public class ExamEndActivity extends BaseActivity {
         }else {
             module+=1;
         }
+
         String examId=CurrentUserProgress.getInstance().getCurrentExamId();
         databaseHelper.saveExamProgress(userName,examId,totalNoOfQuestion,score,null);
         databaseHelper.updateProgressTable(userName, String.valueOf(module), String.valueOf(course),questionId,userType);
+        CurrentUserProgress.getInstance().setProgressModule(String.valueOf(module));
+        CurrentUserProgress.getInstance().setProgressCourse(String.valueOf(course));
     }
 }

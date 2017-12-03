@@ -121,6 +121,9 @@ public class ModuleContentFragment extends BaseFragment {
 
         final String audioName=question.getAudio();
         if (audioName!=null && !audioName.isEmpty()){
+
+         final boolean isFileAvailable = new File(ELearningApp.IMAGES_FOLDER_NAME, audioName).exists();
+
            // getAudioPlayerListener().playAudio(audioName);
             //audiobutton.setImageResource(R.drawable.audio);
             //isPlaying=true;
@@ -158,6 +161,7 @@ public class ModuleContentFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if (audioName!=null && !audioName.isEmpty()){
+                    if (isFileAvailable(audioName))
                     if (isPlaying){
 
                             getAudioPlayerListener().stopPlayer();
@@ -177,6 +181,10 @@ public class ModuleContentFragment extends BaseFragment {
         });
     }
 
+    private boolean isFileAvailable(String audioName) {
+        return new File(ELearningApp.IMAGES_FOLDER_NAME,audioName).exists();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -186,7 +194,7 @@ public class ModuleContentFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        getAudioPlayerListener().stopPlayer();
+       // getAudioPlayerListener().stopPlayer();
     }
 
 

@@ -166,6 +166,8 @@ public class MultipleChoiceFragment extends BaseFragment implements FragmentLife
                        for(int i = 0;i<radioGroup.getChildCount();i++){
                            radioGroup.getChildAt(i).setEnabled(false);
                        }
+                       ExamActivity.sExamQuesAnsUserMap.put(ExamActivity.sQuestionIdMap.get(question.getDescriptionText()
+                       ),selectedanswer);
                    }else {
                        showToast("Invalid Answer");
                    }

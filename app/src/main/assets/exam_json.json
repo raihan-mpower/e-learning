@@ -136,7 +136,8 @@
         "user_type":"DOT",
         "title": "যক্ষ্মা রোগ নির্ণয়",
         "id": "2",
-        "course_id":"2",
+        "module_id":"2",
+        "course_id":"1",
         "icon_image": "icon1.png",
         "exam_questions": [
           {
@@ -231,7 +232,8 @@
         "user_type":"DOT",
         "title": "শিশুদের যক্ষ্মা",
         "id": "3",
-        "course_id":"3",
+            "module_id":"3",
+        "course_id":"1",
         "icon_image": "icon1.png",
         "exam_questions": [
           {
@@ -265,7 +267,8 @@
         "user_type":"DOT",
         "title": "যক্ষ্মার সংক্রমণ নিয়ন্ত্রণ",
         "id": "4",
-        "course_id":"4",
+            "module_id":"4",
+        "course_id":"1",
         "icon_image": "icon1.png",
         "exam_questions": [
           {
@@ -323,7 +326,8 @@
         "user_type":"DOT",
         "title": "যক্ষ্মার চিকিৎসা",
         "id": "5",
-        "course_id":"5",
+            "module_id":"5",
+        "course_id":"1",
         "icon_image": "icon1.png",
         "exam_questions": [
           {
@@ -357,7 +361,8 @@
         "user_type":"DOT",
         "title": "সাধারণ যক্ষ্মা (Drug Sensitive TB বা DS TB)",
         "id": "6",
-        "course_id":"1",
+            "module_id":"1",
+        "course_id":"2",
         "icon_image": "icon1.png",
         "exam_questions": [
           
@@ -501,7 +506,8 @@
         "user_type":"DOT",
         "title": "ঔষধ প্রতিরোধী যক্ষ্মা (Drug Resistant TB ev DR TB)",
         "id": "7",
-        "course_id":"1",
+            "module_id":"1",
+        "course_id":"3",
         "icon_image": "icon1.png",
         "exam_questions": [
           {
@@ -655,7 +661,8 @@
         "user_type":"DOT",
         "title": "ডট (DOT) প্রোভাইডারদের দায়িত্ব ",
         "id": "8",
-        "course_id":"1",
+            "module_id":"2",
+        "course_id":"4",
         "icon_image": "icon1.png",
         "exam_questions": [
           {
