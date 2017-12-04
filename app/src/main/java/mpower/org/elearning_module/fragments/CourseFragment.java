@@ -218,10 +218,4 @@ public class CourseFragment extends BaseFragment {
         });
     }
 
-    private void insertIntoDb(ArrayList<Course> moduleArrayList) {
-        for (Course module:moduleArrayList){
-            databaseHelper.insertCourse(module, userType);
-        }
-    }
-
 }

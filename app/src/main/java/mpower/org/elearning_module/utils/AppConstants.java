@@ -5,9 +5,13 @@ package mpower.org.elearning_module.utils;
  */
 
 public final class AppConstants {
+    //Server urls
     public static final String KEY_SERVER_URL = "";
     public static final String URL_PART_LOGIN = "";
     public static final int CONNECTION_TIMEOUT =30 ;
+
+
+    //vairable keys
     public static final String USER_TYPE = "user_type";
     public static final String KEY_PASSWORD ="password" ;
     public static final String KEY_USERNAME = "username";
@@ -26,6 +30,7 @@ public final class AppConstants {
     public static final String FEEDBACK_RATING ="feedback_rating" ;
     public static final String KEY_TIME_STAMP ="time_stamp" ;
 
+    //user progress
     public static String USER_PROGRESS_MODULE_ID="";
     public static  String USER_PROGRESS_COURSE_ID="";
     public static  String USER_PROGRESS_QUESTION_ID="";

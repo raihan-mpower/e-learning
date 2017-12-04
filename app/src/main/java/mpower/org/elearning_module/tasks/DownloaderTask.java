@@ -23,21 +23,21 @@ public class DownloaderTask extends AsyncTask<String,Integer,Boolean> {
     }
 
     private DownloaderTaskListener taskListener;
-    private ArrayList<String> mUrlList;
+    private ArrayList<String> mFileNameList;
     private Context mContext;
     private ProgressDialog progressDialog;
 
-    public DownloaderTask(Context context, ArrayList<String > urlLst,DownloaderTaskListener listener){
+    public DownloaderTask(Context context, ArrayList<String > fileNames,DownloaderTaskListener listener){
         mContext=context;
-        mUrlList=urlLst;
+        mFileNameList=fileNames;
         taskListener=listener;
     }
 
     @Override
     protected Boolean doInBackground(String... strings) {
-        for (int i=0;i<mUrlList.size();i++){
-            String url=mUrlList.get(i);
-            File file=new File(getCurrentFileName(url)) ;
+        for (int i=0;i<mFileNameList.size();i++){
+            String url=strings[0];
+            File file=new File(mFileNameList.get(i));
             try {
                 Helper.downLoadFileWithJavaIO(file.getName(),url);
                 publishProgress(i);
@@ -69,7 +69,7 @@ public class DownloaderTask extends AsyncTask<String,Integer,Boolean> {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setIndeterminate(false);
         progressDialog.setProgress(10);
-        progressDialog.setMax(mUrlList.size());
+        progressDialog.setMax(mFileNameList.size());
         progressDialog.setCancelable(false);
         progressDialog.show();
     }

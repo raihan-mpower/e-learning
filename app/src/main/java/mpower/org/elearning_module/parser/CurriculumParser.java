@@ -37,7 +37,16 @@ public class CurriculumParser {
 
     public static Curriculum returnCurriculum (String toParse,boolean isApi){
         Gson gson = new Gson();
-        Curriculum curriculum = gson.fromJson(toParse,Curriculum.class);
+        Curriculum curriculum=null;
+        try {
+            JSONArray jsonArray=new JSONArray(toParse);
+            JSONObject jsonObject=jsonArray.getJSONObject(0);
+            JSONObject curriculuObject=jsonObject.getJSONObject("curriculum");
+            curriculum = gson.fromJson(curriculuObject.toString(),Curriculum.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         try {
             JSONObject curriculumjson = new JSONObject(toParse);
             //curriculumjson = curriculumjson.getJSONObject("curriculum");

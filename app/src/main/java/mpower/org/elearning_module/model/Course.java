@@ -47,7 +47,7 @@ public class Course implements Serializable {
     public UserType getUserTypeEnum() {
         switch (getUserType()){
             case "":
-                return UserType.OTHER;
+                return UserType.PUBLIC;
             case "DOT":
                 return UserType.DOT;
             default:

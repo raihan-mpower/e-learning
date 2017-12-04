@@ -126,11 +126,12 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     private List<String> getAllTheTablesSQL() {
        List<String> sqlList=new ArrayList<>();
 
-       String postDataSql=POST_DATA_TABLE+" ( +"+_ID+" INTEGER PRIMARY KEY, "
+       String postDataSql=POST_DATA_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "
                +COURSE_ID+" TEXT, "+MODULE_ID+" TEXT, "
                +USER_NAME+" TEXT, "+EXAM_ID+" TEXT, "
                +EXAM_MAP_JSON+" TEXT, "
-               +COURSE_RATING+" TEXT ";
+               +COURSE_RATING+" TEXT "
+               +" );";
 
         String examProgresssql=EXAM_PROGRESS_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY,"
                 +USER_NAME+" TEXT, "+EXAM_TOTAL_QUESTIONS+" INTEGER, "+EXAM_SCORE+" INTEGER, "+EXAM_ID+" TEXT, "+PREVEIOUS_EXAM_QUESTIONS+" TEXT "
@@ -165,7 +166,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
                 ");";
 
         String coursesql=COURSE_TABLE+" ( "+_ID+" INTEGER PRIMARY KEY, "+COURSE_ID+" TEXT, "
-                +COURSE_TITLE+" TEXT, "+USER_TYPE+" INTEGER, "+
+                +COURSE_TITLE+" TEXT, "+USER_TYPE+" TEXT, "+
                 COURSE_STATUS+" INTEGER ,"+COURSE_ICON_IMAGE_NAME+" TEXT, "
                 +TOTAL_MODULES_FOR_THIS_COURSE+" INTEGER, "
                 +QUESTION_ID+" TEXT "+
@@ -302,7 +303,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
 
 
-    public void insertExam(Exam exam,UserType userType){
+    public void insertExam(Exam exam){
         if (checkIfExamIsInsterted(exam)){
             return;
         }
@@ -311,7 +312,7 @@ public class DatabaseHelper extends CustomDbOpenHelper {
         cv.put(EXAM_TITLE,exam.getTitle());
         cv.put(COURSE_ID,exam.getCourseId());
         cv.put(MODULE_ID,exam.getModuleId());
-        cv.put(USER_TYPE,userType.ordinal());
+        cv.put(USER_TYPE,exam.getUserType());
 
         for (ExamQuestion question:exam.getExamQuestions()){
             insertExamQuestion(exam.getCourseId(),exam.getModuleId(),exam.getId(),question);
@@ -469,16 +470,10 @@ public class DatabaseHelper extends CustomDbOpenHelper {
 
     public ArrayList<Course> getAllCourses(@Nullable String userName, @Nullable UserType userType) {
 
-        String sql="SELECT * FROM "+COURSE_TABLE;
 
-        if (userName!=null && userType!=null){
-            sql+=" WHERE "+USER_NAME+" = '"+userName+"'"+" AND "+USER_TYPE+" = '"+userType.ordinal()+"'";
-        }else if (userName!=null && userType==null){
-            sql+=" WHERE "+USER_NAME+" = '"+userName+"'";
-        }else if (userType!=null && userName==null){
-            sql+=" WHERE "+USER_TYPE+" = '"+userType.ordinal()+"'";
-        }
-
+        String user=userType.name();
+        Log.d("TAG",user);
+        String sql="SELECT * FROM "+COURSE_TABLE+" WHERE "+USER_TYPE+" = '"+user+"'";
         Cursor cursor=this.getWritableDatabase().rawQuery(sql,null);
         ArrayList<Course> courses;
         if (cursor!=null && cursor.getCount()>0){
@@ -759,13 +754,13 @@ public class DatabaseHelper extends CustomDbOpenHelper {
     }
 
 
-    public void insertCourse(Course course, UserType userType) {
+    public void insertCourse(Course course) {
         if (checkIsDataAlreadyInDBorNot(COURSE_TABLE,COURSE_ID,course.getId())){
             return;
         }
 
         ContentValues cv=new ContentValues();
-        cv.put(USER_TYPE,userType.ordinal());
+        cv.put(USER_TYPE,course.getUserType());
         cv.put(COURSE_ID,course.getId());
         cv.put(COURSE_TITLE,course.getTitle());
         cv.put(COURSE_ICON_IMAGE_NAME,course.getIconImage());

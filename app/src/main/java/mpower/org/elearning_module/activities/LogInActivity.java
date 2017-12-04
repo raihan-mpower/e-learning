@@ -177,8 +177,8 @@ public class LogInActivity extends BaseActivity {
         switch (userType){
             case "DOT":
                 return UserType.DOT;
-            case "Other":
-                return UserType.OTHER;
+            case "":
+                return UserType.PUBLIC;
             default:
               return  UserType.DOT;
         }

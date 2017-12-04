@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.loading));
         progressDialog.setCancelable(false);
-        progressDialog.show();
+       // progressDialog.show();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity
         copyAssets();
         //Helper.CopyAssets(this, ELearningApp.IMAGES_FOLDER_NAME);
         getUserData();
-        new JsonParserTask().execute();
+      //  new JsonParserTask().execute();
 
         //checkForPermission();
 
@@ -189,6 +189,8 @@ public class MainActivity extends BaseActivity
         }else {
             //checkForPermission();
         }
+
+        callModuleFragment();
     }
 
 
@@ -399,7 +401,7 @@ public class MainActivity extends BaseActivity
          //  ArrayList<Course> courseArrayList = (ArrayList<Course>) CurriculumParser.returnCurriculum(getJson(url),true).getCourses();
            if (courseArrayList !=null && courseArrayList.size()>0){
                for (Course course: courseArrayList){
-                   databaseHelper.insertCourse(course,userType);
+                   databaseHelper.insertCourse(course);
                }
            }
            return null;
@@ -417,7 +419,7 @@ public class MainActivity extends BaseActivity
                    if (exams!=null){
                        Log.d("TAG",""+exams.size());
                        for (Exam exam:exams){
-                           databaseHelper.insertExam(exam,userType);
+                           databaseHelper.insertExam(exam);
                        }
                    }
 
